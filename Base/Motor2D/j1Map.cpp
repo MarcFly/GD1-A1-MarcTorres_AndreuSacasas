@@ -51,42 +51,45 @@ void j1Map::Draw()
 
 	iPoint pos = { 0,0 };
 
-	while (item_map != nullptr) {
+	while (item_map != nullptr) { //Check there is a map
+		
+		p2List_item<tileset_info*>* item_tileset = item_map->data->tilesets.start; //Start tileset list
 
-		p2List_item<tileset_info*>* item_tileset = item_map->data->tilesets.start;
+		if (item_tileset != nullptr) { //Check there is a tileset
 
-		if (item_tileset != nullptr) {
+			p2List_item<terrain_info*>* item_terrain = item_tileset->data->terrains.start; //Start terrain
+			p2List_item<layer_info*>* item_layer = item_map->data->layers.start; //Start layer
 
-			p2List_item<terrain_info*>* item_terrain = item_tileset->data->terrains.start;
-			p2List_item<layer_info*>* item_layer = item_map->data->layers.start;
+			while (item_layer != nullptr) { //Check there are layers
 
-			while (item_layer != nullptr) {
+				p2List_item<map_tile_info*>* item_tile = item_layer->data->tiles.start; //Start tiles
 
-				p2List_item<map_tile_info*>* item_tile = item_layer->data->tiles.start;
+				while (item_tile != nullptr) { //Check tere is tiles and 
 
-				while (item_tile != nullptr && item_tile->data->id == 0) {
+					if (item_tile->data->id != 0) { //don't blit id 0 tiles
+						item_tileset = item_map->data->tilesets.start; //Restart tilesets
 
-					item_tileset = item_map->data->tilesets.start;
+						while (item_tileset->data->firstgid - 1 >= item_tile->data->id || item_tileset->data->firstgid + item_tileset->data->tilecount < item_tile->data->id) //Check tileset is the correct one for the id, else go to it
+							item_tileset = item_tileset->next;
 
-					while (item_tileset->data->firstgid - 1 >= item_tile->data->id || item_tileset->data->firstgid + item_tileset->data->tilecount < item_tile->data->id)
-						item_tileset = item_tileset->next;
+						item_terrain = item_tileset->data->terrains.start; //Restart terreins
 
-					item_terrain = item_tileset->data->terrains.start;
+						while (item_terrain->data->id != item_tile->data->id) //Look for the correct terrain through id
+							item_terrain = item_terrain->next;
 
-					while (item_terrain->data->id != item_tile->data->id)
-						item_terrain = item_terrain->next;
-					
 
-					App->render->Blit(item_tileset->data->image.tex, pos.x, pos.y, item_terrain->data->Tex_Pos);
+						App->render->Blit(item_tileset->data->image.tex, pos.x, pos.y, item_terrain->data->Tex_Pos); //Blit
 
-					if (pos.x == item_map->data->width * item_map->data->tilewidth)
+					}
+
+					if (pos.x == item_map->data->width * item_map->data->tilewidth) //Update x position
 						pos.x = 0;
 					else
 						pos.x += item_tileset->data->tilewidth;
 
-					pos.y = (item_tile->data->id / item_tileset->data->columns) * item_tileset->data->tileheight;
+					pos.y = (item_tile->data->id / item_tileset->data->columns) * item_tileset->data->tileheight; //Update y position
 
-					item_tile = item_tile->next;
+					item_tile = item_tile->next; //go to next tile
 				}
 				
 			}
