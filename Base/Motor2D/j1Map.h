@@ -32,7 +32,7 @@ enum walk_types {
 
 struct map_tile_info {
 	//properties properties;
-	int id;
+	uint id;
 	walk_types type;
 };
 
@@ -42,26 +42,16 @@ struct layer_info {
 	uint		height;
 
 	p2List<map_tile_info*> tiles;
-	//uint*		data;
-	//properties	properties;
-};
 
-struct tileset_tile_info {
-	int id;
-	p2SString terrain;
-};
-
-enum terrain_types {
-	unknown__ = -1,
-	Blocks,
-	Cobblestone,
-	Cracking_Sand,
-	Sand
+	~layer_info() {
+		tiles.clear();
+	}
 };
 
 struct terrain_info {
-	int tile_check;
-	terrain_types type;
+	uint id;
+
+	SDL_Rect* Tex_Pos;
 };
 
 // TODO 3.2: Create a struct to hold information for a TileSet
@@ -90,6 +80,9 @@ struct tileset_info {
 
 	p2List<terrain_info*> terrains;
 
+	~tileset_info() {
+		terrains.clear();
+	}
 	//SDL_Rect GetTileRect(int id) const;
 	//tile_info* GetTileType(int tile_id) const {};
 };
@@ -128,6 +121,10 @@ struct Map_info {
 	p2List<tileset_info*> tilesets;
 	p2List<layer_info*> layers;
 
+	~Map_info() {
+		tilesets.clear();
+		layers.clear();
+	}
 	//Map_info() {};
 	
 };
@@ -164,7 +161,7 @@ private:
 	bool LoadTilesetData(pugi::xml_node* data_node, tileset_info* item_tileset);
 
 	// Load Terrains
-	bool LoadTerrainData(pugi::xml_node* terrain_node, terrain_info* item_terrain);
+	bool LoadTerrainData(const int& id, terrain_info* item_terrain, tileset_info* item_tileset);
 
 	// Load Layers
 	bool LoadLayerData(pugi::xml_node* layer_node, layer_info* item_layer);

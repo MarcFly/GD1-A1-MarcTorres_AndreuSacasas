@@ -48,19 +48,49 @@ void j1Map::Draw()
 	// TODO 3.6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
 	p2List_item<Map_info*>* item_map = Maps.start;
-	
+
 	iPoint pos = { 0,0 };
 
 	while (item_map != nullptr) {
 
-		p2List_item<tileset_info*>* item_tileset = Maps.start->data->tilesets.start;
+		p2List_item<tileset_info*>* item_tileset = item_map->data->tilesets.start;
 
-		while (item_tileset != nullptr) {
+		if (item_tileset != nullptr) {
 
-			App->render->Blit(item_tileset->data->image.tex, pos.x, pos.y);
-			item_tileset = item_tileset->next;
+			p2List_item<terrain_info*>* item_terrain = item_tileset->data->terrains.start;
+			p2List_item<layer_info*>* item_layer = item_map->data->layers.start;
 
-			pos.y += 100;
+			while (item_layer != nullptr) {
+
+				p2List_item<map_tile_info*>* item_tile = item_layer->data->tiles.start;
+
+				while (item_tile != nullptr && item_tile->data->id == 0) {
+
+					item_tileset = item_map->data->tilesets.start;
+
+					while (item_tileset->data->firstgid - 1 >= item_tile->data->id || item_tileset->data->firstgid + item_tileset->data->tilecount < item_tile->data->id)
+						item_tileset = item_tileset->next;
+
+					item_terrain = item_tileset->data->terrains.start;
+
+					while (item_terrain->data->id != item_tile->data->id)
+						item_terrain = item_terrain->next;
+					
+
+					App->render->Blit(item_tileset->data->image.tex, pos.x, pos.y, item_terrain->data->Tex_Pos);
+
+					if (pos.x == item_map->data->width * item_map->data->tilewidth)
+						pos.x = 0;
+					else
+						pos.x += item_tileset->data->tilewidth;
+
+					pos.y = (item_tile->data->id / item_tileset->data->columns) * item_tileset->data->tileheight;
+
+					item_tile = item_tile->next;
+				}
+				
+			}
+			
 		}
 
 		item_map = item_map->next;
@@ -207,18 +237,10 @@ bool j1Map::LoadTilesetData(pugi::xml_node* tileset_node, tileset_info* item_til
 	item_tileset->columns = tileset_node->attribute("columns").as_uint();
 
 	// Load terrains
-	pugi::xml_node terrain_node = tileset_node->child("terraintypes").child("terrain");
-
-	if (terrain_node.attribute("tile").as_int() != -1) LOG("There are no terrains, RETARD ARTIST!!!!\n");
-
-	while (terrain_node.attribute("tile").as_int() == -1) {
+	for (int i = 1; i <= item_tileset->tilecount; i++) {
 
 		terrain_info* item_terrain = new terrain_info;
-
-		LoadTerrainData(&terrain_node, item_terrain);
-		
-		terrain_node = terrain_node.next_sibling("terrain");
-
+		LoadTerrainData(i, item_terrain, item_tileset);
 		item_tileset->terrains.add(item_terrain);
 
 	}
@@ -235,21 +257,22 @@ bool j1Map::LoadTilesetData(pugi::xml_node* tileset_node, tileset_info* item_til
 	return ret;
 }
 
-bool j1Map::LoadTerrainData(pugi::xml_node* terrain_node, terrain_info* item_terrain) {
+// Load Terrain Data-----------------------------------------------------------------------------------------------------------
+bool j1Map::LoadTerrainData(const int& id, terrain_info* item_terrain, tileset_info* item_tileset) {
+	
+	item_terrain->id = id;
 
-	const pugi::char_t* cmp = terrain_node->attribute("name").as_string();
+	item_terrain->Tex_Pos = new SDL_Rect;
 
-	if (strcmp(cmp, "Blocks")) item_terrain->type = Blocks;
-	if (strcmp(cmp, "Cobblestone")) item_terrain->type = Cobblestone;
-	if (strcmp(cmp, "Cracking Sand")) item_terrain->type = Cracking_Sand;
-	if (strcmp(cmp, "Sand")) item_terrain->type = Sand;
-	else item_terrain->type = unknown__;
-
-	item_terrain->tile_check = terrain_node->attribute("tile").as_int();
-
+	item_terrain->Tex_Pos->x = (id - 1)*(item_tileset->tilewidth+item_tileset->spacing);
+	item_terrain->Tex_Pos->y = ((id - 1) / item_tileset->columns)*(item_tileset->tileheight+item_tileset->spacing);
+	item_terrain->Tex_Pos->w = item_tileset->tilewidth;
+	item_terrain->Tex_Pos->h = item_tileset->tileheight;
+	
 	return true;
 }
 
+// Load Layer Data-----------------------------------------------------------------------------------------------------------
 bool j1Map::LoadLayerData(pugi::xml_node* layer_node, layer_info* item_layer) {
 	
 	item_layer->name = layer_node->attribute("name").as_string();
