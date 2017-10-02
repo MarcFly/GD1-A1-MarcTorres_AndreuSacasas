@@ -82,16 +82,16 @@ void j1Map::Draw()
 
 					}
 
-					if (pos.x == item_map->data->width * item_map->data->tilewidth) //Update x position
+					if ((pos.x / item_map->data->tilewidth) >= item_map->data->width - 1){ //Update pos //We check that we have reached the tile width end then reset to next position
 						pos.x = 0;
+						pos.y += item_tileset->data->tileheight;
+					}
 					else
 						pos.x += item_tileset->data->tilewidth;
 
-					pos.y = (item_tile->data->id / item_tileset->data->columns) * item_tileset->data->tileheight; //Update y position
-
 					item_tile = item_tile->next; //go to next tile
 				}
-				
+				item_layer = item_layer->next;
 			}
 			
 		}
@@ -229,7 +229,7 @@ bool j1Map::LoadTilesetData(pugi::xml_node* tileset_node, tileset_info* item_til
 
 	// Tileset info
 	item_tileset->firstgid = tileset_node->attribute("firstgid").as_uint();
-	item_tileset->name = tileset_node->attribute("name").as_uint();
+	item_tileset->name = tileset_node->attribute("name").as_string();
 	item_tileset->tilewidth = tileset_node->attribute("tilewidth").as_uint();
 	item_tileset->tileheight = tileset_node->attribute("tileheight").as_uint();
 	item_tileset->spacing = tileset_node->attribute("spacing").as_uint();
@@ -267,8 +267,8 @@ bool j1Map::LoadTerrainData(const int& id, terrain_info* item_terrain, tileset_i
 
 	item_terrain->Tex_Pos = new SDL_Rect;
 
-	item_terrain->Tex_Pos->x = (id - 1)*(item_tileset->tilewidth+item_tileset->spacing);
-	item_terrain->Tex_Pos->y = ((id - 1) / item_tileset->columns)*(item_tileset->tileheight+item_tileset->spacing);
+	item_terrain->Tex_Pos->x = 1 + (((id - 1 - (item_tileset->columns * ((id - 1) / item_tileset->columns)))*(item_tileset->tilewidth+item_tileset->spacing)));
+	item_terrain->Tex_Pos->y = 1 + (((id - 1) / item_tileset->columns)*(item_tileset->tileheight+item_tileset->spacing));
 	item_terrain->Tex_Pos->w = item_tileset->tilewidth;
 	item_terrain->Tex_Pos->h = item_tileset->tileheight;
 	
