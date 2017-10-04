@@ -5,6 +5,12 @@
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
 
+// Draw Modes
+enum DrawMode {
+	standard = 0,
+	debug,
+	only_collisions
+};
 
 // Modules
 class j1Window;

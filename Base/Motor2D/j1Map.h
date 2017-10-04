@@ -32,22 +32,35 @@ enum walk_types {
 
 struct map_tile_info {
 	//properties properties;
+	uint nid;
 	uint id;
 	walk_types type;
 };
 
+// TODO 4.1 Create a struct for map layer
 struct layer_info {
 	p2SString	name;
-	uint		width;
-	uint		height;
+	uint		width;	// Width in tiles of the layer
+	uint		height;	// Height in tiles of layer
+
+	uint		tile_height;
+	uint		tile_width;
+
+	DrawMode	draw;
 
 	p2List<map_tile_info*> tiles;
+
+	//TODO 4.6 Return X,Y of tile in tileset
+	iPoint GetMapPos(int nid) {
+		return { (int)(tile_width * ((nid) - (width*(nid / width)))), (int)(tile_height * (nid / width))};
+	}
 
 	~layer_info() {
 		tiles.clear();
 	}
 };
 
+// TODO 3.Homework Terrains
 struct terrain_info {
 	uint id;
 
@@ -74,20 +87,32 @@ struct tileset_info {
 	uint margin;
 	
 	uint tilecount;
-	uint columns;
+	uint columns;	// Amount of tiles (terrains) per row
 
 	Image image;
 
 	p2List<terrain_info*> terrains;
 
+	// TODO 4.7 Method that gives the Rect given gid
+	SDL_Rect GetRect(int gid) {
+		int x = margin + (((gid - 1 - (columns * ((gid - 1) / columns)))*(tilewidth + spacing)));
+		// Given Tileset starts at margin, we count from 0 because calculus
+		// There are certain amount of columns that decide how many tiles occupy a row, so every X tiles (gid-1) it creates a new row -> (gid - 1) / Colums -> represent which row it belongs
+		// - (columns*row) calculates how many tiles you have to go back to calculate from X = 0 for the X displacement in that row, for GID = 40 Columns = 8, GID is row 4, it will return 36 to wich it will calculate X offset for 3
+		// (gid - 1 - (colums * row)) -> base tile to calculate X displacement in a row * (tilewidth + spacing) to measure in pixels where in the tileset it belongs
+		int y = margin + (((gid - 1) / columns)*(tileheight + spacing)); //Calculate row and just add height and spacing repending on row (row 1 -> + 1 * (tileheight + spacing))
+		int w = tilewidth;
+		int h = tileheight;
+
+		return { x,y,w,h };
+	}
+
 	~tileset_info() {
 		terrains.clear();
 	}
-	//SDL_Rect GetTileRect(int id) const;
-	//tile_info* GetTileType(int tile_id) const {};
 };
 
-// TODO 3.1: Create a struct needed to hold the information to Map node
+// TODO 3.1: Create a struct needed to hold the information to Map node, including tilesets
 enum orientation {
 	unknown_ = -1,
 	orthogonal,
@@ -119,7 +144,7 @@ struct Map_info {
 	uint	nextobjectid;
 
 	p2List<tileset_info*> tilesets;
-	p2List<layer_info*> layers;
+	p2List<layer_info*> layers; // TODO 4.2 Layers list
 
 	~Map_info() {
 		tilesets.clear();
@@ -151,8 +176,8 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	// Add a new map to list
-	void AddMap(Map_info* name);
+	// TODO 4.8 Method to translate map to world coordinates?
+	iPoint MapToWorld(int x, int y) const;
 
 private:
 
@@ -160,14 +185,15 @@ private:
 	bool LoadMapData(Map_info* item,pugi::xml_node* root_node);
 	bool LoadTilesetData(pugi::xml_node* data_node, tileset_info* item_tileset);
 
+	// TODO 3.Homework Load terrains
 	// Load Terrains
 	bool LoadTerrainData(const int& id, terrain_info* item_terrain, tileset_info* item_tileset);
 
-	// Load Layers
-	bool LoadLayerData(pugi::xml_node* layer_node, layer_info* item_layer);
+	// TODO 4.3 Load Layers
+	bool LoadLayerData(pugi::xml_node* layer_node, layer_info* item_layer, Map_info* item_map);
 
 	// Load Tiles
-	bool LoadTileData(pugi::xml_node* tile_node, map_tile_info* item_tile);
+	bool LoadTileData(pugi::xml_node* tile_node, map_tile_info* item_tile, const int& nid);
 
 public:
 
