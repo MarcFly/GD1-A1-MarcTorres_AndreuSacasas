@@ -10,6 +10,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
+struct Collider;
 
 class j1Module
 {
@@ -68,6 +69,12 @@ public:
 	//	Save
 	virtual bool Save(pugi::xml_node* savegame) {
 		return true;
+	}
+
+	//	Collisions
+	virtual void OnCollision(Collider* bodyA, Collider* bodyB)
+	{
+
 	}
 
 public:

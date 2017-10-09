@@ -4,6 +4,8 @@
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include "j1Collisions.h"
+
 
 struct cam_settings {
 	uint	min_sep;		//Minimum separation of players to start making screen bigger (in pixels)
@@ -50,7 +52,7 @@ public:
 	bool FlipBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, float scale = 1, double angle = 0, float speed = 1.0f, int pivot_x = INT_MAX, int pivot_y = INT_MAX) const;
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true) const;
 	bool DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
-	bool DrawCircle(int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
+	bool DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 
 	// Set Camera Distance
 	bool SetCamDistance(const iPoint& curr_vec);

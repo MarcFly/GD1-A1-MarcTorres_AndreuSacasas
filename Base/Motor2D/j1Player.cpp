@@ -8,6 +8,7 @@
 #include "j1Audio.h"
 #include "SDL/include/SDL_timer.h"
 #include "j1Scene.h"
+#include "p2Log.h"
 
 #include<stdio.h>
 #include<math.h>
@@ -26,15 +27,7 @@ bool j1Player::Awake(const pugi::xml_node& config)
 {
 	bool ret = true;
 	 
-	pugi::xml_parse_result result = sprites.load(config.attribute("source").as_string());
-	
-	if (result == NULL) { //Check that it loaded
-		LOG("Could not load sprite xml file player_sprites.xml. pugi error: %s", result.description());
-		ret = false;
-	}
-	else {
-		LoadProperties(config);
-	}
+	local_node = config;
 	
 	return ret;
 }
@@ -42,6 +35,16 @@ bool j1Player::Awake(const pugi::xml_node& config)
 bool j1Player::Start()
 {
 	bool ret = true;
+
+	pugi::xml_parse_result result = sprites.load(local_node.attribute("source").as_string());
+
+	if (result == NULL) { //Check that it loaded
+		LOG("Could not load sprite xml file player_sprites.xml. pugi error: %s", result.description());
+		ret = false;
+	}
+	else {
+		LoadProperties(local_node);
+	}
 
 	// Inicializar lo necesario del jugador, crear los personajes en el mapa	
 	main_player.state = idle;
@@ -56,8 +59,6 @@ bool j1Player::CleanUp()
 	/*App->audio->Unload(audio_shot);
 	
 	App->fonts->UnLoad(font_score);*/
-	
-
 
 	return true;
 }
@@ -84,7 +85,7 @@ bool j1Player::Update(float dt)
 
 	// Draw everything --------------------------------------
 
-		App->render->Blit(main_player.graphics, main_player.position.x - main_player.offset.x, main_player.position.y - main_player.offset.y, &main_player.current_animation->GetCurrentFrame(), main_player.render_scale);
+	//App->render->Blit(main_player.graphics, main_player.position.x - main_player.offset.x, main_player.position.y - main_player.offset.y, &main_player.current_animation->GetCurrentFrame(), main_player.render_scale);
 
 return true;
 
@@ -168,29 +169,35 @@ player_state j1Player::Get_State(const p2SString& state_node) {
 }
 
 bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
-	
+
 	bool ret = true;
 
 	pugi::xml_parse_result result = sprites.load(property_node.attribute("source").as_string());
-	
-	LoadSprites(sprites.child("main_player"));
-	
-	main_player.offset.x = property_node.child("offset").attribute("x").as_uint();
-	main_player.offset.y = property_node.child("offset").attribute("y").as_uint();
-	main_player.position.x = property_node.child("position").attribute("x").as_int();//READ HERE FROM XML
-	main_player.position.y = property_node.child("position").attribute("y").as_int();//READ HERE FROM XML
 
-	main_player.render_scale = property_node.child("render_scale").attribute("value").as_float();
+	if (result == NULL){
+		LOG("Could not load map xml file %s. pugi error: %s", sprites.path(), result.description());
+		ret = false;
+	}
+	else {
+		LoadSprites(sprites.child("main_player"));
 
-	main_player.stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
-	main_player.stats.max_speed = property_node.child("max_speed").attribute("value").as_float(); //cambiar con xml
-	main_player.stats.accel = property_node.child("accel").attribute("value").as_float();
-	main_player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
-	main_player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
-	main_player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
-	main_player.stats.curr_speed = 0;
+		main_player.offset.x = property_node.child("offset").attribute("x").as_uint();
+		main_player.offset.y = property_node.child("offset").attribute("y").as_uint();
+		main_player.position.x = property_node.child("position").attribute("x").as_int();//READ HERE FROM XML
+		main_player.position.y = property_node.child("position").attribute("y").as_int();//READ HERE FROM XML
 
-	main_player.name.create(property_node.attribute("name").as_string());
+		main_player.render_scale = property_node.child("render_scale").attribute("value").as_float();
+
+		main_player.stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
+		main_player.stats.max_speed = property_node.child("max_speed").attribute("value").as_float(); //cambiar con xml
+		main_player.stats.accel = property_node.child("accel").attribute("value").as_float();
+		main_player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
+		main_player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
+		main_player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
+		main_player.stats.curr_speed = 0;
+
+		main_player.name.create(property_node.attribute("name").as_string());
+	}
 
 	return ret;
 }

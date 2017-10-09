@@ -30,33 +30,30 @@ enum walk_types {
 	//keep adding types as you encounter them
 };
 
-struct map_tile_info {
-	//properties properties;
-	uint nid;
-	uint id;
-	walk_types type;
-};
-
 // TODO 4.1 Create a struct for map layer
 struct layer_info {
 	p2SString	name;
 	uint		width;	// Width in tiles of the layer
 	uint		height;	// Height in tiles of layer
 
-	uint		tile_height;
-	uint		tile_width;
+	uint		draw_mode; //0 = default, 1 = debug such as colliders, 2 = special?
 
-	DrawMode	draw;
+	uint*	data = nullptr;
+	uint	size = 0;
 
-	p2List<map_tile_info*> tiles;
+	p2List<SDL_Rect*> layer_coll;
 
 	//TODO 4.6 Return X,Y of tile in tileset
-	iPoint GetMapPos(int nid) {
-		return { (int)(tile_width * ((nid) - (width*(nid / width)))), (int)(tile_height * (nid / width))};
+	iPoint GetMapPos(int nid, int tile_width, int tile_height) {
+		return { (int)(tile_width * ((nid)-(width*(nid / width)))), (int)(tile_height * (nid / width)) };
 	}
 
 	~layer_info() {
-		tiles.clear();
+		delete[] data;
+
+		for (int i = 0; i < layer_coll.count(); i++) {
+			delete layer_coll[i];
+		}
 	}
 };
 
@@ -72,7 +69,7 @@ struct terrain_info {
 // ----------------------------------------------------
 struct Image {
 	SDL_Texture*	tex;
-	const char*		image_source;
+	p2SString		image_source;
 	uint			image_width;
 	uint			image_height;
 };
@@ -108,6 +105,8 @@ struct tileset_info {
 	}
 
 	~tileset_info() {
+		for (int i = 0; i < terrains.count(); i++)
+			delete terrains[i];
 		terrains.clear();
 	}
 };
@@ -136,6 +135,8 @@ struct Map_info {
 	uint		renderorder;
 	SDL_Color	bg_color;
 
+	uint scale;
+
 	uint		width;
 	uint		height;
 	uint		tilewidth;
@@ -147,10 +148,14 @@ struct Map_info {
 	p2List<layer_info*> layers; // TODO 4.2 Layers list
 
 	~Map_info() {
+		for (int i = 0; i < tilesets.count(); i++)
+			delete tilesets[i];
 		tilesets.clear();
+
+		for (int i = 0; i < layers.count(); i++)
+			delete layers[i];
 		layers.clear();
 	}
-	//Map_info() {};
 	
 };
 
@@ -182,23 +187,24 @@ public:
 private:
 
 	// TODO 3.3.2 Functions/Methods to load map data
-	bool LoadMapData(Map_info* item,pugi::xml_node* root_node);
-	bool LoadTilesetData(pugi::xml_node* data_node, tileset_info* item_tileset);
+	bool LoadMapData(const pugi::xml_node& root_node, Map_info& item);
+	bool LoadTilesetData(const pugi::xml_node& data_node, tileset_info& item_tileset);
 
 	// TODO 3.Homework Load terrains
 	// Load Terrains
-	bool LoadTerrainData(const int& id, terrain_info* item_terrain, tileset_info* item_tileset);
+	bool LoadTerrainData(const pugi::xml_node& tileset_node, const int& id, terrain_info& item_terrain, tileset_info& item_tileset);
 
 	// TODO 4.3 Load Layers
-	bool LoadLayerData(pugi::xml_node* layer_node, layer_info* item_layer, Map_info* item_map);
+	bool LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_layer);
 
-	// Load Tiles
-	bool LoadTileData(pugi::xml_node* tile_node, map_tile_info* item_tile, const int& nid);
+	void CreateCollider(layer_info& item_layer, tileset_info& item_tileset, int y, int x);
+
 
 public:
 
 	// TODO 3.1: Add your struct for map info as public for now
 	Map_info* Maps;
+	bool first_loop = true;
 
 private:
 

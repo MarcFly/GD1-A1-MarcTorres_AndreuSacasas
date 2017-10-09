@@ -4,10 +4,13 @@
 #include "j1Module.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "j1Textures.h"
+#include "j1Collisions.h"
+#include "j1App.h"
 
 struct SDL_Texture;
 struct Collider;
-
+class Animation;
 
 enum player_state {
 	error = -1,
@@ -34,10 +37,12 @@ struct player_stats {
 
 struct player_char
 {
-	SDL_Texture*		graphics;
+	SDL_Texture*		graphics = nullptr;
 	Animation*			current_animation = nullptr;
 	player_state		state;
 	p2List<Animation*>	animations;
+
+	Collider*		player;
 
 	p2SString		name;
 	player_stats	stats;
@@ -58,8 +63,8 @@ struct player_char
 	}
 
 	~player_char() {
-		App->tex->UnLoad(main_player.graphics);
-		delete current_animatin;
+		App->tex->UnLoad(graphics);
+		delete current_animation;
 		animations.clear();
 	}
 };
@@ -86,17 +91,16 @@ public:
 
 	bool LoadSprites(const pugi::xml_node& sprite_node);
 	bool LoadProperties(const pugi::xml_node& property_node);
+
 public:
 
 	void Jump();
 
-	void SlideStart();
-
-	void SlideEnd();
-
 	void Movement();
 
 	void Hook();
+
+	//void OnCollision(Collider* bodyA, Collider* bodyB);
 
 	player_state Get_State(const p2SString& state_node);
 
@@ -105,6 +109,8 @@ public:
 	player_char main_player;
 	
 	pugi::xml_document sprites;
+
+	pugi::xml_node local_node;
 };
 
 #endif

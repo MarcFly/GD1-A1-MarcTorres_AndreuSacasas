@@ -4,21 +4,24 @@
 #include "p2List.h"
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "Animation.h"
 
 // Draw Modes
 enum DrawMode {
-	standard = 0,
+	default = 0,
 	debug,
-	only_collisions
+	special
 };
 
 // Modules
 class j1Window;
+class j1Collision;
 class j1Input;
 class j1Render;
 class j1Textures;
 class j1Audio;
 class j1Scene;
+class j1Player;
 class j1Map;
 
 class j1App
@@ -99,6 +102,8 @@ public:
 	j1Input*			input;
 	j1Render*			render;
 	j1Textures*			tex;
+	j1Player*			player;
+	j1Collision*		collision;
 	j1Audio*			audio;
 	j1Scene*			scene;
 	j1Map*				map;

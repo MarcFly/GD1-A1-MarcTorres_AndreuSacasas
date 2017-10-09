@@ -2,13 +2,13 @@
 #define __ANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
-#include "j1Player.h"
+
 #define MAX_FRAMES 25
 
 class Animation
 {
 public:
-	player_state anim_state;
+	int anim_state;
 	bool loop = true;
 	bool pingpong = false;
 	float speed = 1.0f;
@@ -22,7 +22,9 @@ private:
 	{
 		forward,
 		backward
-	} direction = forward;
+	};
+
+	int direction = forward;
 
 public:
 
