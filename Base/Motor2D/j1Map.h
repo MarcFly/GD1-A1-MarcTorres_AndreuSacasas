@@ -198,11 +198,7 @@ private:
 public:
 
 	// TODO 3.1: Add your struct for map info as public for now
-	p2List<Map_info*> Maps;
-
-	// MAPS that will be loaded
-	Map_info*	hello;
-	Map_info*	Hello2;
+	Map_info* Maps;
 
 private:
 

@@ -19,10 +19,12 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(const pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
+
+
 
 	return ret;
 }

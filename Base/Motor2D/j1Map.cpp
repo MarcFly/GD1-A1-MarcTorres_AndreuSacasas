@@ -40,15 +40,14 @@ void j1Map::Draw()
 
 	// TODO 4.5 Loop to draw all tilesets + Blit
 	// TODO 4.9 Complete draw function for layers and tiles
-	p2List_item<Map_info*>* item_map = Maps.start;
-
+	
 	iPoint pos = { 0,0 };
 
-	while (item_map != nullptr) { //Check there is a map
+	if (Maps != nullptr) { //Check there is a map
 		
-		p2List_item<tileset_info*>* item_tileset = item_map->data->tilesets.start; //Start tileset list
+		p2List_item<tileset_info*>* item_tileset = Maps->tilesets.start; //Start tileset list
 
-		p2List_item<layer_info*>* item_layer = item_map->data->layers.start; //Start layer
+		p2List_item<layer_info*>* item_layer = Maps->layers.start; //Start layer
 
 		while (item_layer != nullptr) { //Check there are layers
 
@@ -57,7 +56,7 @@ void j1Map::Draw()
 			while (item_tile != nullptr) { //Check tere is tiles and 
 			
 				if (item_tile->data->id != 0) { //don't blit id 0 tiles
-					item_tileset = item_map->data->tilesets.start; //Restart tilesets
+					item_tileset = Maps->tilesets.start; //Restart tilesets
 
 					while (item_tileset->data->firstgid - 1 >= item_tile->data->id || item_tileset->data->firstgid + item_tileset->data->tilecount < item_tile->data->id) //Check tileset is the correct one for the id, else go to it
 						item_tileset = item_tileset->next;
@@ -74,9 +73,6 @@ void j1Map::Draw()
 			item_layer = item_layer->next;
 		}
 			
-		
-
-		item_map = item_map->next;
 	}
 	
 }
@@ -88,7 +84,7 @@ bool j1Map::CleanUp()
 
 	// TODO 3.2: Make sure you clean up any memory allocated
 	// from tilesets / map
-	Maps.clear();
+	delete Maps;
 
 	//map_file.reset();
 
@@ -116,10 +112,9 @@ bool j1Map::Load(const char* file_name)
 		// TODO 3.3: Create and call a private function to load and fill
 		// all your map data
 		pugi::xml_node root_node = check_doc.child("map");
-		Map_info* item = new Map_info();
+		Maps = new Map_info();
 
-		LoadMapData(item, &root_node);
-		Maps.add(item);
+		LoadMapData(Maps, &root_node);
 
 	}
 
