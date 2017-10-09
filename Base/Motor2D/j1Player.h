@@ -8,10 +8,11 @@
 struct SDL_Texture;
 struct Collider;
 
+
 enum player_state {
 	error = -1,
 	idle = 0,
-	moving,
+	move,
 	running,
 	air,
 	jumpsquat,
@@ -28,6 +29,7 @@ struct player_stats {
 	float hook_range;
 	int hook_time;
 	float aerial_drift;
+	float curr_speed;
 };
 
 struct player_char
@@ -42,6 +44,7 @@ struct player_char
 	iPoint			offset;
 	float			render_scale;
 	fPoint			position;
+	bool			direction = true; //false = Left true = Right
 	
 
 
@@ -85,7 +88,7 @@ public:
 	bool LoadProperties(const pugi::xml_node& property_node);
 public:
 
-	void Jump(bool);
+	void Jump();
 
 	void SlideStart();
 

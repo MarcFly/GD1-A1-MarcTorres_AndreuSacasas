@@ -25,9 +25,16 @@ j1Player::~j1Player()
 bool j1Player::Awake(const pugi::xml_node& config)
 {
 	bool ret = true;
-
-	Local_config = config;
 	 
+	pugi::xml_parse_result result = sprites.load(config.attribute("source").as_string());
+	
+	if (result == NULL) { //Check that it loaded
+		LOG("Could not load sprite xml file player_sprites.xml. pugi error: %s", result.description());
+		ret = false;
+	}
+	else {
+		LoadProperties(config);
+	}
 	
 	return ret;
 }
@@ -36,16 +43,9 @@ bool j1Player::Start()
 {
 	bool ret = true;
 
-	// Inicializar lo necesario del jugador, crear los personajes en el mapa
-
-	ret = LoadProperties(Local_config.child("properties"));
-
-
-
-	pugi::xml_node node = sprites.child("sprites").child("player");
-	ret = LoadSprites(node);
-	
+	// Inicializar lo necesario del jugador, crear los personajes en el mapa	
 	main_player.state = idle;
+
 	return ret;
 }
 
@@ -67,117 +67,39 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
-	if (!main_player.jumping)
-	{ 
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		{
-			
-			Jump(character_controll);
-			main_player.jumping = true;
-			
-			
-		}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+	{
+		main_player.direction = true;
 	}
 
-
-
-		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
-		{
-			if (!character_controll)
-			SlideStart();
-			else
-			{
-				if(!main_player.jumping)
-				{ 
-				   if(!characters[1].anchored)
-				   AnchorStart();
-				   else
-				   AnchorEnd();
-				   }
-			}
-			
-
-			//Gordete anchor
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_B) == KEY_UP)
-		{
-			if (!character_controll)
-				SlideEnd();
-			else
-			{
-				
-			}
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
-			GoRight(character_controll);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		{
-			GoLeft(character_controll);
-		}
-		if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-		{
-			character_controll = !character_controll;
-		}
-
-	
-
-	//Move player
-		if (!main_player.moving)
-		{
-			StopMoving(false);
-	    }
-
-		if (!characters[1].moving)
-		{
-			StopMoving(true);
-		}
-
-		main_player.player->TateQuieto();
-
-		characters[1].player->TateQuieto();
-	// Draw everything --------------------------------------
-
-
-		if (main_player.sliding)
-		{
-			int x, y;
-			main_player.player_sliding->GetPosition(x, y);
-			main_player.real_position.x = x;
-			main_player.real_position.y = y;
-		}
-		else
-		{
-			int x, y;
-			main_player.player->GetPosition(x, y);
-			main_player.real_position.x = x;
-			main_player.real_position.y = y;
-		}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+	{
+		main_player.direction = false;
+	}
 
 		
+	
+	//Move player
+		
 
-		if (characters[1].anchored)
-		{
-			int x, y;
-			characters[1].player_anchor->GetPosition(x, y);
-			characters[1].real_position.x = x;
-			characters[1].real_position.y = y;
-		}
-		else
-		{
-			int x, y;
-			characters[1].player->GetPosition(x, y);
-			characters[1].real_position.x = x;
-			characters[1].real_position.y = y;
-		}
+	// Draw everything --------------------------------------
 
 		App->render->Blit(main_player.graphics, main_player.position.x - main_player.offset.x, main_player.position.y - main_player.offset.y, &main_player.current_animation->GetCurrentFrame(), main_player.render_scale);
 
 return true;
+
+}
+
+void j1Player::Jump() {
+
+}
+
+
+void j1Player::Movement() {
+
+}
+
+void j1Player::Hook() {
 
 }
 
@@ -234,7 +156,7 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 player_state j1Player::Get_State(const p2SString& state_node) {
 
 	if (strcmp(state_node.GetString(), "idle")) return idle;
-	if (strcmp(state_node.GetString(), "moving")) return moving;
+	if (strcmp(state_node.GetString(), "moving")) return move;
 	if (strcmp(state_node.GetString(), "running")) return running;
 	if (strcmp(state_node.GetString(), "air")) return air;
 	if (strcmp(state_node.GetString(), "jumpsquat")) return jumpsquat;
@@ -266,7 +188,8 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	main_player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
 	main_player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
 	main_player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
-		
+	main_player.stats.curr_speed = 0;
+
 	main_player.name.create(property_node.attribute("name").as_string());
 
 	return ret;
