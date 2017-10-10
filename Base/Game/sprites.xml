@@ -1,6 +1,6 @@
 <sprites>
   <player>
-    <texture value="sprites/Player.png"/>
+    <texture value="textures/Player.png"/>
     <speed value=""/>
     <hook_range value=""/>
     <collision_box offset_x="" offset_y="" h="" w=""/>
