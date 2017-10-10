@@ -82,7 +82,7 @@ public:
 
 	bool Update(float dt);
 	bool CleanUp();
-	void OnCollision();
+	void OnCollision(Collider* source, Collider* other);
 
 	bool Load(const pugi::xml_node& config);
 	bool Save(const pugi::xml_node& config);

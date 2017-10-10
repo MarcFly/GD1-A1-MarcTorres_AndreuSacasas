@@ -36,18 +36,16 @@ bool j1Player::Start()
 {
 	bool ret = true;
 
-	pugi::xml_document* doc = new pugi::xml_document;
-	pugi::xml_parse_result result = doc->load("sprites.xml");
+	pugi::xml_parse_result result = sprites.load_file("sprites.xml");
 
 	if (result == NULL) { //Check that it loaded
 		LOG("Could not load sprite xml file player_sprites.xml. pugi error: %s", result.description());
 		ret = false;
 	}
 	else {
-		LoadProperties(doc->child("sprites").child("player"));
+		LoadProperties(sprites.child("sprites").child("player"));
 	}
 
-	delete doc;
 	// Inicializar lo necesario del jugador, crear los personajes en el mapa	
 	player.state = idle;
 
@@ -80,14 +78,20 @@ bool j1Player::Update(float dt)
 		player.flip = true;
 	}
 
-		
-	
 	//Move player
+	/*
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT){
+	if(player.current_animation->anim_state(crawl)
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		
+	}
+	*/
 
 	// Draw everything --------------------------------------
 
-	//App->render->Blit(main_player.graphics, main_player.position.x - main_player.offset.x, main_player.position.y - main_player.offset.y, &main_player.current_animation->GetCurrentFrame(), main_player.render_scale);
+	App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
 
 return true;
 
@@ -107,9 +111,33 @@ void j1Player::Hook() {
 }
 
 
-void j1Player::OnCollision()
+void j1Player::OnCollision(Collider* source, Collider* other)
 {
 	//What type of collision and do
+	if (source->type == COLLIDER_HOOK_RANGE) {
+		if (other->type == COLLIDER_HOOK_RING) {
+
+		}
+	}
+
+	else if (source->type == COLLIDER_PLAYER) {
+		if (other->type == COLLIDER_GROUND)
+		{
+
+		}
+		else if (other->type == COLLIDER_PLATFORM)
+		{
+
+		}
+		else if (other->type == COLLIDER_END)
+		{
+
+		}
+		else if (other->type == COLLIDER_DIE)
+		{
+
+		}
+	}
 }
 
 bool j1Player::Load(const pugi::xml_node& savegame) {
@@ -190,14 +218,18 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
 	player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
 	player.stats.curr_speed = 0;
-
-	player.collision_box->rect = 
-	{ 
-		player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(), 
-		player.position.y + property_node.child("collision_box").attribute("offset_y").as_int(),
-		property_node.child("collision_box").attribute("w").as_int(), 
-		property_node.child("collision_box").attribute("h").as_int() 
-	};
+	
+	
+	player.collision_box = App->collision->AddCollider(
+		{
+			(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
+			(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int(),
+			property_node.child("collision_box").attribute("w").as_int(),
+			property_node.child("collision_box").attribute("h").as_int()
+		},
+		COLLIDER_PLAYER,
+		App->player);
+	
 	
 	return ret;
 }
