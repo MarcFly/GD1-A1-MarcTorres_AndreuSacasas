@@ -5,7 +5,7 @@
 #include "j1Player.h"
 #include "p2Log.h"
 
-j1Collision::j1Collision()
+j1Collision::j1Collision() : j1Module()
 {
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_HOOK_RING] = false;
@@ -179,8 +179,5 @@ bool j1Collision::EraseCollider(Collider* collider)
 
 bool Collider::CheckCollision(const SDL_Rect& r) const
 {
-	return (rect.x < r.x + r.w &&
-		rect.x + rect.w > r.x &&
-		rect.y < r.y + r.h &&
-		rect.h + rect.y > r.y);
+	return SDL_IntersectRect(&rect, &r, nullptr);
 }

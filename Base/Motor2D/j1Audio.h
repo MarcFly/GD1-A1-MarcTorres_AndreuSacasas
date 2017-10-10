@@ -20,7 +20,7 @@ public:
 	virtual ~j1Audio();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node* config);
+	bool Awake(pugi::xml_node& config);
 
 	// Called each loop iteration
 	bool PreUpdate();

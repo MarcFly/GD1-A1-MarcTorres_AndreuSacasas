@@ -19,13 +19,19 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake(const pugi::xml_node& config)
+bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	bool ret = true;
-
-
-
+	
+	pugi::xml_node node = config.child("map");
+	while (node.attribute("source").as_string() != "") {
+		p2SString* new_map = new p2SString;
+		new_map->create(node.attribute("source").as_string());
+		Map_list.add(new_map);
+		node = node.next_sibling("map");
+	}
+	
 	return ret;
 }
 
@@ -35,7 +41,7 @@ bool j1Scene::Start()
 	bool ret = true;
 	//img = App->tex->Load("textures/test.png");
 	// LOAD MAPS AND MUSIC HERE
-	ret = App->map->Load("TMX tests/hello.tmx");
+	ret = App->map->Load(Map_list.start->data->GetString());
 	if(ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 	
 	return ret;

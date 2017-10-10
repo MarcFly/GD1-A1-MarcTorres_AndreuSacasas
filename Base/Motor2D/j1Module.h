@@ -8,6 +8,7 @@
 
 #include "p2SString.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "p2DynArray.h"
 
 class j1App;
 struct Collider;
@@ -25,7 +26,7 @@ public:
 	}
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node* config)
+	virtual bool Awake(pugi::xml_node& config)
 	{
 		return true;
 	}
