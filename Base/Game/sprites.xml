@@ -2,8 +2,12 @@
   <player>
     <texture value="textures/Player.png"/>
     <speed value="5"/>
+    <acceleration value="2"/>
+    <gravity value="9.8"/>
     <hook_range value="20"/>
-    <collision_box offset_x="" offset_y="" h="" w=""/>
+    <aerial_drift value ="0"/>
+    <collision_box offset_x="" offset_y="" h="60" w="40"/>
+    <render_scale value="1.0"/>
     <animations w="79" h="80">
       <animation name="idle" offset_x="" offset_y="" speed="1" loop="false">
         <rect x="0" y="405"/>

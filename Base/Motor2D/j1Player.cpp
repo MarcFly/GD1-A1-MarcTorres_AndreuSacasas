@@ -72,12 +72,12 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
-		player.direction = true;
+		player.flip = false;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
-		player.direction = false;
+		player.flip = true;
 	}
 
 		
@@ -139,6 +139,8 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 		anim->anim_state = Get_State(animation.attribute("name").as_string());
 		anim->loop = animation.attribute("loop").as_bool();
 		anim->speed = animation.attribute("speed").as_float();
+		anim->offset_x = animation.attribute("offset_x").as_int();
+		anim->offset_y = animation.attribute("offset_y").as_int();
 			
 		pugi::xml_node rect = animation.child("rect");
 		for (int j = 0; rect.attribute("x").as_string() != ""; j++) {
@@ -176,24 +178,27 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 
 	LoadSprites(property_node);
 
-	player.offset.x = property_node.child("offset").attribute("x").as_uint();
-	player.offset.y = property_node.child("offset").attribute("y").as_uint();
-	player.position.x = property_node.child("position").attribute("x").as_int();//READ HERE FROM XML
-	player.position.y = property_node.child("position").attribute("y").as_int();//READ HERE FROM XML
+	player.position.x = 0;//READ FROM MAP
+	player.position.y = 0;//READ FROM MAP
 
 	player.render_scale = property_node.child("render_scale").attribute("value").as_float();
 
 	player.stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
-	player.stats.max_speed = property_node.child("max_speed").attribute("value").as_float(); //cambiar con xml
+	player.stats.max_speed = property_node.child("speed").attribute("value").as_float();
 	player.stats.accel = property_node.child("accel").attribute("value").as_float();
 	player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
 	player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
 	player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
 	player.stats.curr_speed = 0;
 
-	player.name.create(property_node.attribute("name").as_string());
+	player.collision_box->rect = 
+	{ 
+		player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(), 
+		player.position.y + property_node.child("collision_box").attribute("offset_y").as_int(),
+		property_node.child("collision_box").attribute("w").as_int(), 
+		property_node.child("collision_box").attribute("h").as_int() 
+	};
 	
-
 	return ret;
 }
 

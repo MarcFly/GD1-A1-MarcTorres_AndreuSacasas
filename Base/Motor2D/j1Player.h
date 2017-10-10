@@ -42,14 +42,13 @@ struct player_char
 	player_state		state;
 	p2List<Animation*>	animations;
 
-	Collider*		player;
+	Collider*		collision_box;
 
-	p2SString		name;
 	player_stats	stats;
-	iPoint			offset;
 	float			render_scale;
 	fPoint			position;
-	bool			direction = true; //false = Left true = Right
+	bool			flip = false; //false = Right true = Left
+
 	
 
 

@@ -12,6 +12,8 @@ public:
 	bool loop = true;
 	bool pingpong = false;
 	float speed = 1.0f;
+	int offset_x = 0;
+	int offset_y = 0;
 	SDL_Rect frames[MAX_FRAMES];
 
 private:
