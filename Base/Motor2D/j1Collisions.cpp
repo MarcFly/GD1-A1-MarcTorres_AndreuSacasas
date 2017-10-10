@@ -119,8 +119,6 @@ bool j1Collision::Update(float dt)
 		}
 	}
 
-	DebugDraw();
-
 	return ret;
 }
 
