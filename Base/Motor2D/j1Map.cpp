@@ -53,8 +53,9 @@ void j1Map::Draw()
 			item_tileset = item_tileset->next; // This only works if layer only works over 1 tileset, if multiple tilesets in a layer, you have to do it before every blit?
 
 		while (item_layer != nullptr) { //Check there are layers
+			uint* p = item_layer->data->data; // reset data pointing to data[0]
 			if (item_layer->data->draw_mode != 1) {
-				uint* p = item_layer->data->data; // reset data pointing to data[0]
+				
 
 				for (int i = 0; i < item_layer->data->height; i++) {
 					for (int j = 0; j < item_layer->data->width; j++) {
@@ -67,13 +68,16 @@ void j1Map::Draw()
 					}
 				}
 			}
-			/*	else if (first_loop == true) {
-					for (int i = 0; i < item_layer->data->height; i++) {
-						for (int j = 0; j < item_layer->data->width; j++) {
-							CreateGround(*item_layer->data, *item_tileset->data, j, i);  // Create a ground collider for such tile if required
-						}
+
+			else if (first_loop == true) {
+				for (int i = 0; i < item_layer->data->height; i++) {
+					for (int j = 0; j < item_layer->data->width; j++) {
+						if(*p >= 63)
+							App->collision->AddCollider({ j * (int)Maps->tilewidth, i * (int)Maps->tileheight }, GetType(*p));
+						p++;
 					}
-				}*/
+				}
+			}
 
 			item_layer = item_layer->next;
 		}
@@ -240,6 +244,7 @@ bool j1Map::LoadTilesetData(const pugi::xml_node& tileset_node, tileset_info& it
 	item_tileset.image.image_height = tileset_node.child("image").attribute("height").as_uint();
 
 	item_tileset.image.tex = App->tex->Load(item_tileset.image.image_source.GetString());
+	if (item_tileset.image.tex == nullptr) ret = false;
 
 	return ret;
 }
@@ -287,10 +292,37 @@ bool j1Map::LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_lay
 		p++;
 	}
 
+	
+
 	return true;
 }
 
 iPoint j1Map::MapToWorld(int x, int y) const {
 
 	return { 0,0 };
+}
+
+COLLIDER_TYPE j1Map::GetType(uint id) {
+
+	switch (id) {
+	case COLLIDER_PLAYER:
+		return COLLIDER_PLAYER;
+
+	case COLLIDER_HOOK_RING:
+		return COLLIDER_HOOK_RING;
+
+	case COLLIDER_HOOK_RANGE:
+		return COLLIDER_HOOK_RANGE;
+
+	case COLLIDER_GROUND:
+		return COLLIDER_GROUND;
+
+	case COLLIDER_PLATFORM:
+		return COLLIDER_PLATFORM;
+
+	default:
+		return COLLIDER_NONE;
+
+	}
+
 }
