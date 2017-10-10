@@ -120,6 +120,7 @@
     <Xml Include="..\Game\savegame.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="..\Game\sprites.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

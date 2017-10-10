@@ -40,16 +40,6 @@
     <repeat value="0"/>
   </audio>
 
-  <player source="sprites/player.png">
-    <accel value=""/>
-    <max_speed value=""/>
-    <jump_force value=""/>
-    <hook_range value=""/>
-    <aerial_drift value=""/>
-    <offset x="" y=""/>
-    <scale value=""/>
-  </player>
-
   <scene>
     <map source="Maps/Lvl_1.tmx"/>
     <map source="Maps/Lvl_2.tmx"/>

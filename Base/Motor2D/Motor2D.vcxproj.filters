@@ -136,5 +136,8 @@
     <Xml Include="..\Game\savegame.xml">
       <Filter>Desenvolupament  ========\XMLs</Filter>
     </Xml>
+    <Xml Include="..\Game\sprites.xml">
+      <Filter>Desenvolupament  ========\XMLs</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
