@@ -60,7 +60,7 @@ j1App::~j1App()
 		RELEASE(item->data);
 		item = item->prev;
 	}
-
+	
 	modules.clear();
 }
 
@@ -350,7 +350,7 @@ const bool j1App::Save() {
 	}
 
 	savegame_doc.save_file("savegame.xml");	//Guardem el arxiu sencer, com a nou xml que sobreescriura el xml anterior (a menys que fem un sistema de noms per saves)
-
+	
 	return ret;
 }
 

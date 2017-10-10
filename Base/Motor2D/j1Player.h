@@ -106,7 +106,7 @@ public:
 
 public:
 
-	player_char main_player;
+	player_char player;
 	
 	pugi::xml_document sprites;
 
