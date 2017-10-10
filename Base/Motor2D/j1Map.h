@@ -137,6 +137,8 @@ struct Map_info {
 
 	uint scale;
 
+	iPoint start_pos;
+
 	uint		width;
 	uint		height;
 	uint		tilewidth;

@@ -201,6 +201,9 @@ bool j1Map::LoadMapData(const pugi::xml_node& map_node, Map_info& item_map) {
 	if (cmp.GetString() == "left-up") item_map.renderorder = left_up;
 	else item_map.renderorder = unknown;
 
+	item_map.start_pos.x = map_node.attribute("start_y").as_int();
+	item_map.start_pos.y = map_node.attribute("start_x").as_int();
+
 	item_map.width = map_node.attribute("width").as_uint();
 	item_map.height = map_node.attribute("height").as_uint();
 	item_map.tilewidth = map_node.attribute("tilewidth").as_uint();
