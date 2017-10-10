@@ -32,6 +32,15 @@
     
   </textures>
 
+  <collisions>
+    <collider type="63" x="0" y="0" w="0" h="0"/>
+    <collider type="64" x="0" y="0" w="64" h="64"/>
+    <collider type="65" x="0" y="0" w="64" h="64"/>
+    <collider type="66" x="0" y="0" w="64" h="64"/>
+    <collider type="67" x="0" y="0" w="64" h="64"/>
+    <collider type="68" x="0" y="0" w="64" h="64"/>
+  </collisions>
+  
   <audio>
     <master_volume value="64"/>"
     <music_volume value="1"/>
@@ -41,7 +50,7 @@
   </audio>
 
   <scene>
-    <map source="Maps/Lvl_1.tmx"/>
+    <map source="Maps/Lvl_1 - Copy.tmx"/>
     <map source="Maps/Lvl_2.tmx"/>
   </scene>
 </config>

@@ -184,6 +184,8 @@ public:
 	// TODO 4.8 Method to translate map to world coordinates?
 	iPoint MapToWorld(int x, int y) const;
 
+	COLLIDER_TYPE GetType(uint id);
+
 private:
 
 	// TODO 3.3.2 Functions/Methods to load map data
