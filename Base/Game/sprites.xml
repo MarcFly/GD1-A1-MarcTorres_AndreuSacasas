@@ -1,31 +1,91 @@
 <sprites>
   <player>
     <texture value="textures/Player.png"/>
-    <speed value=""/>
-    <hook_range value=""/>
+    <speed value="5"/>
+    <hook_range value="20"/>
     <collision_box offset_x="" offset_y="" h="" w=""/>
-    <animations h="80" w="79">
-      <idle offset_x="" offset_y="">
-        <rect x="" y=""/>
-      </idle>
-      <move offset_x = "" offset_y = "">
-        <rect x="" y=""/>
-      </move>
-      <jump offset_x = "" offset_y = "">
-        <rect x="" y=""/>
-      </jump >
-      <crawl offset_x = "" offset_y = "">
-        <rect x="" y=""/>
-      </crawl>
-      <swing offset_x = "" offset_y = "">
-        <rect x="" y=""/>
-      </swing>
-    </animations>
+    <animations w="79" h="80">
+      <animation name="idle" offset_x="" offset_y="" speed="1" loop="false">
+        <rect x="0" y="405"/>
+        <rect x="80" y="405"/>
+        <rect x="160" y="405"/>
+        <rect x="240" y="405"/>
+        <rect x="320" y="405"/>
+        <rect x="400" y="405"/>
+        <rect x="480" y="405"/>
+      </animation>
+      <animation name="move" offset_x="" offset_y="" speed="1" loop="false">
+        <rect x="0" y="0"/>
+        <rect x="80" y="0"/>
+        <rect x="160" y="0"/>
+        <rect x="240" y="0"/>
+        <rect x="320" y="0"/>
+        <rect x="400" y="0"/>
+        <rect x="480" y="0"/>
+        <rect x="560" y="0"/>
+        <rect x="640" y="0"/>
+      </animation>
+      <animation name="squat" offset_x="" offset_y="" speed="1" loop="false">
+        <rect x="480" y="243"/>
+        <rect x="0" y="81"/>
+        <!-- Squat animation is used before start jump and when landing, realism -->
+      </animation>
+      <animation name="jump" offset_x="" offset_y ="" speed="1" loop="false" >
+        <rect x="0" y="486"/>
+        <rect x="80" y="486"/>
+        <rect x="160" y="486"/>
+        <rect x="240" y="486"/>
+        <rect x="320" y="486"/>
+        <!-- Last Frame is while still going up-->
+      </animation >
+      <animation name="fall" offset_x="" offset_y="" speed="1" loop="false">
+        <rect x="400" y="486"/>
+        <rect x="480" y="486"/>
+        <rect x="560" y="486"/>
+        <!-- Last Frame is while still going down-->
+      </animation>
+      <animation name="to_crawl" offset_x = "" offset_y="" speed="1" loop="false">
+        <rect x="0" y="81"/>
+        <rect x="80" y="81"/>
+        <rect x="160" y="81"/>
+        <!-- Start or end crawl, transition -->
+      </animation>
+      <animation name="crawl" offset_x = "" offset_y="" speed="1" loop="false">
+        <rect x="400" y="81"/>
+        <rect x="480" y="81"/>
+        <rect x="560" y="81"/>
+        <rect x="640" y="81"/>
+        <rect x="720" y="81"/>
+        <rect x="800" y="81"/>
+        <rect x="880" y="81"/>
+        <!-- Crawl move -->
+      </animation>
+      <animation name="swing" offset_x="" offset_y="" speed="1" loop="false">
+        <rect x="160" y="243"/>
+        <rect x="240" y="243"/>
+        <rect x="400" y="324"/>
+        <!-- Last frame while swinging, on release jump from last jump frame -->
+      </animation>  
+  </animations>
   </player>
+  
   <hook>
     <texture value="textures/Hook.png"/>
-    <animation offset_x = "" offset_y = "" h = "239" w = "36">
-      <rect x="" y=""/>
+    <animation offset_x = "" offset_y = "" h = "239" w = "36" speed="1" loop="false">
+      <rect x="0" y="238"/>
+      <rect x="37" y="238"/>
+      <rect x="74" y="238"/>
+      <rect x="111" y="238"/>
+      <rect x="148" y="238"/>
+      <rect x="185" y="238"/>
+      <rect x="222" y="238"/>
+      <rect x="259" y="238"/>
+      <rect x="296" y="238"/>
+      <rect x="333" y="238"/>
+      <rect x="370" y="238"/>
+      <rect x="407" y="238"/>
+      <rect x="444" y="238"/>
+      <rect x="481" y="238"/>
     </animation>
   </hook>
 </sprites>
