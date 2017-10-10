@@ -4,25 +4,28 @@
     <speed value=""/>
     <hook_range value=""/>
     <collision_box offset_x="" offset_y="" h="" w=""/>
-    <animations>
-      <idle offset_x="" offset_y="" h="" w="">
+    <animations h="80" w="79">
+      <idle offset_x="" offset_y="">
         <rect x="" y=""/>
       </idle>
-      <move offset_x = "" offset_y = "" h = "" w = "">
+      <move offset_x = "" offset_y = "">
         <rect x="" y=""/>
       </move>
-      <jump offset_x = "" offset_y = "" h = "" w = "">
+      <jump offset_x = "" offset_y = "">
         <rect x="" y=""/>
       </jump >
-      <crawl offset_x = "" offset_y = "" h = "" w = "">
+      <crawl offset_x = "" offset_y = "">
         <rect x="" y=""/>
       </crawl>
-      <swing offset_x = "" offset_y = "" h = "" w = "">
+      <swing offset_x = "" offset_y = "">
         <rect x="" y=""/>
       </swing>
     </animations>
   </player>
-  <hook offset_x = "" offset_y = "">
-    <rect x="" y="" h = "" w = ""/>
+  <hook>
+    <texture value="textures/Hook.png"/>
+    <animation offset_x = "" offset_y = "" h = "239" w = "36">
+      <rect x="" y=""/>
+    </animation>
   </hook>
 </sprites>
