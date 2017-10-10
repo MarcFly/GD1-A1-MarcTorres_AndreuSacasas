@@ -13,7 +13,7 @@
 #include<stdio.h>
 #include<math.h>
 
-j1Player::j1Player()
+j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 	
@@ -40,7 +40,7 @@ bool j1Player::Start()
 
 	if (result == NULL) { //Check that it loaded
 		LOG("Could not load sprite xml file player_sprites.xml. pugi error: %s", result.description());
-		ret = false;
+	//	ret = false;
 	}
 	else {
 		LoadProperties(local_node);
@@ -176,7 +176,7 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 
 	if (result == NULL){
 		LOG("Could not load map xml file %s. pugi error: %s", sprites.path(), result.description());
-		ret = false;
+		//ret = false;
 	}
 	else {
 		LoadSprites(sprites.child("main_player"));

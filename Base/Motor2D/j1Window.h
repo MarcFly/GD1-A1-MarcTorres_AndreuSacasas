@@ -18,7 +18,7 @@ public:
 	virtual ~j1Window();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node* config);
+	bool Awake(pugi::xml_node& config);
 
 	// Called before quitting
 	bool CleanUp();

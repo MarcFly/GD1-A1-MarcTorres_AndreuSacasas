@@ -62,7 +62,7 @@ void j1Map::Draw()
 							item_tileset->data->image.tex,
 							j * Maps->tilewidth,
 							i * Maps->tileheight,
-							&item_tileset->data->GetRect(*p), Maps->scale);
+							&item_tileset->data->GetRect(*p));
 						p++;
 					}
 				}

@@ -19,7 +19,7 @@ j1Textures::~j1Textures()
 {}
 
 // Called before render is available
-bool j1Textures::Awake(pugi::xml_node* config)
+bool j1Textures::Awake(pugi::xml_node& config)
 {
 	LOG("Init Image library");
 	bool ret = true;
