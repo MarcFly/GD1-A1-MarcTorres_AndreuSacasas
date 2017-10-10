@@ -12,7 +12,7 @@
 class SDL_Rect;
 enum COLLIDER_TYPE
 {
-	COLLIDER_NONE = -1,
+	COLLIDER_NONE = 63,
 	COLLIDER_PLAYER,
 	//COLLIDER_WALL,
 	COLLIDER_HOOK_RING,
@@ -21,6 +21,11 @@ enum COLLIDER_TYPE
 	COLLIDER_PLATFORM,
 
 	COLLIDER_MAX
+};
+
+struct TypeRect {
+	COLLIDER_TYPE type;
+	SDL_Rect rect;
 };
 
 struct Collider {
@@ -56,21 +61,26 @@ public:
 	j1Collision();
 	~j1Collision();
 
-	bool Awake(const pugi::xml_node& config);
+	bool Awake(pugi::xml_node& config);
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
 
-	Collider* AddCollider(SDL_Rect rect_, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
+	Collider* AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
+
+	SDL_Rect GetRectType(COLLIDER_TYPE type);
+
+	bool debug = false;
+	p2List<TypeRect*> rect_list;
 
 private:
 
 	p2List<Collider*> colliders;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = false;
-
+	
+	
 };
 
 #endif // __j1Collisions_H__

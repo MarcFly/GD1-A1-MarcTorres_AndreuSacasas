@@ -7,6 +7,8 @@
 
 j1Collision::j1Collision() : j1Module()
 {
+	name.create("collisions");
+
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_HOOK_RING] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_HOOK_RANGE] = false;
@@ -42,6 +44,27 @@ j1Collision::j1Collision() : j1Module()
 
 j1Collision::~j1Collision()
 {}
+
+bool j1Collision::Awake(pugi::xml_node& config) {
+	bool ret = true;
+
+	pugi::xml_node local = config.child("collider");
+	while (local.attribute("type").as_string() != "") {
+		TypeRect* item = new TypeRect;
+		item->type = (COLLIDER_TYPE)local.attribute("type").as_int();
+		item->rect = {
+			local.attribute("x").as_int(),
+			local.attribute("y").as_int(),
+			local.attribute("w").as_int(),
+			local.attribute("h").as_int()
+		};
+
+		rect_list.add(item);
+		local = local.next_sibling("collider");
+	}
+
+	return ret;
+}
 
 bool j1Collision::PreUpdate()
 {
@@ -155,12 +178,18 @@ bool j1Collision::CleanUp()
 
 	colliders.clear();
 
+	rect_list.clear();
+
 	return true;
 }
 
-Collider* j1Collision::AddCollider(SDL_Rect rect_, COLLIDER_TYPE type_, j1Module* callback_)
+Collider* j1Collision::AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* callback_)
 {
-	Collider* ret = new Collider(rect_,type_,callback_);
+	SDL_Rect give = GetRectType(type_);
+	give.x += pos.x;
+	give.y += pos.y;
+
+	Collider* ret = new Collider(give,type_,callback_);
 
 	colliders.add(ret);
 
@@ -180,4 +209,14 @@ bool j1Collision::EraseCollider(Collider* collider)
 bool Collider::CheckCollision(const SDL_Rect& r) const
 {
 	return SDL_IntersectRect(&rect, &r, nullptr);
+}
+
+SDL_Rect j1Collision::GetRectType(COLLIDER_TYPE type) {
+
+	p2List_item<TypeRect*>* item = rect_list.start;
+
+	while (type != item->data->type)
+		item = item->next;
+
+	return item->data->rect;
 }
