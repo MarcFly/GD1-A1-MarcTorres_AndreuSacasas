@@ -57,8 +57,8 @@ void j1Map::Draw()
 			if (item_layer->data->draw_mode != 1) {
 				
 
-				for (int i = 0; i < item_layer->data->height; i++) {
-					for (int j = 0; j < item_layer->data->width; j++) {
+				for (uint i = 0; i < item_layer->data->height; i++) {
+					for (uint j = 0; j < item_layer->data->width; j++) {
 						App->render->MapBlit(
 							item_tileset->data->image.tex,
 							j * Maps->tilewidth,
@@ -233,7 +233,7 @@ bool j1Map::LoadTilesetData(const pugi::xml_node& tileset_node, tileset_info& it
 	item_tileset.columns = tileset_node.attribute("columns").as_uint();
 
 	// Load terrains
-	for (int i = 1; i <= item_tileset.tilecount; i++) {
+	for (uint i = 1; i <= item_tileset.tilecount; i++) {
 
 		terrain_info* item_terrain = new terrain_info;
 		ret = LoadTerrainData(tileset_node, i, *item_terrain, item_tileset);
@@ -289,7 +289,7 @@ bool j1Map::LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_lay
 	item_layer.data = new uint[item_layer.size];
 
 	uint* p = item_layer.data; // TO go through a "pointer" list you have to go through while going in another pointer so you are not changing where its pointing to the original one but giving the value
-	for (int i = 0; i < item_layer.size; i++) {
+	for (uint i = 0; i < item_layer.size; i++) {
 		*p = tile_node.attribute("gid").as_uint();
 		tile_node = tile_node.next_sibling("tile");
 		p++;

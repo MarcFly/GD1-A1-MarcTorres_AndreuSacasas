@@ -51,7 +51,7 @@ struct layer_info {
 	~layer_info() {
 		delete[] data;
 
-		for (int i = 0; i < layer_coll.count(); i++) {
+		for (uint i = 0; i < layer_coll.count(); i++) {
 			delete layer_coll[i];
 		}
 	}
@@ -105,7 +105,7 @@ struct tileset_info {
 	}
 
 	~tileset_info() {
-		for (int i = 0; i < terrains.count(); i++)
+		for (uint i = 0; i < terrains.count(); i++)
 			delete terrains[i];
 		terrains.clear();
 	}
@@ -150,11 +150,11 @@ struct Map_info {
 	p2List<layer_info*> layers; // TODO 4.2 Layers list
 
 	~Map_info() {
-		for (int i = 0; i < tilesets.count(); i++)
+		for (uint i = 0; i < tilesets.count(); i++)
 			delete tilesets[i];
 		tilesets.clear();
 
-		for (int i = 0; i < layers.count(); i++)
+		for (uint i = 0; i < layers.count(); i++)
 			delete layers[i];
 		layers.clear();
 	}

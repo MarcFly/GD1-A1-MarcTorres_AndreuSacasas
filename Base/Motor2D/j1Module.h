@@ -12,6 +12,7 @@
 
 class j1App;
 struct Collider;
+struct SDL_Rect;
 
 class j1Module
 {
@@ -73,7 +74,7 @@ public:
 	}
 
 	//	Collisions
-	virtual void OnCollision(Collider* source, Collider* other)
+	virtual void OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect)
 	{
 
 	}

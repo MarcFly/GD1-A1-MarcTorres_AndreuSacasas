@@ -68,6 +68,15 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
+	if (!air)
+		player.stats.speed_y = 0;
+
+	player.position.x += player.stats.curr_speed;
+	player.position.y += player.stats.speed_y;
+
+	player.collision_box->rect.x = player.position.x;
+	player.collision_box->rect.y = player.position.y;
+
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
 		player.flip = false;
@@ -99,18 +108,18 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
-		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed))
+		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
 			player.stats.curr_speed -= player.stats.accel;
 
 		else
-			player.stats.curr_speed = -player.stats.max_speed;
+			player.stats.curr_speed = -player.stats.max_speed.x;
 
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed))
+		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
 			player.stats.curr_speed += player.stats.accel;
 		else
-			player.stats.curr_speed = player.stats.max_speed;
+			player.stats.curr_speed = player.stats.max_speed.x;
 	}
 	else
 		if (player.stats.curr_speed == 0) {}
@@ -127,30 +136,23 @@ bool j1Player::Update(float dt)
 				player.stats.curr_speed -= player.stats.accel / 2;
 		}
 
-	player.position.x += player.stats.curr_speed;
-
-	if (player.position.y <= 600)
-		player.stats.speed_y += player.stats.gravity;
-	else {
-		if (air == false) {
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-				player.stats.speed_y = player.stats.jump_force;
-				air = true;
-			}
-		}
-		else {
-			
-		}
-	}
-		
-	player.position.y += player.stats.speed_y;
-
-
-	// Draw everything --------------------------------------
 	
 
-return true;
+	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity)
+		player.stats.speed_y += player.stats.gravity;
+	else {
 
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			player.stats.speed_y = player.stats.jump_force;
+			air = true;
+		}
+		else player.stats.speed_y += player.stats.gravity;
+	}
+	
+	// Draw everything --------------------------------------
+	
+	return true;
+	
 }
 
 void j1Player::Draw() {
@@ -174,20 +176,57 @@ void j1Player::Hook() {
 }
 
 
-void j1Player::OnCollision(Collider* source, Collider* other)
+void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect)
 {
 	//What type of collision and do
-	if (source->type == COLLIDER_HOOK_RANGE) {
+ 	if (source->type == COLLIDER_HOOK_RANGE) {
 		if (other->type == COLLIDER_HOOK_RING) {
 
 		}
 	}
 
 	else if (source->type == COLLIDER_PLAYER) {
+
 		if (other->type == COLLIDER_GROUND)
 		{
-			player.stats.speed_y = 0;
-			air = false;
+			// Correct position
+			if (abs(res_rect.w) > abs(res_rect.h)) {
+				player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
+				source->rect.y = player.position.y;
+				air = false;
+			}
+			else if (abs(res_rect.h) > abs(res_rect.w)) {
+				if (!air) {
+					if (source->rect.x < other->rect.x) {
+						player.position.x = other->rect.x - player.collision_box->rect.w;
+						source->rect.x = player.position.x;
+					}
+					else if (source->rect.x > other->rect.x) {
+						player.position.x = other->rect.x + other->rect.w;
+						source->rect.x = player.position.x;
+					}
+				}
+				else {
+					/*player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
+					source->rect.y = player.position.y;*/
+					if (SDL_IntersectRect(&source->rect, &other->rect, &res_rect) > 0) {
+						if (source->rect.x < other->rect.x) {
+							player.position.x = other->rect.x - player.collision_box->rect.w;
+							source->rect.x = player.position.x;
+						}
+						else if (source->rect.x > other->rect.x) {
+							player.position.x = other->rect.x + other->rect.w;
+							source->rect.x = player.position.x;
+						}
+					}
+				}
+			}
+
+			// Correct Velocity
+
+			if (abs(res_rect.h) > abs(res_rect.w) && source->rect.y + source->rect.h >= other->rect.y) 
+				player.stats.curr_speed = 0;
+			
 		}
 		else if (other->type == COLLIDER_PLATFORM)
 		{
@@ -202,6 +241,8 @@ void j1Player::OnCollision(Collider* source, Collider* other)
 		{
 
 		}
+
+		
 	}
 }
 
@@ -277,7 +318,8 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.render_scale = property_node.child("render_scale").attribute("value").as_float();
 
 	player.stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
-	player.stats.max_speed = property_node.child("speed").attribute("value").as_float();
+	player.stats.max_speed.x = property_node.child("speed").attribute("x").as_float();
+	player.stats.max_speed.y = property_node.child("speed").attribute("y").as_float();
 	player.stats.accel = property_node.child("acceleration").attribute("value").as_float();
 	player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
 	player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
@@ -288,9 +330,7 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.collision_box = App->collision->AddCollider(
 		{
 			(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
-			(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int(),
-			property_node.child("collision_box").attribute("w").as_int(),
-			property_node.child("collision_box").attribute("h").as_int()
+			(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int()
 		},
 		COLLIDER_PLAYER,
 		App->player);

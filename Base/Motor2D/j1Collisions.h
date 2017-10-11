@@ -9,7 +9,7 @@
 #include "Animation.h"
 #include "p2List.h"
 
-class SDL_Rect;
+struct SDL_Rect;
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 63,
@@ -53,8 +53,9 @@ struct Collider {
 	}
 
 	//Directions ColliderHit(const SDL_Rect& r) const;
-	bool CheckCollision(const SDL_Rect& r) const;
+	int CheckCollision(const SDL_Rect& r, SDL_Rect& res_rect) const;
 	
+	//bool FutureCheck(const SDL_Rect& r) const;
 };
 
 

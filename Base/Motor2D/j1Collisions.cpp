@@ -104,40 +104,22 @@ bool j1Collision::Update(float dt)
 				continue;
 
 			c2 = colliders[k];
+			
+			SDL_Rect check;
 
-			if (matrix[c1->type][c2->type] || matrix[c2->type][c1->type]) {
+			if ((matrix[c1->type][c2->type] || matrix[c2->type][c1->type]) && abs(c1->rect.x - c2->rect.x) < 200 && abs(c1->rect.y - c2->rect.y) < 200) {
 				if (c1->type == COLLIDER_PLAYER)
 					if (c2->CheckCollision({
-						c1->rect.x + App->player->player.stats.curr_speed,
-						c1->rect.y + App->player->player.stats.speed_y,
+						c1->rect.x + (int)App->player->player.stats.curr_speed,
+						c1->rect.y + (int)App->player->player.stats.speed_y,
 						c1->rect.w,
-						c1->rect.h })) {
+						c1->rect.h },
+						check) > 0 && check.w > 0 && check.h > 0) {
 
-							c1->callback->OnCollision(c1, c2);
-
-					}
-				if (c2->type == COLLIDER_PLAYER)
-					if (c1->CheckCollision({
-						c2->rect.x + App->player->player.stats.curr_speed,
-						c2->rect.y + App->player->player.stats.speed_y,
-						c2->rect.w,
-						c2->rect.h })) {
-
-						c2->callback->OnCollision(c2, c1);
+							c1->callback->OnCollision(c1, c2, check);
 
 					}
-
-				if (c1->CheckCollision(c2->rect) == true)
-				{
-					if (c1->callback)
-						c1->callback->OnCollision(c1, c2);
-
-					if (c2->callback)
-						c2->callback->OnCollision(c2, c1);
-				}
-			}
-
-			
+			}			
 		}
 	}
 
@@ -149,8 +131,8 @@ void j1Collision::DebugDraw()
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		debug = !debug;
 
-	if (debug == false)
-		return;
+	//if (debug == false)
+		//return;
 
 	Uint8 alpha = 80;
 	for (uint i = 0; i < colliders.count(); ++i)
@@ -226,9 +208,10 @@ bool j1Collision::EraseCollider(Collider* collider)
 	return false;
 }
 
-bool Collider::CheckCollision(const SDL_Rect& r) const
+int Collider::CheckCollision(const SDL_Rect& r, SDL_Rect& res_rect) const
 {
-	return SDL_IntersectRect(&rect, &r, nullptr);
+	SDL_IntersectRect(&rect, &r, &res_rect);
+	return (res_rect.w * res_rect.h);
 }
 
 SDL_Rect j1Collision::GetRectType(COLLIDER_TYPE type) {

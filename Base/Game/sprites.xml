@@ -1,7 +1,7 @@
 <sprites>
   <player>
     <texture value="textures/Player.png"/>
-    <speed value="8"/>
+    <speed x="8" y="16"/>
     <acceleration value="0.5"/>
     <jump_force value="-20"/>
     <gravity value="1"/>

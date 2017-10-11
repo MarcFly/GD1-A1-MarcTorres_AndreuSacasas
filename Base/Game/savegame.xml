@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <savegame>
 	<input />
-	<:anonymous />
 	<window />
 	<textures />
 	<audio>
 		<master_volume value="64" />
 	</audio>
 	<map />
-	<scene />
+	<collisions />
 	<player />
+	<scene />
 	<renderer>
 		<camera x="0" y="0" />
 	</renderer>

@@ -26,7 +26,7 @@ enum player_state {
 
 struct player_stats {
 	float accel;
-	float max_speed;
+	iPoint max_speed;
 	float gravity;
 	float speed_y;
 	int jump_force;
@@ -83,7 +83,7 @@ public:
 
 	bool Update(float dt);
 	bool CleanUp();
-	void OnCollision(Collider* source, Collider* other);
+	void OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect);
 
 	bool Load(const pugi::xml_node& config);
 	bool Save(const pugi::xml_node& config);

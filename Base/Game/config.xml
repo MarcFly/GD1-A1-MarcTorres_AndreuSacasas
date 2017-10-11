@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!-- Config file for the game -->
 <config>
@@ -33,12 +33,12 @@
   </textures>
 
   <collisions>
-    <collider type="63" x="0" y="0" w="0" h="0"/>
-    <collider type="64" x="0" y="0" w="64" h="64"/>
-    <collider type="65" x="0" y="0" w="64" h="64"/>
-    <collider type="66" x="0" y="0" w="64" h="64"/>
-    <collider type="67" x="0" y="0" w="64" h="64"/>
-    <collider type="68" x="0" y="0" w="64" h="64"/>
+    <collider type="63" x="0" y="0" w="0" h="0"/> <!-- NONE -->
+    <collider type="64" x="30" y="10" w="40" h="60"/> <!-- PLAYER -->
+    <collider type="65" x="0" y="0" w="64" h="64"/> <!-- RING -->
+    <collider type="66" x="0" y="0" w="64" h="64"/> <!-- RANGE -->
+    <collider type="67" x="0" y="0" w="64" h="64"/> <!-- GROUND -->
+    <collider type="68" x="0" y="0" w="64" h="64"/> <!-- DIE -->
   </collisions>
   
   <audio>
