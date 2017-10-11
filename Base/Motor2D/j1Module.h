@@ -73,7 +73,7 @@ public:
 	}
 
 	//	Collisions
-	virtual void OnCollision(Collider* bodyA, Collider* bodyB)
+	virtual void OnCollision(Collider* source, Collider* other)
 	{
 
 	}

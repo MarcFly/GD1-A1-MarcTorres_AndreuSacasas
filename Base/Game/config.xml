@@ -48,7 +48,9 @@
     <fade_time value="2"/>
     <repeat value="0"/>
   </audio>
-
+  <player source="sprites.xml">
+    
+  </player>
   <scene>
     <map source="Maps/Lvl_1 - Copy.tmx"/>
     <map source="Maps/Lvl_2.tmx"/>

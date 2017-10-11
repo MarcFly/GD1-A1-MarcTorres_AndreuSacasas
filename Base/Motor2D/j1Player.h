@@ -16,18 +16,19 @@ enum player_state {
 	error = -1,
 	idle = 0,
 	move,
-	running,
-	air,
-	jumpsquat,
-	landing,
-	hooking,
-	hooked
+	jump,
+	fall,
+	squat,
+	swing,
+	to_crawl,
+	crawl
 };
 
 struct player_stats {
 	float accel;
 	float max_speed;
 	float gravity;
+	float speed_y;
 	int jump_force;
 	float hook_range;
 	int hook_time;
@@ -42,14 +43,13 @@ struct player_char
 	player_state		state;
 	p2List<Animation*>	animations;
 
-	Collider*		player;
+	Collider*		collision_box;
 
-	p2SString		name;
 	player_stats	stats;
-	iPoint			offset;
 	float			render_scale;
 	fPoint			position;
-	bool			direction = true; //false = Left true = Right
+	bool			flip = false; //false = Right true = Left
+
 	
 
 
@@ -83,7 +83,7 @@ public:
 
 	bool Update(float dt);
 	bool CleanUp();
-	void OnCollision();
+	void OnCollision(Collider* source, Collider* other);
 
 	bool Load(const pugi::xml_node& config);
 	bool Save(const pugi::xml_node& config);
@@ -93,6 +93,8 @@ public:
 	bool LoadProperties(const pugi::xml_node& property_node);
 
 public:
+
+	void Draw();
 
 	void Jump();
 
@@ -106,8 +108,9 @@ public:
 
 public:
 
-	player_char main_player;
-	
+	player_char player;
+	bool air = true;
+
 	pugi::xml_document sprites;
 
 	pugi::xml_node local_node;
