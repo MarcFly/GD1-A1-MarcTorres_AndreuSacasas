@@ -82,14 +82,36 @@ bool j1Collision::Update(float dt)
 
 			c2 = colliders[k];
 
-			
-			if (c1->CheckCollision(c2->rect) == true)
-			{
-				if (matrix[c1->type][c2->type] && c1->callback)
-					c1->callback->OnCollision(c1, c2);
+			if (matrix[c1->type][c2->type] || matrix[c2->type][c1->type]) {
+				if (c1->type == COLLIDER_PLAYER)
+					if (c2->CheckCollision({
+						c1->rect.x + App->player->player.stats.curr_speed,
+						c1->rect.y + App->player->player.stats.speed_y,
+						c1->rect.w,
+						c1->rect.h })) {
 
-				if (matrix[c2->type][c1->type] && c2->callback)
-					c2->callback->OnCollision(c2, c1);
+							c1->callback->OnCollision(c1, c2);
+
+					}
+				if (c2->type == COLLIDER_PLAYER)
+					if (c1->CheckCollision({
+						c2->rect.x + App->player->player.stats.curr_speed,
+						c2->rect.y + App->player->player.stats.speed_y,
+						c2->rect.w,
+						c2->rect.h })) {
+
+						c2->callback->OnCollision(c2, c1);
+
+					}
+
+				if (c1->CheckCollision(c2->rect) == true)
+				{
+					if (c1->callback)
+						c1->callback->OnCollision(c1, c2);
+
+					if (c2->callback)
+						c2->callback->OnCollision(c2, c1);
+				}
 			}
 
 			

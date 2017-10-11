@@ -1,9 +1,10 @@
 <sprites>
   <player>
     <texture value="textures/Player.png"/>
-    <speed value="5"/>
-    <acceleration value="2"/>
-    <gravity value="9.8"/>
+    <speed value="8"/>
+    <acceleration value="0.5"/>
+    <jump_force value="-20"/>
+    <gravity value="1"/>
     <hook_range value="20"/>
     <aerial_drift value ="0"/>
     <collision_box offset_x="" offset_y="" h="60" w="40"/>

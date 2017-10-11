@@ -79,22 +79,85 @@ bool j1Player::Update(float dt)
 	}
 
 	//Move player
-	/*
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT){
-	if(player.current_animation->anim_state(crawl)
+	
+	/*if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT){
+		if (player.current_animation->anim_state == crawl) {
+
+		}
+		else {
+
+		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {}
+
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		
+	}*/
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+
+		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed))
+			player.stats.curr_speed -= player.stats.accel;
+
+		else
+			player.stats.curr_speed = -player.stats.max_speed;
+
 	}
-	*/
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed))
+			player.stats.curr_speed += player.stats.accel;
+		else
+			player.stats.curr_speed = player.stats.max_speed;
+	}
+	else
+		if (player.stats.curr_speed == 0) {}
+		else if (player.stats.curr_speed < 0) {
+			if (player.stats.curr_speed + player.stats.accel / 2 >= 0)
+				player.stats.curr_speed = 0;
+			else
+				player.stats.curr_speed += player.stats.accel / 2;
+		}
+		else if (player.stats.curr_speed > 0) {
+			if (player.stats.curr_speed - player.stats.accel / 2 <= 0)
+				player.stats.curr_speed = 0;
+			else
+				player.stats.curr_speed -= player.stats.accel / 2;
+		}
+
+	player.position.x += player.stats.curr_speed;
+
+	if (player.position.y <= 600)
+		player.stats.speed_y += player.stats.gravity;
+	else {
+		if (air == false) {
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+				player.stats.speed_y = player.stats.jump_force;
+				air = true;
+			}
+		}
+		else {
+			
+		}
+	}
+		
+	player.position.y += player.stats.speed_y;
+
 
 	// Draw everything --------------------------------------
-
-	App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
+	
 
 return true;
 
+}
+
+void j1Player::Draw() {
+	if (player.flip)
+		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
+	else
+		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
 }
 
 void j1Player::Jump() {
@@ -123,11 +186,13 @@ void j1Player::OnCollision(Collider* source, Collider* other)
 	else if (source->type == COLLIDER_PLAYER) {
 		if (other->type == COLLIDER_GROUND)
 		{
-
+			player.stats.speed_y = 0;
+			air = false;
 		}
 		else if (other->type == COLLIDER_PLATFORM)
 		{
-
+			player.stats.speed_y = 0;
+			air = false;
 		}
 		else if (other->type == COLLIDER_END)
 		{
@@ -169,7 +234,6 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 		anim->speed = animation.attribute("speed").as_float();
 		anim->offset_x = animation.attribute("offset_x").as_int();
 		anim->offset_y = animation.attribute("offset_y").as_int();
-			
 		pugi::xml_node rect = animation.child("rect");
 		for (int j = 0; rect.attribute("x").as_string() != ""; j++) {
 			anim->frames[j].x = rect.attribute("x").as_uint();
@@ -188,14 +252,15 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 
 player_state j1Player::Get_State(const p2SString& state_node) {
 
-	if (strcmp(state_node.GetString(), "idle")) return idle;
-	if (strcmp(state_node.GetString(), "moving")) return move;
-	if (strcmp(state_node.GetString(), "running")) return running;
-	if (strcmp(state_node.GetString(), "air")) return air;
-	if (strcmp(state_node.GetString(), "jumpsquat")) return jumpsquat;
-	if (strcmp(state_node.GetString(), "landing")) return landing;
-	if (strcmp(state_node.GetString(), "hooking")) return hooking;
-	if (strcmp(state_node.GetString(), "hooked")) return hooked;
+	if (state_node == "idle") return idle;
+	else if (state_node == "move") return move;
+	else if (state_node == "squat") return squat;
+	else if (state_node == "jump") return jump;
+	else if (state_node == "fall") return fall;
+	else if (state_node == "squat") return squat;
+	else if (state_node == "to_crawl") return to_crawl;
+	else if (state_node == "crawl") return crawl;
+	else if (state_node == "swing") return swing;
 	return error;
 
 }
@@ -213,7 +278,7 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 
 	player.stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
 	player.stats.max_speed = property_node.child("speed").attribute("value").as_float();
-	player.stats.accel = property_node.child("accel").attribute("value").as_float();
+	player.stats.accel = property_node.child("acceleration").attribute("value").as_float();
 	player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
 	player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
 	player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();

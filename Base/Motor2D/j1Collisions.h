@@ -49,6 +49,7 @@ struct Collider {
 
 	//Directions ColliderHit(const SDL_Rect& r) const;
 	bool CheckCollision(const SDL_Rect& r) const;
+	
 };
 
 

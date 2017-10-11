@@ -16,18 +16,19 @@ enum player_state {
 	error = -1,
 	idle = 0,
 	move,
-	running,
-	air,
-	jumpsquat,
-	landing,
-	hooking,
-	hooked
+	jump,
+	fall,
+	squat,
+	swing,
+	to_crawl,
+	crawl
 };
 
 struct player_stats {
 	float accel;
 	float max_speed;
 	float gravity;
+	float speed_y;
 	int jump_force;
 	float hook_range;
 	int hook_time;
@@ -93,6 +94,8 @@ public:
 
 public:
 
+	void Draw();
+
 	void Jump();
 
 	void Movement();
@@ -106,7 +109,8 @@ public:
 public:
 
 	player_char player;
-	
+	bool air = true;
+
 	pugi::xml_document sprites;
 
 	pugi::xml_node local_node;
