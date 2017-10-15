@@ -129,7 +129,7 @@ enum renderorder {
 };
 
 struct Map_info {
-	pugi::xml_document map_file;
+	p2SString map_file;
 
 	orientation	map_type;
 	uint		renderorder;
@@ -188,6 +188,8 @@ public:
 
 	COLLIDER_TYPE GetType(uint id);
 
+	bool EraseMap();
+
 private:
 
 	// TODO 3.3.2 Functions/Methods to load map data
@@ -203,6 +205,7 @@ private:
 
 	void CreateCollider(layer_info& item_layer, tileset_info& item_tileset, int y, int x);
 
+	
 
 public:
 

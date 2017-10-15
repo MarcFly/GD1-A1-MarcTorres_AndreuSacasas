@@ -18,11 +18,12 @@ enum COLLIDER_TYPE
 	COLLIDER_HOOK_RING,
 	COLLIDER_HOOK_RANGE,
 	COLLIDER_GROUND,
+	COLLIDER_DIE,
+	COLLIDER_PLAYER_AIR,
 	COLLIDER_PLATFORM,
 	COLLIDER_START,
 	COLLIDER_END,
-	COLLIDER_DIE,
-
+	
 	COLLIDER_MAX
 };
 
@@ -82,7 +83,8 @@ public:
 
 private:
 
-	p2List<Collider*> colliders;
+	p2List<Collider*> passive_colliders;
+	p2List<Collider*> dynamic_colliders;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 	
 	

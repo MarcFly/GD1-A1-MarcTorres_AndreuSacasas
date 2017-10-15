@@ -7,8 +7,16 @@
 		<master_volume value="64" />
 	</audio>
 	<map />
+	<player>
+		<current_map source="Maps/Lvl_1 - Copy.tmx" />
+		<stats>
+			<speed x="0" y="0" />
+		</stats>
+		<position x="0" y="579" />
+		<state type="0" />
+		<flip value="false" />
+	</player>
 	<collisions />
-	<player />
 	<scene />
 	<renderer>
 		<camera x="0" y="0" />

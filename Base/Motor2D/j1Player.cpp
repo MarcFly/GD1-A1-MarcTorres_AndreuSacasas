@@ -9,6 +9,7 @@
 #include "SDL/include/SDL_timer.h"
 #include "j1Scene.h"
 #include "p2Log.h"
+#include "j1Map.h"
 #include "list"
 
 #include<stdio.h>
@@ -77,6 +78,9 @@ bool j1Player::Update(float dt)
 
 	player.collision_box->rect.x = player.position.x;
 	player.collision_box->rect.y = player.position.y;
+
+	player.air_box->rect.x = player.position.x;
+	player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
@@ -149,7 +153,7 @@ bool j1Player::Update(float dt)
 		}
 		else player.stats.speed_y += player.stats.gravity;
 	}
-	
+	air = true;
 	// Draw everything --------------------------------------
 	
 	return true;
@@ -204,6 +208,15 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		}
 	}
 
+	else if (source->type == COLLIDER_PLAYER_AIR) {
+		if (other->type == COLLIDER_GROUND) {
+			if (abs(res_rect.w) > abs(res_rect.h)) {
+				air = false;
+				player.stats.speed_y = 0;
+			}
+		}
+	}
+
 	else if (source->type == COLLIDER_PLAYER) {
 
 		if (other->type == COLLIDER_GROUND)
@@ -212,7 +225,6 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 			if (abs(res_rect.w) > abs(res_rect.h)) {
 				player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
 				source->rect.y = player.position.y;
-				air = false;
 			}
 			else if (abs(res_rect.h) > abs(res_rect.w)) {
 				if (!air) {
@@ -268,11 +280,30 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 bool j1Player::Load(const pugi::xml_node& savegame) {
 	bool ret = true;
 
+	App->map->EraseMap();
+	App->map->Load(savegame.child("current_map").attribute("source").as_string());
+
+	player.stats.curr_speed = savegame.child("stats").child("speed").attribute("x").as_float();
+	player.stats.speed_y = savegame.child("stats").child("speed").attribute("y").as_float();
+
+	player.position.x = savegame.child("position").attribute("x").as_float();
+	player.position.y = savegame.child("position").attribute("y").as_float();
+	player.state = (player_state)savegame.child("state").attribute("type").as_int();
+	player.flip = savegame.child("flip").attribute("value").as_bool();
+
 	return ret;
 }
 
-bool j1Player::Save(const pugi::xml_node& savegame) {
+bool j1Player::Save(pugi::xml_node& savegame) {
 	bool ret = true;
+
+	savegame.append_child("current_map").append_attribute("source") = App->map->Maps->map_file.GetString();
+	savegame.append_child("stats").append_child("speed").append_attribute("x") = player.stats.curr_speed;
+	savegame.child("stats").child("speed").append_attribute("y") = player.stats.speed_y;
+	savegame.append_child("position").append_attribute("x") = player.position.x;
+	savegame.child("position").append_attribute("y") = player.position.y;
+	savegame.append_child("state").append_attribute("type") = player.state;
+	savegame.append_child("flip").append_attribute("value") = player.flip;
 
 	return ret;
 }
@@ -353,6 +384,14 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 			(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int()
 		},
 		COLLIDER_PLAYER,
+		App->player);
+
+	player.air_box = App->collision->AddCollider(
+	{
+		(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
+		(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int() + player.collision_box->rect.h
+	},
+		COLLIDER_PLAYER_AIR,
 		App->player);
 	
 	

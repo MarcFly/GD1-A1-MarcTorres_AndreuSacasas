@@ -78,12 +78,12 @@ bool j1Render::PostUpdate()
 }
 
 // Called when triggered
-bool j1Render::Load(pugi::xml_node* savegame) 
+bool j1Render::Load(const pugi::xml_node& savegame) 
 {
 	bool ret = true;
 	if (savegame != nullptr) {
-		camera.x = savegame->child("camera").attribute("x").as_int();
-		camera.y = savegame->child("camera").attribute("y").as_int();
+		camera.x = savegame.child("camera").attribute("x").as_int();
+		camera.y = savegame.child("camera").attribute("y").as_int();
 	}
 	else
 		ret = false;
@@ -91,12 +91,12 @@ bool j1Render::Load(pugi::xml_node* savegame)
 	return ret;
 }
 
-bool j1Render::Save(pugi::xml_node* savegame)
+bool j1Render::Save(pugi::xml_node& savegame)
 {	
 	//Save Camera Position
 	//savegame->append_child("camera");
-	savegame->append_child("camera").append_attribute("x") = camera.x;
-	savegame->child("camera").append_attribute("y") = camera.y;
+	savegame.append_child("camera").append_attribute("x") = camera.x;
+	savegame.child("camera").append_attribute("y") = camera.y;
 
 	return true;
 }

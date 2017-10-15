@@ -44,6 +44,7 @@ struct player_char
 	p2List<Animation*>	animations;
 
 	Collider*		collision_box;
+	Collider*		air_box;
 
 	player_stats	stats;
 	float			render_scale;
@@ -86,8 +87,7 @@ public:
 	void OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect);
 
 	bool Load(const pugi::xml_node& config);
-	bool Save(const pugi::xml_node& config);
-
+	bool Save(pugi::xml_node& config);
 
 	bool LoadSprites(const pugi::xml_node& sprite_node);
 	bool LoadProperties(const pugi::xml_node& property_node);
