@@ -202,7 +202,7 @@ void j1Player::Draw(float dt) {
 
 	if (player.flip)
 		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
-	
+	else
 		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
 }
 
