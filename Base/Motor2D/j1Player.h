@@ -42,6 +42,7 @@ struct player_char
 	Animation*			current_animation = nullptr;
 	player_state		state;
 	p2List<Animation*>	animations;
+	int					current_anim_size = 0;
 
 	Collider*		collision_box;
 	Collider*		air_box;

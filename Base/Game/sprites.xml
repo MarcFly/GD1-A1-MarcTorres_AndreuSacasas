@@ -19,7 +19,7 @@
         <rect x="400" y="405"/>
         <rect x="480" y="405"/>
       </animation>
-      <animation name="move" offset_x="" offset_y="" speed="1" loop="true">
+      <animation name="move" offset_x="" offset_y="" speed="0.2" loop="true">
         <rect x="0" y="0"/>
         <rect x="80" y="0"/>
         <rect x="160" y="0"/>

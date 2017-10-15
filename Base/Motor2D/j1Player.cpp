@@ -113,6 +113,12 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
+		if (player.state != player_state::move)
+		{
+			player.state = player_state::move;
+			player.current_animation = player.FindAnimByName(player.state);
+		}
+
 		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
 			player.stats.curr_speed -= player.stats.accel;
 
@@ -121,13 +127,27 @@ bool j1Player::Update(float dt)
 
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+
+		if (player.state != player_state::move)
+		{
+			player.state = player_state::move;
+			player.current_animation = player.FindAnimByName(player.state);
+		}
+
 		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
 			player.stats.curr_speed += player.stats.accel;
 		else
 			player.stats.curr_speed = player.stats.max_speed.x;
 	}
 	else
-		if (player.stats.curr_speed == 0) {}
+		if (player.stats.curr_speed == 0)
+		{
+			if (player.state != player_state::idle)
+			{
+				player.state = player_state::idle;
+				player.current_animation = player.FindAnimByName(player.state);
+			}
+		}
 		else if (player.stats.curr_speed < 0) {
 			if (player.stats.curr_speed + player.stats.accel / 2 >= 0)
 				player.stats.curr_speed = 0;
@@ -165,24 +185,25 @@ void j1Player::Draw(float dt) {
 	switch (player.state)
 	{
 	case player_state::idle:
-		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, 7)], player.render_scale);
+		player.current_anim_size = 7;
 		break;
 	case player_state::move:
-
+		player.current_anim_size = 9;
 		break;
 	case player_state::jump:
-
+		player.current_anim_size = 0;
 		break;
 	case player_state::fall:
-
+		player.current_anim_size = 0;
 		break;
 	default:
 		break;
 	}
-	//if (player.flip)
-	//	App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
-	//else
-	//	App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
+
+	if (player.flip)
+		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
+	
+		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
 }
 
 void j1Player::Jump() {
