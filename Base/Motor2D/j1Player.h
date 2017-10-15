@@ -102,6 +102,8 @@ public:
 
 	void Movement();
 
+	void Jump();
+
 	void Hook();
 
 	//void OnCollision(Collider* bodyA, Collider* bodyB);
