@@ -81,7 +81,7 @@ public:
 
 	int timer = 0;
 
-	bool Awake(const pugi::xml_node& config);
+	bool Awake(pugi::xml_node& config);
 	bool Start();
 
 	bool Update(float dt);

@@ -193,6 +193,21 @@ bool j1Map::Load(const char* file_name)
 bool j1Map::LoadMapData(const pugi::xml_node& map_node, Map_info& item_map) {
 	bool ret = true;
 
+	pugi::xml_node temp = map_node.child("properties").child("property");
+
+	while (temp.attribute("name").as_string() != "") {
+		p2SString test = temp.attribute("name").as_string();
+
+		if (test == "start_x")
+			item_map.start_pos.x = temp.attribute("value").as_int();
+		else if (test == "start_y")
+			item_map.start_pos.y = temp.attribute("value").as_int();
+		else if (test == "scale")
+			item_map.scale = temp.attribute("value").as_float();
+
+		temp = temp.next_sibling("property");
+	}
+
 	item_map.scale = map_node.attribute("scale").as_uint();
 	// Orientation
 	p2SString cmp = map_node.attribute("orientation").as_string();
@@ -220,7 +235,7 @@ bool j1Map::LoadMapData(const pugi::xml_node& map_node, Map_info& item_map) {
 	item_map.tilewidth = map_node.attribute("tilewidth").as_uint();
 	item_map.tileheight = map_node.attribute("tileheight").as_uint();
 	item_map.nextobjectid = map_node.attribute("nextobjectid").as_uint();
-
+	
 	return ret;
 }
 

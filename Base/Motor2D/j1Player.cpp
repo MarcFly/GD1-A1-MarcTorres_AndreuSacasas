@@ -25,7 +25,7 @@ j1Player::~j1Player()
 {}
 
 // Awake, actually load things?
-bool j1Player::Awake(const pugi::xml_node& config)
+bool j1Player::Awake(pugi::xml_node& config)
 {
 	bool ret = true;
 
@@ -268,7 +268,7 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		{
 			// Correct position
 		
-			if (abs(res_rect.h) > abs(res_rect.w)) {
+			if (abs(res_rect.h) > abs(res_rect.w) && player.state != fall && player.state != jump) {
 				if (player.state != fall && player.state != jump) {
 					if (source->rect.x < other->rect.x) {
 						player.position.x = other->rect.x - player.collision_box->rect.w - 1;
@@ -288,7 +288,7 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 						player.stats.curr_speed *= -1;
 					}
 				}
-				else {
+				else if (abs(res_rect.h) < abs(res_rect.w)) {
 					if (SDL_IntersectRect(&source->rect, &other->rect, &res_rect) > 0) {
 						if (source->rect.x < other->rect.x) {
 							player.position.x = other->rect.x - player.collision_box->rect.w - 1;
@@ -308,21 +308,39 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 						}
 					}
 				}
+				if (abs(res_rect.h) > abs(res_rect.w) && (player.state == fall || player.state == jump)) {
+					if (player.state != fall && player.state != jump) {
+						if (source->rect.x < other->rect.x) {
+							player.position.x = other->rect.x - player.collision_box->rect.w - 1;
+							source->rect.x = player.position.x;
+							player.air_box->rect.x = player.position.x;
+						}
+						else if (source->rect.x > other->rect.x) {
+							player.position.x = other->rect.x + other->rect.w + 1;
+							source->rect.x = player.position.x;
+							player.air_box->rect.x = player.position.x;
+						}
+						if (abs(player.stats.curr_speed) > 0) {
+							player.stats.curr_speed = 0;
+							if (player.stats.speed_y > 0)
+								player.stats.speed_y /= 2;
+							can_jump = true;
+							player.stats.curr_speed *= -1;
+						}
+					}
+
+				}
+
+				else if (abs(res_rect.w) > abs(res_rect.h) && abs(res_rect.w) > 0) {
+					player.position.y = other->rect.y - player.collision_box->rect.h;
+					source->rect.y = player.position.y;
+					player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
+
+
+
+				}
 			}
 
-			else if (abs(res_rect.w) > abs(res_rect.h) && abs(res_rect.w) > 0) {
-				player.position.y = other->rect.y - player.collision_box->rect.h;
-				source->rect.y = player.position.y;
-				player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
-			
-			
-			
-			}
-
-		}
-		else if (other->type == COLLIDER_PLATFORM)
-		{
-			player.stats.speed_y = 0;
 		}
 		else if (other->type == COLLIDER_END)
 		{
@@ -421,9 +439,6 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	bool ret = true;
 
 	LoadSprites(property_node);
-
-	player.position.x = property_node.child("position1").attribute("x").as_int();
-	player.position.y = property_node.child("position1").attribute("y").as_int();
 
 	player.render_scale = property_node.child("render_scale").attribute("value").as_float();
 
