@@ -3,7 +3,7 @@
     <texture value="textures/Player.png"/>
     <speed x="8" y="16"/>
     <acceleration value="0.5"/>
-    <jump_force value="-20"/>
+    <jump_force value="-15"/>
     <gravity value="1"/>
     <hook_range value="20"/>
     <aerial_drift value ="0"/>

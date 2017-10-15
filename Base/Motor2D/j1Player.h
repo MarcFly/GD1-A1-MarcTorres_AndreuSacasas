@@ -112,7 +112,6 @@ public:
 
 	player_char player;
 	bool can_jump = false;
-	bool air = true;
 	bool is_jumping = false;
 
 	pugi::xml_document sprites;
