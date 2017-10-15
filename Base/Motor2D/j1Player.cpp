@@ -102,6 +102,12 @@ bool j1Player::Update(float dt)
 	if (player.position.y > 900)
 		App->Trigger_Load();
 
+	if (player.position.x > 6140 && current_map == 1)
+	{
+		current_map = 2;
+		App->Trigger_Load();
+	}
+
 	return true;
 
 }
