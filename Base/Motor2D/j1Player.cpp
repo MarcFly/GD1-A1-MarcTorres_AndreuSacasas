@@ -18,7 +18,7 @@
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
-	
+
 }
 
 j1Player::~j1Player()
@@ -28,9 +28,9 @@ j1Player::~j1Player()
 bool j1Player::Awake(const pugi::xml_node& config)
 {
 	bool ret = true;
-	 
+
 	local_node = config;
-	
+
 	return ret;
 }
 // Load assets
@@ -59,7 +59,7 @@ bool j1Player::CleanUp()
 {
 	LOG("Unloading player");
 	/*App->audio->Unload(audio_shot);
-	
+
 	App->fonts->UnLoad(font_score);*/
 
 	return true;
@@ -90,14 +90,14 @@ bool j1Player::Update(float dt)
 	}
 
 	//Move player
-	
+
 	/*if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT){
-		if (player.current_animation->anim_state == crawl) {
+	if (player.current_animation->anim_state == crawl) {
 
-		}
-		else {
+	}
+	else {
 
-		}
+	}
 	}
 
 	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
@@ -105,24 +105,24 @@ bool j1Player::Update(float dt)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		
+
 	}*/
 
-	
+
 	// Draw everything --------------------------------------
-	
+
 	UpdateState();
 
 	Movement();
 
-	
+
 
 	return true;
-	
+
 }
 
 void j1Player::Draw(float dt) {
-	
+
 	player.current_animation = player.FindAnimByName(player.state);
 
 	switch (player.state)
@@ -151,7 +151,7 @@ void j1Player::Draw(float dt) {
 
 void j1Player::UpdateState() {
 
-	
+
 	if (player.stats.speed_y < 0)
 		player.state = jump;
 	else if (player.stats.speed_y > 0)
@@ -219,7 +219,7 @@ void j1Player::Movement() {
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && can_jump == true) {
 			if (!is_jumping)
 				player.stats.speed_y = player.stats.jump_force;
-			
+
 			is_jumping = true;
 			if (player.stats.speed_y < -6)
 				player.stats.speed_y /= 1.07;
@@ -239,7 +239,7 @@ void j1Player::Movement() {
 		else player.stats.speed_y += player.stats.gravity;
 	}
 	// Draw everything --------------------------------------
-	
+
 }
 
 void j1Player::Hook() {
@@ -250,7 +250,7 @@ void j1Player::Hook() {
 void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect)
 {
 	//What type of collision and do
- 	if (source->type == COLLIDER_HOOK_RANGE) {
+	if (source->type == COLLIDER_HOOK_RANGE) {
 		if (other->type == COLLIDER_HOOK_RING) {
 
 		}
@@ -303,9 +303,9 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 
 			// Correct Velocity
 
-			if (abs(res_rect.h) > abs(res_rect.w) && source->rect.y + source->rect.h >= other->rect.y) 
+			if (abs(res_rect.h) > abs(res_rect.w) && source->rect.y + source->rect.h >= other->rect.y)
 				player.stats.curr_speed = 0;
-			
+
 		}
 		else if (other->type == COLLIDER_PLATFORM)
 		{
@@ -320,7 +320,7 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 
 		}
 
-		
+
 	}
 }
 
@@ -359,14 +359,14 @@ bool j1Player::Save(pugi::xml_node& savegame) {
 bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 	bool ret = true;
 
-	
+
 	p2SString source = sprite_node.child("texture").attribute("value").as_string();
 	player.graphics = App->tex->Load(source.GetString());
 	pugi::xml_node animation = sprite_node.child("animations").child("animation");
 
 	while (animation.attribute("name").as_string() != "") {
 		Animation* anim = new Animation;
-			
+
 		anim->anim_state = GetState(animation.attribute("name").as_string());
 		anim->loop = animation.attribute("loop").as_bool();
 		anim->speed = animation.attribute("speed").as_float();
@@ -383,7 +383,7 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 		player.animations.add(anim);
 		animation = animation.next_sibling("animation");
 	}
-		
+
 
 	return ret;
 }
@@ -424,12 +424,12 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.stats.curr_speed = 0;
 	player.state = player_state::idle;
 	player.current_animation = player.FindAnimByName(player.state);
-		
+
 	player.collision_box = App->collision->AddCollider(
-		{
-			(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
-			(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int()
-		},
+	{
+		(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
+		(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int()
+	},
 		COLLIDER_PLAYER,
 		App->player);
 
@@ -440,8 +440,8 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	},
 		COLLIDER_PLAYER_AIR,
 		App->player);
-	
-	
+
+
 	return ret;
 }
 
