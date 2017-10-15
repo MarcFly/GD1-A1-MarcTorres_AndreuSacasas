@@ -114,10 +114,8 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
 		if (player.state != player_state::move)
-		{
 			player.state = player_state::move;
-			player.current_animation = player.FindAnimByName(player.state);
-		}
+
 
 		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
 			player.stats.curr_speed -= player.stats.accel;
@@ -126,13 +124,10 @@ bool j1Player::Update(float dt)
 			player.stats.curr_speed = -player.stats.max_speed.x;
 
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
 		if (player.state != player_state::move)
-		{
 			player.state = player_state::move;
-			player.current_animation = player.FindAnimByName(player.state);
-		}
 
 		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
 			player.stats.curr_speed += player.stats.accel;
@@ -140,13 +135,11 @@ bool j1Player::Update(float dt)
 			player.stats.curr_speed = player.stats.max_speed.x;
 	}
 	else
+	{
 		if (player.stats.curr_speed == 0)
 		{
 			if (player.state != player_state::idle)
-			{
 				player.state = player_state::idle;
-				player.current_animation = player.FindAnimByName(player.state);
-			}
 		}
 		else if (player.stats.curr_speed < 0) {
 			if (player.stats.curr_speed + player.stats.accel / 2 >= 0)
@@ -160,22 +153,27 @@ bool j1Player::Update(float dt)
 			else
 				player.stats.curr_speed -= player.stats.accel / 2;
 		}
-
-	
-
+	}
 	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity)
+	{
 		player.stats.speed_y += player.stats.gravity;
+		if (player.stats.speed_y >= 0)
+			player.state = player_state::fall;
+	}
 	else {
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			player.stats.speed_y = player.stats.jump_force;
 			air = true;
+			player.state = player_state::jump;
 		}
 		else player.stats.speed_y += player.stats.gravity;
 	}
 	air = true;
 	// Draw everything --------------------------------------
 	
+	player.current_animation = player.FindAnimByName(player.state);
+
 	return true;
 	
 }
@@ -191,10 +189,10 @@ void j1Player::Draw(float dt) {
 		player.current_anim_size = 9;
 		break;
 	case player_state::jump:
-		player.current_anim_size = 0;
+		player.current_anim_size = 5;
 		break;
 	case player_state::fall:
-		player.current_anim_size = 0;
+		player.current_anim_size = 3;
 		break;
 	default:
 		break;

@@ -35,7 +35,7 @@
         <rect x="0" y="81"/>
         <!-- Squat animation is used before start jump and when landing, realism -->
       </animation>
-      <animation name="jump" offset_x="" offset_y ="" speed="1" loop="false" >
+      <animation name="jump" offset_x="" offset_y ="" speed="0.2" loop="false" >
         <rect x="0" y="486"/>
         <rect x="80" y="486"/>
         <rect x="160" y="486"/>
@@ -43,7 +43,7 @@
         <rect x="320" y="486"/>
         <!-- Last Frame is while still going up-->
       </animation >
-      <animation name="fall" offset_x="" offset_y="" speed="1" loop="false">
+      <animation name="fall" offset_x="" offset_y="" speed="0.2" loop="false">
         <rect x="400" y="486"/>
         <rect x="480" y="486"/>
         <rect x="560" y="486"/>
