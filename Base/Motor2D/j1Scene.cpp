@@ -75,6 +75,8 @@ bool j1Scene::Update(float dt)
 		App->map->Load(Map_list.start->data->GetString());
 		App->player->player.position.x = App->map->Maps->start_pos.x;
 		App->player->player.position.y = App->map->Maps->start_pos.y;
+		App->player->player.stats.curr_speed = 0;
+		App->player->player.stats.speed_y = 0;
 	}
 	// TODO 2.Homework Allow for change in volume
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
