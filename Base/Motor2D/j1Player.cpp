@@ -161,6 +161,7 @@ void j1Player::Draw(float dt) {
 	switch (player.state)
 	{
 	case player_state::idle:
+		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.current_animation->GetAnimationFrame(dt, 7), player.render_scale);
 		break;
 	case player_state::move:
 
