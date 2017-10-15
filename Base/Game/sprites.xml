@@ -1,5 +1,7 @@
 <sprites>
   <player>
+    <position1 x ="384" y="704"/>
+    <position2 x ="704" y="832"/>
     <texture value="textures/Player.png"/>
     <speed x="8" y="16"/>
     <acceleration value="0.5"/>

@@ -422,8 +422,7 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 
 	LoadSprites(property_node);
 
-	player.position.x = 0;//READ FROM MAP
-	player.position.y = 0;//READ FROM MAP
+	player.position.x = property_node.child("position1").attribute("x").as_int();
 
 	player.render_scale = property_node.child("render_scale").attribute("value").as_float();
 
