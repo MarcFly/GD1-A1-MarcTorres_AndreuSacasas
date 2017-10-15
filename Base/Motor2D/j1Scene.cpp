@@ -64,10 +64,10 @@ bool j1Scene::Update(float dt)
 
 	// TODO 2.5: Call load / save methods when pressing l/s
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->Trigger_Load();
 
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->Trigger_Save();
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
@@ -78,6 +78,14 @@ bool j1Scene::Update(float dt)
 		App->player->player.stats.curr_speed = 0;
 		App->player->player.stats.speed_y = 0;
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		App->player->player.position.x = App->map->Maps->start_pos.x;
+		App->player->player.position.y = App->map->Maps->start_pos.y;
+		App->player->player.stats.curr_speed = 0;
+		App->player->player.stats.speed_y = 0;
+	}
+
 	// TODO 2.Homework Allow for change in volume
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
 		App->audio->Increase_Master();
