@@ -70,9 +70,6 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
-	if (!air)
-		player.stats.speed_y = 0;
-
 	player.position.x += player.stats.curr_speed;
 	player.position.y += player.stats.speed_y;
 
@@ -123,6 +120,9 @@ bool j1Player::Update(float dt)
 		else
 			player.stats.curr_speed = -player.stats.max_speed.x;
 
+		if (!air)
+			can_jump = true;
+
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
@@ -133,13 +133,18 @@ bool j1Player::Update(float dt)
 			player.stats.curr_speed += player.stats.accel;
 		else
 			player.stats.curr_speed = player.stats.max_speed.x;
+
+		if (!air)
+			can_jump = true;
 	}
 	else
 	{
-		if (player.stats.curr_speed == 0)
+		if (player.stats.curr_speed == 0 && player.stats.speed_y == 0 && !air && !can_jump)
 		{
 			if (player.state != player_state::idle)
 				player.state = player_state::idle;
+
+			can_jump = true;
 		}
 		else if (player.stats.curr_speed < 0) {
 			if (player.stats.curr_speed + player.stats.accel / 2 >= 0)
@@ -154,7 +159,7 @@ bool j1Player::Update(float dt)
 				player.stats.curr_speed -= player.stats.accel / 2;
 		}
 	}
-	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity)
+	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity && !can_jump)
 	{
 		player.stats.speed_y += player.stats.gravity;
 		if (player.stats.speed_y >= 0)
@@ -162,17 +167,32 @@ bool j1Player::Update(float dt)
 	}
 	else {
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && player.stats.speed_y == 0) {
-			player.stats.speed_y = player.stats.jump_force;
-			air = true;
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && can_jump == true) {
+			is_jumping = true;
+			if (player.stats.speed_y > player.stats.jump_force)
+				player.stats.speed_y -= 2;
+			else
+			{
+				can_jump = false;
+				air = true;
+			}
 			player.state = player_state::jump;
 		}
-		else player.stats.speed_y += player.stats.gravity;
+
+		else if (is_jumping == true)
+		{
+			can_jump = false;
+			air = true;
+			is_jumping = false;
+		}		
 	}
-	air = true;
 	// Draw everything --------------------------------------
 	
-	player.current_animation = player.FindAnimByName(player.state);
+	if (player.state != player.last_state)
+	{
+		player.last_state = player.state;
+		player.current_animation = player.FindAnimByName(player.state);
+	}
 
 	return true;
 	

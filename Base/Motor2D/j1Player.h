@@ -40,7 +40,8 @@ struct player_char
 {
 	SDL_Texture*		graphics = nullptr;
 	Animation*			current_animation = nullptr;
-	player_state		state;
+	player_state		state = error;
+	player_state		last_state = error;
 	p2List<Animation*>	animations;
 	int					current_anim_size = 0;
 
@@ -110,7 +111,9 @@ public:
 public:
 
 	player_char player;
+	bool can_jump = false;
 	bool air = true;
+	bool is_jumping = false;
 
 	pugi::xml_document sprites;
 
