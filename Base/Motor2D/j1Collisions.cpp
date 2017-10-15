@@ -114,11 +114,11 @@ bool j1Collision::Update(float dt)
 
 void j1Collision::DebugDraw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		debug = !debug;
 
-	//if (debug == false)
-		//return;
+	if (debug == false)
+		return;
 
 	Uint8 alpha = 80;
 	for (uint i = 0; i < passive_colliders.count(); ++i)
