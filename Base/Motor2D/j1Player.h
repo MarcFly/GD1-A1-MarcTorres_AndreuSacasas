@@ -94,7 +94,7 @@ public:
 
 public:
 
-	void Draw();
+	void Draw(float dt);
 
 	void Jump();
 
@@ -104,7 +104,7 @@ public:
 
 	//void OnCollision(Collider* bodyA, Collider* bodyB);
 
-	player_state Get_State(const p2SString& state_node);
+	player_state GetState(const p2SString& state_node);
 
 public:
 

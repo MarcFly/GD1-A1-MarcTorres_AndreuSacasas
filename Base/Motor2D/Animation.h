@@ -2,6 +2,7 @@
 #define __ANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
+#include "j1Player.h"
 
 #define MAX_FRAMES 25
 
@@ -41,6 +42,32 @@ public:
 	void PushBack(const SDL_Rect& rect)
 	{
 		frames[last_frame++] = rect;
+	}
+
+	SDL_Rect& Animation::GetAnimationFrame(float dt, int size)
+	{
+		current_frame += (speed * dt);
+
+		if (current_frame >= size)
+		{
+			if (!loop)
+				current_frame = size - 1;
+			else
+				current_frame = 0.0f;
+
+			loops++;
+		}
+		int counter = 0;
+		for (int i = 0; i < size; i++, counter++)
+		{
+			if (counter == (int)(current_frame))
+			{
+				return (&player.animations.start->data->frames[i]);
+			}
+		}
+
+		SDL_Rect ret = {0,0,0,0};
+		return ret;
 	}
 
 	SDL_Rect& GetCurrentFrame()
