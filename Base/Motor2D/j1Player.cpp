@@ -77,7 +77,10 @@ bool j1Player::Update(float dt)
 	player.collision_box->rect.y = player.position.y;
 
 	player.air_box->rect.x = player.position.x;
-	player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
+	player.air_box->rect.y = player.position.y - 1;
+
+	player.wall_box->rect.x = player.position.x - 1;
+	player.wall_box->rect.y = player.position.y;
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
@@ -464,9 +467,17 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.air_box = App->collision->AddCollider(
 	{
 		(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
-		(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int() + player.collision_box->rect.h
+		(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int() - 1
 	},
 		COLLIDER_PLAYER_AIR,
+		App->player);
+
+	player.wall_box = App->collision->AddCollider(
+	{
+		(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int() - 1,
+		(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int()
+	},
+		COLLIDER_PLAYER_WALL,
 		App->player);
 
 

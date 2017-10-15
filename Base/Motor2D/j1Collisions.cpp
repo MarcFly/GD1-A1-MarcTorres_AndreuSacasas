@@ -13,11 +13,11 @@ j1Collision::j1Collision() : j1Module()
 			matrix[i][j] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_GROUND] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_PLATFORM] = true;
 
 	matrix[COLLIDER_PLAYER_AIR][COLLIDER_GROUND] = true;
-	matrix[COLLIDER_PLAYER_AIR][COLLIDER_PLATFORM] = true;
 	
+	matrix[COLLIDER_PLAYER_WALL][COLLIDER_GROUND] = true;
+
 	matrix[COLLIDER_HOOK_RANGE][COLLIDER_HOOK_RING] = true;
 
 }
@@ -143,7 +143,10 @@ void j1Collision::DebugDraw()
 		case COLLIDER_GROUND: // Purple
 			App->render->DrawQuad(passive_colliders[i]->rect, 204, 0, 204, alpha);
 			break;
-		case COLLIDER_PLATFORM:
+		case COLLIDER_PLAYER_AIR:
+			App->render->DrawQuad(passive_colliders[i]->rect, 100, 100, 150, alpha);
+			break;
+		case COLLIDER_PLAYER_WALL:
 			App->render->DrawQuad(passive_colliders[i]->rect, 100, 100, 150, alpha);
 			break;
 

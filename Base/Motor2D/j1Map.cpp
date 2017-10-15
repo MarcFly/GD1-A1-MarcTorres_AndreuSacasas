@@ -208,7 +208,6 @@ bool j1Map::LoadMapData(const pugi::xml_node& map_node, Map_info& item_map) {
 		temp = temp.next_sibling("property");
 	}
 
-	item_map.scale = map_node.attribute("scale").as_uint();
 	// Orientation
 	p2SString cmp = map_node.attribute("orientation").as_string();
 
@@ -226,9 +225,6 @@ bool j1Map::LoadMapData(const pugi::xml_node& map_node, Map_info& item_map) {
 	if (cmp.GetString() == "left-down") item_map.renderorder = left_down;
 	if (cmp.GetString() == "left-up") item_map.renderorder = left_up;
 	else item_map.renderorder = unknown;
-
-	item_map.start_pos.x = map_node.attribute("start_y").as_int();
-	item_map.start_pos.y = map_node.attribute("start_x").as_int();
 
 	item_map.width = map_node.attribute("width").as_uint();
 	item_map.height = map_node.attribute("height").as_uint();
@@ -351,9 +347,12 @@ COLLIDER_TYPE j1Map::GetType(uint id) {
 
 	case COLLIDER_GROUND:
 		return COLLIDER_GROUND;
+		
+	case COLLIDER_PLAYER_AIR:
+		return COLLIDER_PLAYER_AIR;
 
-	case COLLIDER_PLATFORM:
-		return COLLIDER_PLATFORM;
+	case COLLIDER_PLAYER_WALL:
+		return COLLIDER_PLAYER_WALL;
 
 	default:
 		return COLLIDER_NONE;

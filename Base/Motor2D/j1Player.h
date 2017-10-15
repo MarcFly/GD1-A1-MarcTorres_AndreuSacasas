@@ -47,6 +47,7 @@ struct player_char
 
 	Collider*		collision_box;
 	Collider*		air_box;
+	Collider*		wall_box;
 
 	player_stats	stats;
 	float			render_scale;
