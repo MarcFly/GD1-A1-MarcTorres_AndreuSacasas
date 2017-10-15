@@ -2,7 +2,6 @@
 #define __ANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
-#include "j1Player.h"
 
 #define MAX_FRAMES 25
 
@@ -12,7 +11,7 @@ public:
 	int anim_state;
 	bool loop = true;
 	bool pingpong = false;
-	float speed = 1.0f;
+	float speed = 0.5f;
 	int offset_x = 0;
 	int offset_y = 0;
 	SDL_Rect frames[MAX_FRAMES];
@@ -44,7 +43,7 @@ public:
 		frames[last_frame++] = rect;
 	}
 
-	SDL_Rect& Animation::GetAnimationFrame(float dt, int size)
+	int Animation::GetAnimationFrame(float dt, int size)
 	{
 		current_frame += (speed * dt);
 
@@ -62,12 +61,11 @@ public:
 		{
 			if (counter == (int)(current_frame))
 			{
-				return (&player.animations.start->data->frames[i]);
+				return (i);
 			}
 		}
 
-		SDL_Rect ret = {0,0,0,0};
-		return ret;
+		return 0;
 	}
 
 	SDL_Rect& GetCurrentFrame()

@@ -92,6 +92,9 @@ bool j1App::Awake()
 		item = item->next;
 	}
 
+	dt = frame_time.ReadSec();
+	frame_time.Start();
+
 	return ret;
 }
 

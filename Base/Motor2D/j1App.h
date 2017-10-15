@@ -5,6 +5,7 @@
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
 #include "Animation.h"
+#include "j1Timer.h"
 
 // Draw Modes
 enum DrawMode {
@@ -114,6 +115,8 @@ private:
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;
+
+	j1Timer				frame_time;
 
 	// TODO 1.2: Create two new variables from pugui namespace:
 	// a xml_document to store the while config file and
