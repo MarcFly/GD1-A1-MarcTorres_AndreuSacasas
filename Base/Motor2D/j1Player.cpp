@@ -265,6 +265,14 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		}
 	}
 
+	else if (source->type == COLLIDER_PLAYER_WALL) {
+		if (other->type == COLLIDER_GROUND) {
+			if (abs(res_rect.w) < abs(res_rect.h)) {
+				// AQUI COLLISION AMB WALLS, SIMILAR AL QUE HI HA A PLAYER PERO UNA MICA DIFERENT PERQUE VAGI
+			}
+		}
+	}
+
 	else if (source->type == COLLIDER_PLAYER) {
 
 		if (other->type == COLLIDER_GROUND)
