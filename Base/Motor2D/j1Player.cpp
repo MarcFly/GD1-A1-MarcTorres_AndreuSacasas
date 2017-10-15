@@ -108,91 +108,14 @@ bool j1Player::Update(float dt)
 		
 	}*/
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-
-		if (player.state != player_state::move)
-			player.state = player_state::move;
-
-
-		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
-			player.stats.curr_speed -= player.stats.accel;
-
-		else
-			player.stats.curr_speed = -player.stats.max_speed.x;
-
-		if (!air)
-			can_jump = true;
-
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if (player.state != player_state::move)
-			player.state = player_state::move;
-
-		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
-			player.stats.curr_speed += player.stats.accel;
-		else
-			player.stats.curr_speed = player.stats.max_speed.x;
-
-		if (!air)
-			can_jump = true;
-	}
-	else
-	{
-		if (player.stats.curr_speed == 0 && player.stats.speed_y == 0 && !air && !can_jump)
-		{
-			if (player.state != player_state::idle)
-				player.state = player_state::idle;
-
-			can_jump = true;
-		}
-		else if (player.stats.curr_speed < 0) {
-			if (player.stats.curr_speed + player.stats.accel / 2 >= 0)
-				player.stats.curr_speed = 0;
-			else
-				player.stats.curr_speed += player.stats.accel / 2;
-		}
-		else if (player.stats.curr_speed > 0) {
-			if (player.stats.curr_speed - player.stats.accel / 2 <= 0)
-				player.stats.curr_speed = 0;
-			else
-				player.stats.curr_speed -= player.stats.accel / 2;
-		}
-	}
-	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity && !can_jump)
-	{
-		player.stats.speed_y += player.stats.gravity;
-		if (player.stats.speed_y >= 0)
-			player.state = player_state::fall;
-	}
-	else {
-
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && can_jump == true) {
-			is_jumping = true;
-			if (player.stats.speed_y > player.stats.jump_force)
-				player.stats.speed_y -= 2;
-			else
-			{
-				can_jump = false;
-				air = true;
-			}
-			player.state = player_state::jump;
-		}
-
-		else if (is_jumping == true)
-		{
-			can_jump = false;
-			air = true;
-			is_jumping = false;
-		}		
-	}
+	
 	// Draw everything --------------------------------------
 	
-	if (player.state != player.last_state)
-	{
-		player.last_state = player.state;
-		player.current_animation = player.FindAnimByName(player.state);
-	}
+	UpdateState();
+
+	Movement();
+
+	
 
 	return true;
 	
@@ -200,6 +123,8 @@ bool j1Player::Update(float dt)
 
 void j1Player::Draw(float dt) {
 	
+	player.current_animation = player.FindAnimByName(player.state);
+
 	switch (player.state)
 	{
 	case player_state::idle:
@@ -219,18 +144,104 @@ void j1Player::Draw(float dt) {
 	}
 
 	if (player.flip)
-		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
+		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.current_animation->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
 	else
-		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
+		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.current_animation->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
 }
 
-void j1Player::Jump() {
+void j1Player::UpdateState() {
 
+	
+	if (player.stats.speed_y < 0)
+		player.state = jump;
+	else if (player.stats.speed_y > 0)
+		player.state = fall;
+	else if (abs(player.stats.curr_speed) > 0)
+		player.state = move;
+	else if (player.stats.speed_y == 0 && player.stats.curr_speed == 0)
+		player.state = idle;
+
+	LOG("Player State %d", player.state);
 }
 
 
 void j1Player::Movement() {
 
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+
+		if (player.stats.curr_speed > 0 || (player.stats.curr_speed <= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
+			player.stats.curr_speed -= player.stats.accel;
+
+		else
+			player.stats.curr_speed = -player.stats.max_speed.x;
+
+		if (!air)
+			can_jump = true;
+
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+
+		if (player.stats.curr_speed < 0 || (player.stats.curr_speed >= 0 && abs(player.stats.curr_speed) + player.stats.accel <= player.stats.max_speed.x))
+			player.stats.curr_speed += player.stats.accel;
+		else
+			player.stats.curr_speed = player.stats.max_speed.x;
+
+		if (!air)
+			can_jump = true;
+	}
+	else
+	{
+		if (player.stats.curr_speed == 0 && player.stats.speed_y == 0 && !air && !can_jump)
+			can_jump = true;
+
+		if (player.stats.curr_speed < 0) {
+
+			if (player.stats.curr_speed + player.stats.accel / 2 >= 0)
+				player.stats.curr_speed = 0;
+			else
+				player.stats.curr_speed += player.stats.accel / 2;
+		}
+		else if (player.stats.curr_speed > 0) {
+			if (player.stats.curr_speed - player.stats.accel / 2 <= 0)
+				player.stats.curr_speed = 0;
+			else
+				player.stats.curr_speed -= player.stats.accel / 2;
+		}
+	}
+	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity && !can_jump)
+	{
+		player.stats.speed_y += player.stats.gravity;
+
+	}
+	else {
+
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && can_jump == true) {
+			is_jumping = true;
+			if (player.stats.speed_y > player.stats.jump_force)
+				player.stats.speed_y -= 2;
+			else
+			{
+				can_jump = false;
+				air = true;
+			}
+		}
+
+		else if (is_jumping == true)
+		{
+			can_jump = false;
+			air = true;
+			is_jumping = false;
+		}		
+	}
+	// Draw everything --------------------------------------
+	
+	if (player.state != player.last_state)
+	{
+		player.last_state = player.state;
+		player.current_animation = player.FindAnimByName(player.state);
+	}
 }
 
 void j1Player::Hook() {
