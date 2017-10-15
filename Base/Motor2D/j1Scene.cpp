@@ -86,6 +86,10 @@ bool j1Scene::Update(float dt)
 		App->player->player.stats.speed_y = 0;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+		App->player->player.position.x = 6145;
+	}
+
 	// TODO 2.Homework Allow for change in volume
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
 		App->audio->Increase_Master();

@@ -99,16 +99,18 @@ bool j1Player::Update(float dt)
 
 	Movement();
 
-	if (player.position.y > 900)
-		App->Trigger_Load();
-
-	if (player.position.x > 6140 && current_map == 1)
-	{
-		current_map = 2;
-		App->Trigger_Load();
+	if (player.position.y > 900) {
+		player.position.x = App->map->Maps->start_pos.x;
+		player.position.y = App->map->Maps->start_pos.y;
 	}
 
-	return true;
+	if (player.position.x > 6140 && current_map == 0)
+	{
+		App->map->EraseMap();
+		App->map->Load(App->scene->Map_list[1]->GetString());
+	}
+
+	return ret;
 
 }
 

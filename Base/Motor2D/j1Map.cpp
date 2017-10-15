@@ -117,7 +117,7 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_parse_result result = check_doc.load_file(tmp.GetString());
 
 	if (Maps != nullptr)
-		delete Maps;
+		EraseMap();
 
 	Maps = new Map_info();
 

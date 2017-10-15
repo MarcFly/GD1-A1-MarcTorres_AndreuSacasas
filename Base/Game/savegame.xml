@@ -1,25 +1,24 @@
 <?xml version="1.0"?>
 <savegame>
-  <input />
-  <window />
-  <textures />
-  <audio>
-    <master_volume value="64" />
-  </audio>
-  <map />
-  <player>
-    <map_1 source="Maps/Lvl_1 - Copy.tmx" />
-    <map_2 source="Maps/Lvl_2 - Copy.tmx" />
-    <stats>
-      <speed x="0" y="0" />
-    </stats>
-    <position x="0" y="579" />
-    <state type="0" />
-    <flip value="false" />
-  </player>
-  <collisions />
-  <scene />
-  <renderer>
-    <camera x="0" y="0" />
-  </renderer>
+	<input />
+	<window />
+	<textures />
+	<map />
+	<audio>
+		<master_volume value="64" />
+	</audio>
+	<player>
+		<map_1 source="Maps/Lvl_1.tmx" />
+		<stats>
+			<speed x="0" y="1" />
+		</stats>
+		<position x="704" y="832" />
+		<state type="0" />
+		<flip value="false" />
+	</player>
+	<collisions />
+	<scene />
+	<renderer>
+		<camera x="-254" y="-180" />
+	</renderer>
 </savegame>
