@@ -36,9 +36,9 @@ public:
 	bool PostUpdate();
 
 	// Called when triggered
-	bool Load(pugi::xml_node* savegame);
+	bool Load(const pugi::xml_node& savegame);
 
-	bool Save(pugi::xml_node* savegame);
+	bool Save(pugi::xml_node& savegame);
 
 
 	// Called before quitting

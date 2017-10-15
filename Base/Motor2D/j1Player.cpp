@@ -9,6 +9,7 @@
 #include "SDL/include/SDL_timer.h"
 #include "j1Scene.h"
 #include "p2Log.h"
+#include "j1Map.h"
 
 #include<stdio.h>
 #include<math.h>
@@ -260,11 +261,30 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 bool j1Player::Load(const pugi::xml_node& savegame) {
 	bool ret = true;
 
+	App->map->EraseMap();
+	App->map->Load(savegame.child("current_map").attribute("source").as_string());
+
+	player.stats.curr_speed = savegame.child("stats").child("speed").attribute("x").as_float();
+	player.stats.speed_y = savegame.child("stats").child("speed").attribute("y").as_float();
+
+	player.position.x = savegame.child("position").attribute("x").as_float();
+	player.position.y = savegame.child("position").attribute("y").as_float();
+	player.state = (player_state)savegame.child("state").attribute("type").as_int();
+	player.flip = savegame.child("flip").attribute("value").as_bool();
+
 	return ret;
 }
 
-bool j1Player::Save(const pugi::xml_node& savegame) {
+bool j1Player::Save(pugi::xml_node& savegame) {
 	bool ret = true;
+
+	savegame.append_child("current_map").append_attribute("source") = App->map->Maps->map_file.GetString();
+	savegame.append_child("stats").append_child("speed").append_attribute("x") = player.stats.curr_speed;
+	savegame.child("stats").child("speed").append_attribute("y") = player.stats.speed_y;
+	savegame.append_child("position").append_attribute("x") = player.position.x;
+	savegame.child("position").append_attribute("y") = player.position.y;
+	savegame.append_child("state").append_attribute("type") = player.state;
+	savegame.append_child("flip").append_attribute("value") = player.flip;
 
 	return ret;
 }

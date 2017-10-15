@@ -94,11 +94,18 @@ bool j1Map::CleanUp()
 
 	// TODO 3.2: Make sure you clean up any memory allocated
 	// from tilesets / map
-	delete Maps;
+	EraseMap();
 
 	return true;
 }
 
+bool j1Map::EraseMap()
+{
+	delete Maps;
+	Maps = nullptr;
+
+	return true;
+}
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
@@ -127,7 +134,7 @@ bool j1Map::Load(const char* file_name)
 		pugi::xml_node root_node = check_doc.child("map");
 
 		LoadMapData(root_node, *Maps);
-		
+		Maps->map_file.create(tmp.GetString());
 	}
 
 	// TODO 3.4: Create and call a private function to load a tileset
