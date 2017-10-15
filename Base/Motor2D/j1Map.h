@@ -38,6 +38,7 @@ struct layer_info {
 
 	uint		draw_mode; //0 = default, 1 = debug such as colliders, 2 = special?
 
+	float		parallax;
 	uint*	data = nullptr;
 	uint	size = 0;
 

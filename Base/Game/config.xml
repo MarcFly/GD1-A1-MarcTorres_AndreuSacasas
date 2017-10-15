@@ -53,7 +53,7 @@
     
   </player>
   <scene>
-    <map source="Maps/Lvl_1.tmx"/>
+    <map source="Maps/Lvl_2.tmx"/>
     <map source="Maps/Lvl_2.tmx"/>
   </scene>
 </config>

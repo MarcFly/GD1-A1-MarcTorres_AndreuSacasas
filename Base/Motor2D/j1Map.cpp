@@ -61,15 +61,15 @@ void j1Map::Draw()
 					for (uint j = 0; j < item_layer->data->width; j++) {
 						App->render->MapBlit(
 							item_tileset->data->image.tex,
-							j * Maps->tilewidth,
-							i * Maps->tileheight,
+							j * Maps->tilewidth + item_layer->data->parallax * App->render->camera.x,
+							i * Maps->tileheight + item_layer->data->parallax * App->render->camera.y,
 							&item_tileset->data->GetRect(*p));
 						p++;
 					}
 				}
 			}
 
-			else if (first_loop == true) {
+			else if (first_loop == true) { //Create collision on layer collision
 				for (int i = 0; i < item_layer->data->height; i++) {
 					for (int j = 0; j < item_layer->data->width; j++) {
 						if(*p >= 63)
@@ -283,7 +283,17 @@ bool j1Map::LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_lay
 	item_layer.width = layer_node.attribute("width").as_uint();
 	item_layer.height = layer_node.attribute("height").as_uint();
 
-	item_layer.draw_mode = layer_node.child("properties").child("property").attribute("value").as_uint();
+	pugi::xml_node temp = layer_node.child("properties").child("property");
+	
+	while (temp.attribute("name").as_string() != "") {
+		p2SString test = temp.attribute("name").as_string();
+	
+		if (test == "parallax_speed")
+			item_layer.parallax = temp.attribute("value").as_float();
+		else if (test == "draw_mode")
+			item_layer.draw_mode = temp.attribute("value").as_uint();
+		temp = temp.next_sibling("property");
+	}
 
 	//Load all tiles in layer data
 	pugi::xml_node tile_node = layer_node.child("data").child("tile");
