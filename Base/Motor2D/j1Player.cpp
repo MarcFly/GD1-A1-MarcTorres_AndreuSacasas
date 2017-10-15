@@ -269,42 +269,42 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		if (other->type == COLLIDER_GROUND)
 		{
 			// Correct position
-			if (abs(res_rect.w) > 0) {
-				if (abs(res_rect.w) > abs(res_rect.h)) {
-					player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
-					source->rect.y = player.position.y;
-				}
+		
+			if (abs(res_rect.w) > abs(res_rect.h) && abs(res_rect.w) > 0) {
+				player.position.y = other->rect.y - player.collision_box->rect.h;
+				source->rect.y = player.position.y;
+				player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
 			}
+			
 			else if (abs(res_rect.h) > abs(res_rect.w)) {
 				if (player.state != fall && player.state != jump) {
 					if (source->rect.x < other->rect.x) {
 						player.position.x = other->rect.x - player.collision_box->rect.w;
 						source->rect.x = player.position.x;
+						player.air_box->rect.x = player.position.x;
 					}
 					else if (source->rect.x > other->rect.x) {
 						player.position.x = other->rect.x + other->rect.w;
 						source->rect.x = player.position.x;
+						player.air_box->rect.x = player.position.x;
 					}
+					player.stats.curr_speed = 0;
 				}
 				else {
 					if (SDL_IntersectRect(&source->rect, &other->rect, &res_rect) > 0) {
 						if (source->rect.x < other->rect.x) {
 							player.position.x = other->rect.x - player.collision_box->rect.w;
 							source->rect.x = player.position.x;
+							player.air_box->rect.x = player.position.x;
 						}
 						else if (source->rect.x > other->rect.x) {
 							player.position.x = other->rect.x + other->rect.w;
 							source->rect.x = player.position.x;
+							player.air_box->rect.x = player.position.x;
 						}
 					}
 				}
-				player.stats.curr_speed = 0;
 			}
-
-			// Correct Velocity
-
-			if (abs(res_rect.h) > abs(res_rect.w) && source->rect.y + source->rect.h >= other->rect.y)
-				player.stats.curr_speed = 0;
 
 		}
 		else if (other->type == COLLIDER_PLATFORM)
