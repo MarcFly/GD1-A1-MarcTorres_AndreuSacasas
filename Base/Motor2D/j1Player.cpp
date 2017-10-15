@@ -144,9 +144,9 @@ void j1Player::Draw(float dt) {
 	}
 
 	if (player.flip)
-		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.current_animation->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
+		App->render->FlipBlit(player.graphics, player.position.x - player.current_animation->offset_x, player.position.y - player.current_animation->offset_y, &player.current_animation->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
 	else
-		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.current_animation->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
+		App->render->Blit(player.graphics, player.position.x- player.current_animation->offset_x, player.position.y - player.current_animation->offset_y, &player.current_animation->frames[player.current_animation->GetAnimationFrame(dt, player.current_anim_size)], player.render_scale);
 }
 
 void j1Player::UpdateState() {
