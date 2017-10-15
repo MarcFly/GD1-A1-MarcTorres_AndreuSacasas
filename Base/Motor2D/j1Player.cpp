@@ -159,7 +159,7 @@ void j1Player::UpdateState() {
 		player.state = jump;
 	else if (player.stats.speed_y > 0)
 		player.state = fall;
-	else if (abs(player.stats.curr_speed) > 0)
+	else if (abs(player.stats.curr_speed) > player.stats.accel)
 		player.state = move;
 	else if (player.stats.speed_y == 0 && player.stats.curr_speed == 0)
 		player.state = idle;
@@ -202,16 +202,15 @@ void j1Player::Movement() {
 				player.stats.curr_speed -= player.stats.accel / 2;
 		}
 	}
-	if (air == true && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity)
+	if ((player.state == fall || player.state == jump) && player.stats.speed_y <= player.stats.max_speed.y + player.stats.gravity)
 	{
 		player.stats.speed_y += player.stats.gravity;
 
 	}
 	else {
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && player.stats.speed_y == 0) {
+		if (player.state != jump && player.state != fall && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && player.stats.speed_y == 0) {
 			player.stats.speed_y = player.stats.jump_force;
-			air = true;
 		}
 		else player.stats.speed_y += player.stats.gravity;
 	}
@@ -236,7 +235,6 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 	else if (source->type == COLLIDER_PLAYER_AIR) {
 		if (other->type == COLLIDER_GROUND) {
 			if (abs(res_rect.w) > abs(res_rect.h)) {
-				air = false;
 				player.stats.speed_y = 0;
 			}
 		}
@@ -252,7 +250,7 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 				source->rect.y = player.position.y;
 			}
 			else if (abs(res_rect.h) > abs(res_rect.w)) {
-				if (!air) {
+				if (player.state != fall && player.state != jump) {
 					if (source->rect.x < other->rect.x) {
 						player.position.x = other->rect.x - player.collision_box->rect.w;
 						source->rect.x = player.position.x;
@@ -263,8 +261,6 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 					}
 				}
 				else {
-					/*player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
-					source->rect.y = player.position.y;*/
 					if (SDL_IntersectRect(&source->rect, &other->rect, &res_rect) > 0) {
 						if (source->rect.x < other->rect.x) {
 							player.position.x = other->rect.x - player.collision_box->rect.w;
@@ -276,6 +272,7 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 						}
 					}
 				}
+				player.stats.curr_speed = 0;
 			}
 
 			// Correct Velocity
@@ -287,7 +284,6 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		else if (other->type == COLLIDER_PLATFORM)
 		{
 			player.stats.speed_y = 0;
-			air = false;
 		}
 		else if (other->type == COLLIDER_END)
 		{
