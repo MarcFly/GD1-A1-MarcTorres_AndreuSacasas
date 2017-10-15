@@ -100,7 +100,7 @@ bool j1Collision::Update(float dt)
 					c1->rect.y + (int)App->player->player.stats.speed_y,
 					c1->rect.w,
 					c1->rect.h },
-					check) > 0 && check.w > 0 && check.h > 0) {
+					check) > 0 && abs(check.w) > 0 && abs(check.h) > 0) {
 
 					c1->callback->OnCollision(c1, c2, check);
 
@@ -212,7 +212,7 @@ Collider* j1Collision::AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* ca
 
 	Collider* ret = new Collider(give,type_,callback_);
 
-	if (type_ == COLLIDER_PLAYER || type_ == COLLIDER_HOOK_RANGE || type_ == COLLIDER_PLAYER_AIR)
+	if (type_ == COLLIDER_PLAYER || type_ == COLLIDER_PLAYER_WALL || type_ == COLLIDER_PLAYER_AIR)
 		dynamic_colliders.add(ret);
 	else
 		passive_colliders.add(ret);

@@ -39,7 +39,7 @@
     <collider type="66" x="0" y="0" w="64" h="64"/> <!-- RANGE -->
     <collider type="67" x="0" y="0" w="64" h="64"/> <!-- GROUND -->
     <collider type="68" x="0" y="0" w="40" h="62"/> <!-- PLAYER_AIR -->
-    <collider type="69" x="30" y="10" w="42" h="60"/> <!-- PLAYER_WALLS -->
+    <collider type="69" x="30" y="10" w="42" h="58"/> <!-- PLAYER_WALLS -->
      <collider type="70" x="30" y="10" w="64" h="64"/> <!-- DIE -->
   </collisions>
   
