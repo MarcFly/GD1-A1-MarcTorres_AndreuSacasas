@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "p2Log.h"
 #include "j1Map.h"
+#include "list"
 
 #include<stdio.h>
 #include<math.h>
@@ -159,11 +160,29 @@ bool j1Player::Update(float dt)
 	
 }
 
-void j1Player::Draw() {
-	if (player.flip)
-		App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
-	else
-		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
+void j1Player::Draw(float dt) {
+	
+	switch (player.state)
+	{
+	case player_state::idle:
+		App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[player.current_animation->GetAnimationFrame(dt, 7)], player.render_scale);
+		break;
+	case player_state::move:
+
+		break;
+	case player_state::jump:
+
+		break;
+	case player_state::fall:
+
+		break;
+	default:
+		break;
+	}
+	//if (player.flip)
+	//	App->render->FlipBlit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
+	//else
+	//	App->render->Blit(player.graphics, player.position.x, player.position.y, &player.animations.start->data->frames[0], player.render_scale);
 }
 
 void j1Player::Jump() {
@@ -301,7 +320,7 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 	while (animation.attribute("name").as_string() != "") {
 		Animation* anim = new Animation;
 			
-		anim->anim_state = Get_State(animation.attribute("name").as_string());
+		anim->anim_state = GetState(animation.attribute("name").as_string());
 		anim->loop = animation.attribute("loop").as_bool();
 		anim->speed = animation.attribute("speed").as_float();
 		anim->offset_x = animation.attribute("offset_x").as_int();
@@ -322,18 +341,18 @@ bool j1Player::LoadSprites(const pugi::xml_node& sprite_node) {
 	return ret;
 }
 
-player_state j1Player::Get_State(const p2SString& state_node) {
+player_state j1Player::GetState(const p2SString& state_node) {
 
-	if (state_node == "idle") return idle;
-	else if (state_node == "move") return move;
-	else if (state_node == "squat") return squat;
-	else if (state_node == "jump") return jump;
-	else if (state_node == "fall") return fall;
-	else if (state_node == "squat") return squat;
-	else if (state_node == "to_crawl") return to_crawl;
-	else if (state_node == "crawl") return crawl;
-	else if (state_node == "swing") return swing;
-	return error;
+	if (state_node == "idle") return player_state::idle;
+	else if (state_node == "move") return player_state::move;
+	else if (state_node == "squat") return player_state::squat;
+	else if (state_node == "jump") return player_state::jump;
+	else if (state_node == "fall") return player_state::fall;
+	else if (state_node == "squat") return player_state::squat;
+	else if (state_node == "to_crawl") return player_state::to_crawl;
+	else if (state_node == "crawl") return player_state::crawl;
+	else if (state_node == "swing") return player_state::swing;
+	return player_state::error;
 
 }
 
@@ -356,8 +375,9 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
 	player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
 	player.stats.curr_speed = 0;
-	
-	
+	player.state = player_state::idle;
+	player.current_animation = player.FindAnimByName(player.state);
+		
 	player.collision_box = App->collision->AddCollider(
 		{
 			(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
@@ -377,4 +397,6 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	
 	return ret;
 }
+
+
 

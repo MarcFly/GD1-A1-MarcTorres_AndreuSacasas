@@ -11,7 +11,7 @@ public:
 	int anim_state;
 	bool loop = true;
 	bool pingpong = false;
-	float speed = 1.0f;
+	float speed = 0.5f;
 	int offset_x = 0;
 	int offset_y = 0;
 	SDL_Rect frames[MAX_FRAMES];
@@ -41,6 +41,31 @@ public:
 	void PushBack(const SDL_Rect& rect)
 	{
 		frames[last_frame++] = rect;
+	}
+
+	int Animation::GetAnimationFrame(float dt, int size)
+	{
+		current_frame += (speed * dt);
+
+		if (current_frame >= size)
+		{
+			if (!loop)
+				current_frame = size - 1;
+			else
+				current_frame = 0.0f;
+
+			loops++;
+		}
+		int counter = 0;
+		for (int i = 0; i < size; i++, counter++)
+		{
+			if (counter == (int)(current_frame))
+			{
+				return (i);
+			}
+		}
+
+		return 0;
 	}
 
 	SDL_Rect& GetCurrentFrame()
