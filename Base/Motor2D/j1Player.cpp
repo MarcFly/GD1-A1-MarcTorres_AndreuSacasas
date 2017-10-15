@@ -253,94 +253,53 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		}
 	}
 
-	else if (source->type == COLLIDER_PLAYER_WALL) {
-		if (other->type == COLLIDER_GROUND) {
-			if (abs(res_rect.w) < abs(res_rect.h)) {
-				// AQUI COLLISION AMB WALLS, SIMILAR AL QUE HI HA A PLAYER PERO UNA MICA DIFERENT PERQUE VAGI
-			}
-		}
-	}
-
 	else if (source->type == COLLIDER_PLAYER) {
 
 		if (other->type == COLLIDER_GROUND)
 		{
 			// Correct position
-		
-			if (abs(res_rect.h) > abs(res_rect.w) && player.state != fall && player.state != jump) {
-				if (player.state != fall && player.state != jump) {
-					if (source->rect.x < other->rect.x) {
-						player.position.x = other->rect.x - player.collision_box->rect.w - 1;
-						source->rect.x = player.position.x;
-						player.air_box->rect.x = player.position.x;
-					}
-					else if (source->rect.x > other->rect.x) {
-						player.position.x = other->rect.x + other->rect.w + 1;
-						source->rect.x = player.position.x;
-						player.air_box->rect.x = player.position.x;
-					}
-					if (abs(player.stats.curr_speed) > 0) {
-						player.stats.curr_speed = 0;
-						if (player.stats.speed_y > 0)
-							player.stats.speed_y /= 2;
-						can_jump = true;
-						player.stats.curr_speed *= -1;
-					}
-				}
-				else if (abs(res_rect.h) < abs(res_rect.w)) {
-					if (SDL_IntersectRect(&source->rect, &other->rect, &res_rect) > 0) {
-						if (source->rect.x < other->rect.x) {
-							player.position.x = other->rect.x - player.collision_box->rect.w - 1;
-							source->rect.x = player.position.x;
-							player.air_box->rect.x = player.position.x;
-						}
-						else if (source->rect.x > other->rect.x) {
-							player.position.x = other->rect.x + other->rect.w + 1;
-							source->rect.x = player.position.x;
-							player.air_box->rect.x = player.position.x;
-						}
-						if (abs(player.stats.curr_speed) > 0) {
-							if (player.stats.speed_y > 0)
-								player.stats.speed_y /= 2;
-							can_jump = true;
-							player.stats.curr_speed *= -1 / 2;
-						}
-					}
-				}
-				if (abs(res_rect.h) > abs(res_rect.w) && (player.state == fall || player.state == jump)) {
-					if (player.state != fall && player.state != jump) {
-						if (source->rect.x < other->rect.x) {
-							player.position.x = other->rect.x - player.collision_box->rect.w - 1;
-							source->rect.x = player.position.x;
-							player.air_box->rect.x = player.position.x;
-						}
-						else if (source->rect.x > other->rect.x) {
-							player.position.x = other->rect.x + other->rect.w + 1;
-							source->rect.x = player.position.x;
-							player.air_box->rect.x = player.position.x;
-						}
-						if (abs(player.stats.curr_speed) > 0) {
-							player.stats.curr_speed = 0;
-							if (player.stats.speed_y > 0)
-								player.stats.speed_y /= 2;
-							can_jump = true;
-							player.stats.curr_speed *= -1;
-						}
-					}
-
-				}
-
-				else if (abs(res_rect.w) > abs(res_rect.h) && abs(res_rect.w) > 0) {
-					player.position.y = other->rect.y - player.collision_box->rect.h;
+			if (abs(res_rect.w) > 0) {
+				if (abs(res_rect.w) > abs(res_rect.h)) {
+					player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
 					source->rect.y = player.position.y;
-					player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
-
-
-
 				}
 			}
+			else if (abs(res_rect.h) > abs(res_rect.w)) {
+				if (player.state != fall && player.state != jump) {
+					if (source->rect.x < other->rect.x) {
+						player.position.x = other->rect.x - player.collision_box->rect.w;
+						source->rect.x = player.position.x;
+					}
+					else if (source->rect.x > other->rect.x) {
+						player.position.x = other->rect.x + other->rect.w;
+						source->rect.x = player.position.x;
+					}
+				}
+				else {
+					if (SDL_IntersectRect(&source->rect, &other->rect, &res_rect) > 0) {
+						if (source->rect.x < other->rect.x) {
+							player.position.x = other->rect.x - player.collision_box->rect.w;
+							source->rect.x = player.position.x;
+						}
+						else if (source->rect.x > other->rect.x) {
+							player.position.x = other->rect.x + other->rect.w;
+							source->rect.x = player.position.x;
+						}
+					}
+				}
+				player.stats.curr_speed = 0;
+			}
+
+			// Correct Velocity
+
+			if (abs(res_rect.h) > abs(res_rect.w) && source->rect.y + source->rect.h >= other->rect.y)
+				player.stats.curr_speed = 0;
 
 		}
+		//else if (other->type == COLLIDER_PLATFORM)
+		//{
+		//	player.stats.speed_y = 0;
+		//}
 		else if (other->type == COLLIDER_END)
 		{
 
