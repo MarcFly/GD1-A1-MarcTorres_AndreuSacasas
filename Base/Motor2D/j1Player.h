@@ -18,10 +18,6 @@ enum player_state {
 	move,
 	jump,
 	fall,
-	squat,
-	swing,
-	to_crawl,
-	crawl
 };
 
 struct player_stats {
@@ -30,9 +26,6 @@ struct player_stats {
 	float gravity;
 	float speed_y;
 	int jump_force;
-	float hook_range;
-	int hook_time;
-	float aerial_drift;
 	float curr_speed;
 };
 
@@ -104,8 +97,6 @@ public:
 	void Movement();
 
 	void Jump();
-
-	void Hook();
 
 	//void OnCollision(Collider* bodyA, Collider* bodyB);
 

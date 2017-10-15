@@ -434,13 +434,8 @@ player_state j1Player::GetState(const p2SString& state_node) {
 
 	if (state_node == "idle") return player_state::idle;
 	else if (state_node == "move") return player_state::move;
-	else if (state_node == "squat") return player_state::squat;
 	else if (state_node == "jump") return player_state::jump;
 	else if (state_node == "fall") return player_state::fall;
-	else if (state_node == "squat") return player_state::squat;
-	else if (state_node == "to_crawl") return player_state::to_crawl;
-	else if (state_node == "crawl") return player_state::crawl;
-	else if (state_node == "swing") return player_state::swing;
 	return player_state::error;
 
 }
@@ -458,8 +453,6 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 	player.stats.max_speed.y = property_node.child("speed").attribute("y").as_float();
 	player.stats.accel = property_node.child("acceleration").attribute("value").as_float();
 	player.stats.gravity = property_node.child("gravity").attribute("value").as_float();
-	player.stats.hook_range = property_node.child("hook_range").attribute("value").as_float();
-	player.stats.aerial_drift = property_node.child("aerial_drift").attribute("value").as_float();
 	player.stats.curr_speed = 0;
 	player.state = player_state::idle;
 	player.current_animation = player.FindAnimByName(player.state);

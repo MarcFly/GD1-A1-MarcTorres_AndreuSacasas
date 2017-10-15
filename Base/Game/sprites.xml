@@ -5,8 +5,6 @@
     <acceleration value="0.5"/>
     <jump_force value="-15"/>
     <gravity value="1"/>
-    <hook_range value="20"/>
-    <aerial_drift value ="0"/>
     <collision_box offset_x="" offset_y="" h="60" w="40"/>
     <render_scale value="1.0"/>
     <animations w="79" h="80">
