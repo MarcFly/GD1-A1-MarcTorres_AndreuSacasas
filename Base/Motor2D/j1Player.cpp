@@ -162,7 +162,7 @@ bool j1Player::Update(float dt)
 	}
 	else {
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && player.stats.speed_y == 0) {
 			player.stats.speed_y = player.stats.jump_force;
 			air = true;
 			player.state = player_state::jump;
