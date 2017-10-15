@@ -108,7 +108,10 @@ public:
 	bool can_jump = false;
 	bool is_jumping = false;
 
+	int current_map = 1;
+
 	pugi::xml_document sprites;
+	pugi::xml_document savegame;
 
 	pugi::xml_node local_node;
 };

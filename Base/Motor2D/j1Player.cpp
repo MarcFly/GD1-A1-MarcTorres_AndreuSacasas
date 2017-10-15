@@ -39,6 +39,7 @@ bool j1Player::Start()
 	bool ret = true;
 
 	pugi::xml_parse_result result = sprites.load_file("sprites.xml");
+	savegame.load_file("savegame.xml");
 
 	if (result == NULL) { //Check that it loaded
 		LOG("Could not load sprite xml file player_sprites.xml. pugi error: %s", result.description());
@@ -50,6 +51,8 @@ bool j1Player::Start()
 
 	// Inicializar lo necesario del jugador, crear los personajes en el mapa	
 	player.state = idle;
+
+	App->Trigger_Save();
 
 	return ret;
 }
@@ -92,33 +95,12 @@ bool j1Player::Update(float dt)
 		player.flip = true;
 	}
 
-	//Move player
-
-	/*if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT){
-	if (player.current_animation->anim_state == crawl) {
-
-	}
-	else {
-
-	}
-	}
-
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-
-	}*/
-
-
-	// Draw everything --------------------------------------
-
 	UpdateState();
 
 	Movement();
 
-
+	if (player.position.y > 900)
+		App->Trigger_Load();
 
 	return true;
 
@@ -370,7 +352,10 @@ bool j1Player::Load(const pugi::xml_node& savegame) {
 	bool ret = true;
 
 	App->map->EraseMap();
-	App->map->Load(savegame.child("current_map").attribute("source").as_string());
+	if (current_map == 1)
+		App->map->Load(savegame.child("map_1").attribute("source").as_string());
+	else
+		App->map->Load(savegame.child("map_2").attribute("source").as_string());
 
 	player.stats.curr_speed = savegame.child("stats").child("speed").attribute("x").as_float();
 	player.stats.speed_y = savegame.child("stats").child("speed").attribute("y").as_float();
@@ -385,8 +370,11 @@ bool j1Player::Load(const pugi::xml_node& savegame) {
 
 bool j1Player::Save(pugi::xml_node& savegame) {
 	bool ret = true;
+	if (current_map == 1)
+		savegame.append_child("map_1").append_attribute("source") = App->map->Maps->map_file.GetString();
+	else
+		savegame.append_child("map_2").append_attribute("source") = App->map->Maps->map_file.GetString();
 
-	savegame.append_child("current_map").append_attribute("source") = App->map->Maps->map_file.GetString();
 	savegame.append_child("stats").append_child("speed").append_attribute("x") = player.stats.curr_speed;
 	savegame.child("stats").child("speed").append_attribute("y") = player.stats.speed_y;
 	savegame.append_child("position").append_attribute("x") = player.position.x;
