@@ -77,6 +77,9 @@ bool j1Player::Update(float dt)
 	player.collision_box->rect.x = player.position.x;
 	player.collision_box->rect.y = player.position.y;
 
+	player.air_box->rect.x = player.position.x;
+	player.air_box->rect.y = player.position.y + player.collision_box->rect.h;
+
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
 		player.flip = false;
@@ -148,7 +151,7 @@ bool j1Player::Update(float dt)
 		}
 		else player.stats.speed_y += player.stats.gravity;
 	}
-	
+	air = true;
 	// Draw everything --------------------------------------
 	
 	return true;
@@ -185,6 +188,15 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 		}
 	}
 
+	else if (source->type == COLLIDER_PLAYER_AIR) {
+		if (other->type == COLLIDER_GROUND) {
+			if (abs(res_rect.w) > abs(res_rect.h)) {
+				air = false;
+				player.stats.speed_y = 0;
+			}
+		}
+	}
+
 	else if (source->type == COLLIDER_PLAYER) {
 
 		if (other->type == COLLIDER_GROUND)
@@ -193,7 +205,6 @@ void j1Player::OnCollision(Collider* source, Collider* other, SDL_Rect& res_rect
 			if (abs(res_rect.w) > abs(res_rect.h)) {
 				player.position.y = other->rect.y - 1 - player.collision_box->rect.h;
 				source->rect.y = player.position.y;
-				air = false;
 			}
 			else if (abs(res_rect.h) > abs(res_rect.w)) {
 				if (!air) {
@@ -333,6 +344,14 @@ bool j1Player::LoadProperties(const pugi::xml_node& property_node) {
 			(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int()
 		},
 		COLLIDER_PLAYER,
+		App->player);
+
+	player.air_box = App->collision->AddCollider(
+	{
+		(int)player.position.x + property_node.child("collision_box").attribute("offset_x").as_int(),
+		(int)player.position.y + property_node.child("collision_box").attribute("offset_y").as_int() + player.collision_box->rect.h
+	},
+		COLLIDER_PLAYER_AIR,
 		App->player);
 	
 	

@@ -8,37 +8,17 @@
 j1Collision::j1Collision() : j1Module()
 {
 	name.create("collisions");
+	for (int i = 0; i < COLLIDER_MAX; i++)
+		for (int j = 0; j < COLLIDER_MAX; j++)
+			matrix[i][j] = false;
 
-	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_PLAYER][COLLIDER_HOOK_RING] = false;
-	matrix[COLLIDER_PLAYER][COLLIDER_HOOK_RANGE] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_GROUND] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLATFORM] = true;
 
-	matrix[COLLIDER_HOOK_RING][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_HOOK_RING][COLLIDER_HOOK_RING] = false;
-	matrix[COLLIDER_HOOK_RING][COLLIDER_HOOK_RANGE] = true;
-	matrix[COLLIDER_HOOK_RING][COLLIDER_GROUND] = false;
-	matrix[COLLIDER_HOOK_RING][COLLIDER_PLATFORM] = false;
-
-	matrix[COLLIDER_HOOK_RANGE][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_PLAYER_AIR][COLLIDER_GROUND] = true;
+	matrix[COLLIDER_PLAYER_AIR][COLLIDER_PLATFORM] = true;
+	
 	matrix[COLLIDER_HOOK_RANGE][COLLIDER_HOOK_RING] = true;
-	matrix[COLLIDER_HOOK_RANGE][COLLIDER_HOOK_RANGE] = false;
-	matrix[COLLIDER_HOOK_RANGE][COLLIDER_GROUND] = false;
-	matrix[COLLIDER_HOOK_RANGE][COLLIDER_PLATFORM] = false;
-
-	matrix[COLLIDER_GROUND][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_GROUND][COLLIDER_HOOK_RING] = false;
-	matrix[COLLIDER_GROUND][COLLIDER_HOOK_RANGE] = false;
-	matrix[COLLIDER_GROUND][COLLIDER_GROUND] = false;
-	matrix[COLLIDER_GROUND][COLLIDER_PLATFORM] = false;
-
-	matrix[COLLIDER_PLATFORM][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_PLATFORM][COLLIDER_HOOK_RING] = false;
-	matrix[COLLIDER_PLATFORM][COLLIDER_HOOK_RANGE] = false;
-	matrix[COLLIDER_PLATFORM][COLLIDER_GROUND] = false;
-	matrix[COLLIDER_PLATFORM][COLLIDER_PLATFORM] = false;
-
 
 }
 
@@ -70,12 +50,21 @@ bool j1Collision::PreUpdate()
 {
 	bool ret = true;
 	// Remove all colliders scheduled for deletion
-	for (uint i = 0; i < colliders.count(); ++i)
+	for (uint i = 0; i < dynamic_colliders.count(); ++i)
 	{
-		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
+		if (dynamic_colliders[i] != nullptr && dynamic_colliders[i]->to_delete == true)
 		{
-			delete colliders[i];
-			colliders[i] = nullptr;
+			delete dynamic_colliders[i];
+			dynamic_colliders[i] = nullptr;
+		}
+	}
+
+	for (uint i = 0; i < passive_colliders.count(); ++i)
+	{
+		if (passive_colliders[i] != nullptr && passive_colliders[i]->to_delete == true)
+		{
+			delete passive_colliders[i];
+			passive_colliders[i] = nullptr;
 		}
 	}
 
@@ -88,38 +77,35 @@ bool j1Collision::Update(float dt)
 	Collider* c1;
 	Collider* c2;
 
-	for (uint i = 0; i < colliders.count(); ++i)
+	for (uint i = 0; i < dynamic_colliders.count(); ++i)
 	{
 		// skip empty colliders
-		if (colliders[i] == nullptr)
+		if (dynamic_colliders[i] == nullptr)
 			continue;
 
-		c1 = colliders[i];
+		c1 = dynamic_colliders[i];
 
 		// avoid checking collisions already checked
-		for (uint k = i + 1; k < colliders.count(); ++k)
+		for (uint k = i + 1; k < passive_colliders.count(); ++k)
 		{
-			// skip empty colliders
-			if (colliders[k] == nullptr)
-				continue;
+			if (passive_colliders[k] != nullptr && matrix[c1->type][passive_colliders[k]->type] && abs(c1->rect.x - passive_colliders[k]->rect.x) < 200 && abs(c1->rect.y - passive_colliders[k]->rect.y) < 200) {
+			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
 
-			c2 = colliders[k];
+				c2 = passive_colliders[k];
 			
-			SDL_Rect check;
+				SDL_Rect check;
 
-			if ((matrix[c1->type][c2->type] || matrix[c2->type][c1->type]) && abs(c1->rect.x - c2->rect.x) < 200 && abs(c1->rect.y - c2->rect.y) < 200) {
-				if (c1->type == COLLIDER_PLAYER)
-					if (c2->CheckCollision({
-						c1->rect.x + (int)App->player->player.stats.curr_speed,
-						c1->rect.y + (int)App->player->player.stats.speed_y,
-						c1->rect.w,
-						c1->rect.h },
-						check) > 0 && check.w > 0 && check.h > 0) {
+				if (c2->CheckCollision({
+					c1->rect.x + (int)App->player->player.stats.curr_speed,
+					c1->rect.y + (int)App->player->player.stats.speed_y,
+					c1->rect.w,
+					c1->rect.h },
+					check) > 0 && check.w > 0 && check.h > 0) {
 
-							c1->callback->OnCollision(c1, c2, check);
+					c1->callback->OnCollision(c1, c2, check);
 
-					}
-			}			
+				}
+			}
 		}
 	}
 
@@ -135,30 +121,50 @@ void j1Collision::DebugDraw()
 		//return;
 
 	Uint8 alpha = 80;
-	for (uint i = 0; i < colliders.count(); ++i)
+	for (uint i = 0; i < passive_colliders.count(); ++i)
 	{
-		if (colliders[i] == nullptr)
+		if (passive_colliders[i] == nullptr)
 			continue;
 
-		switch (colliders[i]->type)
+		switch (passive_colliders[i]->type)
 		{
 		case COLLIDER_NONE: // white
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
+			App->render->DrawQuad(passive_colliders[i]->rect, 255, 255, 255, alpha);
 			break;
 		case COLLIDER_PLAYER: // green
-			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
+			App->render->DrawQuad(passive_colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 		case COLLIDER_HOOK_RING: // red
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			App->render->DrawQuad(passive_colliders[i]->rect, 255, 0, 0, alpha);
 			break;
 		case COLLIDER_HOOK_RANGE: // white
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
+			App->render->DrawQuad(passive_colliders[i]->rect, 255, 255, 255, alpha);
 			break;
 		case COLLIDER_GROUND: // Purple
-			App->render->DrawQuad(colliders[i]->rect, 204, 0, 204, alpha);
+			App->render->DrawQuad(passive_colliders[i]->rect, 204, 0, 204, alpha);
 			break;
 		case COLLIDER_PLATFORM:
-			App->render->DrawQuad(colliders[i]->rect, 100, 100, 150, alpha);
+			App->render->DrawQuad(passive_colliders[i]->rect, 100, 100, 150, alpha);
+			break;
+
+		}
+	}
+
+	for (uint i = 0; i < dynamic_colliders.count(); ++i)
+	{
+		if (dynamic_colliders[i] == nullptr)
+			continue;
+
+		switch (dynamic_colliders[i]->type)
+		{
+		case COLLIDER_PLAYER: // green
+			App->render->DrawQuad(dynamic_colliders[i]->rect, 0, 255, 0, alpha);
+			break;
+		case COLLIDER_PLAYER_AIR: // green
+			App->render->DrawQuad(dynamic_colliders[i]->rect, 0, 255, 50, alpha);
+			break;
+		case COLLIDER_HOOK_RANGE: // white
+			App->render->DrawQuad(dynamic_colliders[i]->rect, 255, 255, 255, alpha);
 			break;
 
 		}
@@ -169,17 +175,27 @@ bool j1Collision::CleanUp()
 {
 	LOG("Freeing all colliders");
 
-	for (uint i = 0; i < colliders.count(); ++i)
+	for (uint i = 0; i < passive_colliders.count(); ++i)
 	{
-		if (colliders[i] != nullptr)
+		if (passive_colliders[i] != nullptr)
 		{
-			delete colliders[i];
-			colliders[i] = nullptr;
+			delete passive_colliders[i];
+			passive_colliders[i] = nullptr;
 		}
 	}
 
-	colliders.clear();
+	passive_colliders.clear();
 
+	for (uint i = 0; i < dynamic_colliders.count(); ++i)
+	{
+		if (dynamic_colliders[i] != nullptr)
+		{
+			delete dynamic_colliders[i];
+			dynamic_colliders[i] = nullptr;
+		}
+	}
+
+	dynamic_colliders.clear();
 	rect_list.clear();
 
 	return true;
@@ -193,7 +209,10 @@ Collider* j1Collision::AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* ca
 
 	Collider* ret = new Collider(give,type_,callback_);
 
-	colliders.add(ret);
+	if (type_ == COLLIDER_PLAYER || type_ == COLLIDER_HOOK_RANGE || type_ == COLLIDER_PLAYER_AIR)
+		dynamic_colliders.add(ret);
+	else
+		passive_colliders.add(ret);
 
 	ret->to_delete = false;
 
@@ -202,8 +221,11 @@ Collider* j1Collision::AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* ca
 
 bool j1Collision::EraseCollider(Collider* collider)
 {
-	
-	colliders[colliders.find(collider)]->to_delete = true;
+	if(collider->type == COLLIDER_PLAYER || collider->type == COLLIDER_HOOK_RANGE)
+		dynamic_colliders[dynamic_colliders.find(collider)]->to_delete = true;
+
+	else
+		passive_colliders[passive_colliders.find(collider)]->to_delete = true;
 	
 	return false;
 }

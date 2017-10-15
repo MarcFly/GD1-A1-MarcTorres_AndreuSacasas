@@ -44,6 +44,7 @@ struct player_char
 	p2List<Animation*>	animations;
 
 	Collider*		collision_box;
+	Collider*		air_box;
 
 	player_stats	stats;
 	float			render_scale;
