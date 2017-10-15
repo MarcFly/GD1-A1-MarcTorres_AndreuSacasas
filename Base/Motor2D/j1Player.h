@@ -97,7 +97,7 @@ public:
 
 	void Draw(float dt);
 
-	void Jump();
+	void UpdateState();
 
 	void Movement();
 
