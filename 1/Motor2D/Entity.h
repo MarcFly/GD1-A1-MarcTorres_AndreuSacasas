@@ -56,7 +56,12 @@ public:
 	virtual bool Save(pugi::xml_node& savegame) {
 		return true;
 	};
+	
+	virtual void OnCollision(Collider* c1, Collider* c2) {};
 
+
+public:
+	p2SString name;
 };
 
 #endif // __ENTITY_H__

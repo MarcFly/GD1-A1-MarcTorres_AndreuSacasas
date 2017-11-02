@@ -10,8 +10,6 @@ public:
 
 	j1Player();
 
-	// Destructor
-	virtual ~j1Player();
 
 	// Called before render is available
 	bool Awake(const pugi::xml_node& config);
@@ -27,6 +25,9 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+	// OnCollision reaction
+	void OnCollision(Collider* c1, Collider* c2);
 
 public:
 

@@ -3,7 +3,10 @@
 #include "j1Input.h"
 #include "j1Render.h"
 
-
+j1Player::j1Player()
+{
+	name.create("player");
+}
 
 bool j1Player::Awake(const pugi::xml_node& config)
 {
@@ -41,4 +44,9 @@ bool j1Player::Update(float dt)
 	bool ret = true;
 
 	return ret;
+}
+
+void j1Player::OnCollision(Collider* c1, Collider* c2)
+{
+
 }

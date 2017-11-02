@@ -19,6 +19,12 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 
 	tick_cap = config.child("ticks").attribute("value").as_uint();
 
+	p2List_item<Entity>* item = entities.start;
+
+	while (item != NULL && ret == true) {
+		ret = item->data.Awake(config.child(item->data.name.GetString()));
+		item = item->next;
+	}
 
 	return ret;
 }
@@ -112,7 +118,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 	p2List_item<Entity>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		ret = item->data.Load();
+		ret = item->data.Load(savegame);
 		item = item->next;
 	}
 
@@ -127,7 +133,7 @@ bool EntityManager::Save(pugi::xml_node& savegame)
 	p2List_item<Entity>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		ret = item->data.Save();
+		ret = item->data.Save(savegame);
 		item = item->next;
 	}
 
