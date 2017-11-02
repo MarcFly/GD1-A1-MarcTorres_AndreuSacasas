@@ -94,7 +94,7 @@ bool j1Collision::Update(float dt)
 				c2 = passive_colliders[k];
 			
 				SDL_Rect check;
-
+				/*
 				if (c2->CheckCollision({
 					c1->rect.x + (int)App->player->player.stats.curr_speed,
 					c1->rect.y + (int)App->player->player.stats.speed_y,
@@ -104,7 +104,7 @@ bool j1Collision::Update(float dt)
 
 					c1->callback->OnCollision(c1, c2, check);
 
-				}
+				}*/
 			}
 		}
 	}
