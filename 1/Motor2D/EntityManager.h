@@ -6,6 +6,12 @@
 
 class Entity;
 
+enum entity_type {
+	none = -1,
+	player = 0,
+	
+	max_
+};
 class EntityManager : public j1Module
 {
 public:
@@ -41,8 +47,12 @@ public:
 
 	bool Save(pugi::xml_node& savegame);
 
+	// Add entity by config
+	int AddEntity(const uint& name);
 private:
-	p2List<Entity> entities;
+	p2List<Entity*> entities;
+
+	pugi::xml_document	sprites_doc;
 
 public:
 	

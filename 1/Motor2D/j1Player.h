@@ -2,7 +2,8 @@
 #define __j1PLAYER_H__
 
 #include "Entity.h"
-#include "p2List.h"
+
+class Entity;
 
 class j1Player : public Entity
 {
@@ -12,7 +13,7 @@ public:
 
 
 	// Called before render is available
-	bool Awake(const pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config, const pugi::xml_node& sprites);
 
 	// Called before the first frame
 	bool Start();

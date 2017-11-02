@@ -46,6 +46,9 @@
 
   <entities>
 	<ticks value="60"/>
+	<spritesheet source="sprites.xml"/>
+	<entity type="0"/>
+	<entity type="-1"/>
   </entities>
 
   <scene>

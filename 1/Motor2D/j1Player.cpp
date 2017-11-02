@@ -8,9 +8,11 @@ j1Player::j1Player()
 	name.create("player");
 }
 
-bool j1Player::Awake(const pugi::xml_node& config)
+bool j1Player::Awake(const pugi::xml_node& config, const pugi::xml_node& sprites)
 {
 	bool ret = true;
+
+
 
 	return ret;
 }
@@ -42,6 +44,21 @@ bool j1Player::UpdateTick(float dt)
 bool j1Player::Update(float dt)
 {
 	bool ret = true;
+
+	// Camera movement Inputs
+	// TODO 10.6: Make the camera movement independent of framerate
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		App->render->camera.y -= 120 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		App->render->camera.y += 120 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		App->render->camera.x -= 120 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		App->render->camera.x += 120 * dt;
 
 	return ret;
 }

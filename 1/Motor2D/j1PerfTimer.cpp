@@ -13,7 +13,7 @@ j1PerfTimer::j1PerfTimer()
 {
 	// TODO 9.2: Fill Constructor, Start(),ReadMs() and ReadTicks() methods
 	// they are simple, one line each!
-	if(frequency = 0)
+	if(frequency == 0)
 		frequency = SDL_GetPerformanceFrequency();
 
 	Start();
