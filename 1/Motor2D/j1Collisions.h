@@ -13,14 +13,9 @@ struct SDL_Rect;
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 63,
-	COLLIDER_PLAYER,
-	//COLLIDER_WALL,
-	COLLIDER_HOOK_RING,
-	COLLIDER_HOOK_RANGE,
+	COLLIDER_ENTITY,
 	COLLIDER_GROUND,
 	COLLIDER_DIE,
-	COLLIDER_PLAYER_AIR,
-	COLLIDER_PLAYER_WALL,
 	COLLIDER_END,
 	
 	COLLIDER_MAX
@@ -82,8 +77,8 @@ public:
 
 private:
 
-	p2List<Collider*> passive_colliders;
-	p2List<Collider*> dynamic_colliders;
+	p2List<Collider*> colliders;
+
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 	
 	

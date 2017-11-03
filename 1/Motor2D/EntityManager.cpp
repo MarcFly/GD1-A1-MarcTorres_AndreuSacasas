@@ -87,7 +87,7 @@ bool EntityManager::CleanUp()
 	return ret;
 }
 
-bool EntityManager::PreUpdate()
+bool EntityManager::PreUpdate() // Only for movement collisions
 {
 	bool ret = true;
 
@@ -95,6 +95,10 @@ bool EntityManager::PreUpdate()
 
 	while (item != NULL && ret == true) {
 		ret = item->data->PreUpdate();
+
+		item->data->collision_box->rect.w = item->data->current_animation->GetCurrentFrame().w;
+		item->data->collision_box->rect.h = item->data->current_animation->GetCurrentFrame().h;
+
 		item = item->next;
 	}
 
@@ -128,7 +132,7 @@ bool EntityManager::Update(float dt)
 
 	return ret;
 }
-bool EntityManager::PostUpdate()
+bool EntityManager::PostUpdate() // // Only for movement collisions
 {
 	bool ret = true;
 

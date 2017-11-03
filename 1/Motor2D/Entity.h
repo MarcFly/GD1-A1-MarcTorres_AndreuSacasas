@@ -78,10 +78,6 @@ public:
 	virtual bool Save(pugi::xml_node& savegame) {
 		return true;
 	};
-	
-	virtual bool LoadSprites(const pugi::xml_node& sprite_node) {
-		return true;
-	};
 
 	virtual bool LoadProperties(const pugi::xml_node& property_node) {
 		return true;
@@ -90,6 +86,13 @@ public:
 	virtual void OnCollision(Collider* c1, Collider* c2) {};
 
 	virtual void Movement() {};
+
+public: // Functions that stay the same
+	void Draw(float dt);
+
+	void UpdateState();
+
+	bool LoadSprites(const pugi::xml_node& sprite_node);
 
 public:
 	p2SString name;
@@ -110,36 +113,9 @@ public:
 
 	
 
-public: // Functions that go the same for every entity
+public: // Short Functions that stay the same for every entity
 
-	void Draw(float dt) {
-
-		current_animation = FindAnimByName(state);
-
-		switch (state)
-		{
-		case move_state::idle:
-			current_anim_size = 7;
-			break;
-		case move_state::move:
-			current_anim_size = 9;
-			break;
-		case move_state::jump:
-			current_anim_size = 5;
-			break;
-		case move_state::fall:
-			current_anim_size = 3;
-			break;
-		default:
-			break;
-		}
-
-		
-		App->render->Blit(graphics, position.x - current_animation->offset_x, position.y - current_animation->offset_y, &current_animation->frames[current_animation->GetAnimationFrame(dt, current_anim_size)], render_scale, flip);
-	}
-
-	void UpdateState();
-
+	
 	void Jump() {
 		stats.speed.y += stats.jump_force;
 	}
@@ -152,6 +128,18 @@ public: // Functions that go the same for every entity
 
 		return ret->data;
 	}
+
+	move_state GetState(const p2SString& state_node) {
+
+		if (state_node == "idle") return move_state::idle;
+		else if (state_node == "move") return move_state::move;
+		else if (state_node == "jump") return move_state::jump;
+		else if (state_node == "fall") return move_state::fall;
+		return move_state::error;
+
+	}
+
+	
 };
 
 #endif // __ENTITY_H__
