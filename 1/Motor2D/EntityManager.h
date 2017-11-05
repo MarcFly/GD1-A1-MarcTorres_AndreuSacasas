@@ -55,7 +55,7 @@ private:
 	pugi::xml_document	sprites_doc;
 
 public:
-	
+	p2SString			tex_folder;
 
 };
 

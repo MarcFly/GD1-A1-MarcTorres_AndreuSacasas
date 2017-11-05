@@ -155,13 +155,9 @@ bool j1Collision::CleanUp()
 	return true;
 }
 
-Collider* j1Collision::AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* callback_)
+Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_)
 {
-	SDL_Rect give = GetRectType(type_);
-	give.x += pos.x;
-	give.y += pos.y;
-
-	Collider* ret = new Collider(give,type_,callback_);
+	Collider* ret = new Collider(rect,type_,callback_);
 
 	colliders.add(ret);
 
@@ -181,14 +177,4 @@ int Collider::CheckCollision(const SDL_Rect& r, SDL_Rect& res_rect) const
 {
 	SDL_IntersectRect(&rect, &r, &res_rect);
 	return (res_rect.w * res_rect.h);
-}
-
-SDL_Rect j1Collision::GetRectType(COLLIDER_TYPE type) {
-
-	p2List_item<TypeRect*>* item = rect_list.start;
-
-	while (type != item->data->type)
-		item = item->next;
-
-	return item->data->rect;
 }

@@ -174,6 +174,21 @@ bool j1Map::Load(const char* file_name)
 bool j1Map::LoadMapData(const pugi::xml_node& map_node, Map_info& item_map) {
 	bool ret = true;
 
+	pugi::xml_node temp = map_node.child("properties").child("property");
+
+	while (temp.attribute("name").as_string() != "") {
+		p2SString test = temp.attribute("name").as_string();
+
+		if (test == "start_x")
+			item_map.start_pos.x = temp.attribute("value").as_int();
+		else if (test == "start_y")
+			item_map.start_pos.y = temp.attribute("value").as_int();
+		else if (test == "scale")
+			item_map.scale = temp.attribute("value").as_float();
+
+		temp = temp.next_sibling("property");
+	}
+
 	// Orientation
 	p2SString cmp;
 	cmp.create(map_node.attribute("orientation").as_string());
@@ -218,17 +233,21 @@ bool j1Map::LoadTilesetData(const pugi::xml_node& tileset_node, tileset_info& it
 
 	item_tileset.tilecount = tileset_node.attribute("tilecount").as_uint();
 
+	
+
 	// Image info
-	item_tileset.image.image_source.create("%s%s",folder.GetString(), tileset_node.child("image").attribute("source").as_string());
+	item_tileset.image.image_source.create(tileset_node.child("image").attribute("source").as_string());
 	item_tileset.image.image_width = tileset_node.child("image").attribute("width").as_uint();
 	item_tileset.image.image_height = tileset_node.child("image").attribute("height").as_uint();
 
 	item_tileset.image.tex = App->tex->Load(item_tileset.image.image_source.GetString());
 
 	item_tileset.columns = item_tileset.image.image_width / item_tileset.tilewidth;
+	
+	if (item_tileset.image.tex == nullptr) ret = false;
 
 	// Load terrains
-	for (int i = item_tileset.firstgid; i <= item_tileset.firstgid  + item_tileset.tilecount; i++) {
+	for (int i = item_tileset.firstgid; i <= item_tileset.firstgid  + item_tileset.tilecount && ret != false; i++) {
 
 		terrain_info* item_terrain = new terrain_info;
 		ret = LoadTerrainData(tileset_node, i, *item_terrain, item_tileset);
@@ -265,8 +284,17 @@ bool j1Map::LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_lay
 	item_layer.width = layer_node.attribute("width").as_uint();
 	item_layer.height = layer_node.attribute("height").as_uint();
 
-	item_layer.draw_mode = layer_node.child("properties").child("property").attribute("value").as_int();
+	pugi::xml_node temp = layer_node.child("properties").child("property");
 
+	while (temp.attribute("name").as_string() != "") {
+		p2SString test = temp.attribute("name").as_string();
+
+		if (test == "parallax_speed")
+			item_layer.parallax = temp.attribute("value").as_float();
+		else if (test == "draw_mode")
+			item_layer.draw_mode = temp.attribute("value").as_uint();
+		temp = temp.next_sibling("property");
+	}
 	//Load all tiles in layer data
 	pugi::xml_node tile_node = layer_node.child("data").child("tile");
 	pugi::xml_node gid_check = layer_node.previous_sibling("tileset").previous_sibling("tileset").last_child();

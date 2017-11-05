@@ -13,6 +13,7 @@
 #include "j1Map.h"
 #include "EntityManager.h"
 #include "j1Pathfinding.h"
+#include "j1Collisions.h"
 #include "j1App.h"
 
 // TODO 9.3: Measure the amount of ms that takes to execute:
@@ -33,6 +34,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	entities = new EntityManager();
 	map = new j1Map();
 	pathfinding = new j1Pathfinding();
+	collisions = new j1Collision();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -43,6 +45,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(entities);
 	AddModule(pathfinding);
+	AddModule(collisions);
 	AddModule(scene);
 
 	// render last to swap buffer

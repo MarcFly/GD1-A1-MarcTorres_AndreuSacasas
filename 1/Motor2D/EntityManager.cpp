@@ -2,6 +2,7 @@
 #include "j1App.h"
 #include "j1Player.h"
 #include "j1Pathfinding.h"
+#include "j1Map.h"
 
 EntityManager::EntityManager()
 {
@@ -18,16 +19,19 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 	bool ret = true;
 
 	tick_cap = config.child("ticks").attribute("value").as_uint();
+	tex_folder.create(config.child("folder").attribute("source").as_string());
 
-	pugi::xml_parse_result result = sprites_doc.load(config.child("spritesheet").attribute("source").as_string());
+	p2SString load_s;
+	load_s.create("%s%s", tex_folder.GetString(), config.child("sprites").attribute("source").as_string());
+	pugi::xml_parse_result result = sprites_doc.load_file(load_s.GetString());
 
 	if (result == NULL) { //Check that it loaded
 		LOG("Could not load sprites xml file sprites.xml. pugi error: %s", result.description());
-		//ret = false;
+		ret = false;
 	}
-	
+	else {
 		pugi::xml_node root = sprites_doc.child("sprites");
-		
+
 		pugi::xml_node entity_n = config.child("entity");
 
 		while (entity_n != NULL) {
@@ -37,11 +41,14 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 
 		p2List_item<Entity*>* item = entities.start;
 
-		while (item != NULL && ret == true) {
-			ret = item->data->Awake(config.child(item->data->name.GetString()), root.child(item->data->name.GetString()));
-			item = item->next;
-		}
+		pugi::xml_node temp = root.child("entity");
 
+		while (item != NULL && ret == true) {
+			ret = item->data->Awake(config.child(item->data->name.GetString()), temp);
+			item = item->next;
+			temp = temp.next_sibling("entity");
+		}
+	}
 	
 	return ret;
 }

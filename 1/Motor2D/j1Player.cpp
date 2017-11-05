@@ -8,18 +8,11 @@ j1Player::j1Player()
 	name.create("player");
 }
 
-bool j1Player::Awake(const pugi::xml_node& config, const pugi::xml_node& sprites)
-{
-	bool ret = true;
-
-
-
-	return ret;
-}
-
 bool j1Player::Start()
 {
 	bool ret = true;
+
+	current_animation = FindAnimByName(idle);
 
 	return ret;
 }

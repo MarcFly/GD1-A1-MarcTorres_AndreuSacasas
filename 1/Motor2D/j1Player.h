@@ -11,10 +11,6 @@ public:
 
 	j1Player();
 
-
-	// Called before render is available
-	bool Awake(const pugi::xml_node& config, const pugi::xml_node& sprites);
-
 	// Called before the first frame
 	bool Start();
 

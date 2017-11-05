@@ -1,4 +1,7 @@
 #include "Entity.h"
+#include "EntityManager.h"
+#include "j1App.h"
+#include "j1Collisions.h"
 
 void Entity::Draw(float dt) {
 
@@ -43,7 +46,7 @@ void Entity::UpdateState() {
 bool Entity::LoadSprites(const pugi::xml_node& sprite_node) {
 	bool ret = true;
 
-	p2SString source = sprite_node.child("texture").attribute("value").as_string();
+	p2SString source("%s%s", App->entities->tex_folder.GetString(), sprite_node.child("texture").attribute("source").as_string());
 	graphics = App->tex->Load(source.GetString());
 	pugi::xml_node animation = sprite_node.child("animations").child("animation");
 
@@ -66,6 +69,26 @@ bool Entity::LoadSprites(const pugi::xml_node& sprite_node) {
 		animations.add(anim);
 		animation = animation.next_sibling("animation");
 	}
+
+	return ret;
+}
+
+bool Entity::LoadProperties(const pugi::xml_node& sprite_node) {
+	bool ret = true;
+
+	
+	stats.max_speed = { sprite_node.child("max_speed").attribute("x").as_int(), sprite_node.child("max_speed").attribute("x").as_int() };
+	stats.accel = { sprite_node.child("acceleration").attribute("x").as_float(),sprite_node.child("acceleration").attribute("y").as_float() };
+	stats.jump_force = sprite_node.child("jump_force").attribute("value").as_int();
+	stats.speed = { 0,0 };
+
+	collision_box = App->collisions->AddCollider({
+			position.x,
+			position.y,
+			sprite_node.child("collision_box").attribute("w").as_int(),
+			sprite_node.child("collision_box").attribute("h").as_int() },
+		COLLIDER_ENTITY,
+		App->entities);
 
 	return ret;
 }

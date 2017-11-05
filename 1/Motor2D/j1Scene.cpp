@@ -26,9 +26,9 @@ bool j1Scene::Awake(const pugi::xml_node& config)
 	bool ret = true;
 
 	pugi::xml_node node = config.child("map");
-	while (node.attribute("name").as_string() != "") {
+	while (node.attribute("source").as_string() != "") {
 		p2SString* new_map = new p2SString;
-		new_map->create(node.attribute("name").as_string());
+		new_map->create(node.attribute("source").as_string());
 		Map_list.add(new_map);
 		node = node.next_sibling("map");
 	}
@@ -43,7 +43,7 @@ bool j1Scene::Start()
 	// LOAD MAPS AND MUSIC HERE
 	if (ret == true) ret = App->map->Load(Map_list.start->data->GetString());
 	if (ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
-	
+
 	return ret;
 }
 

@@ -37,6 +37,11 @@ public:
 
 	// Called before render is available
 	virtual bool Awake(const pugi::xml_node& config, const pugi::xml_node& sprites) {
+		LoadSprites(sprites);
+
+		pugi::xml_node temp = sprites.child("stats");
+		LoadProperties(temp);
+
 		return true; 
 	};
 
@@ -79,10 +84,6 @@ public:
 		return true;
 	};
 
-	virtual bool LoadProperties(const pugi::xml_node& property_node) {
-		return true;
-	}
-
 	virtual void OnCollision(Collider* c1, Collider* c2) {};
 
 	virtual void Movement() {};
@@ -93,6 +94,8 @@ public: // Functions that stay the same
 	void UpdateState();
 
 	bool LoadSprites(const pugi::xml_node& sprite_node);
+
+	bool LoadProperties(const pugi::xml_node& property_node);
 
 public:
 	p2SString name;
@@ -108,7 +111,7 @@ public:
 
 	entity_stats	stats;
 	float			render_scale;
-	fPoint			position;
+	iPoint			position;
 	bool			flip = false; //false = Right true = Left
 
 	

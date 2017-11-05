@@ -66,11 +66,9 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	Collider* AddCollider(iPoint pos, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
+	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
-
-	SDL_Rect GetRectType(COLLIDER_TYPE type);
 
 	bool debug = false;
 	p2List<TypeRect*> rect_list;

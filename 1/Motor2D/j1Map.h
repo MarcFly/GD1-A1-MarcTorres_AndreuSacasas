@@ -31,7 +31,8 @@ struct layer_info {
 	uint		height;	// Height in tiles of layer
 	uint		tilecount;
 
-	int draw_mode; // 0 = Default, 1 = Collisions, 2 = Navigation
+	float	parallax;
+	int		draw_mode; // 0 = Default, 1 = Collisions / Navigation, ?
 
 	// Data storing Tiles system
 	uint*	data = nullptr;
@@ -124,6 +125,9 @@ struct Map_info {
 	uint		renderorder;
 	//SDL_Color	bg_color;
 
+	iPoint		start_pos;
+	uint		scale;
+
 	uint		width;
 	uint		height;
 	uint		tilewidth;
@@ -202,11 +206,11 @@ public:
 	// TODO 3.1: Add your struct for map info as public for now
 	Map_info* Maps;
 	bool first_loop = true;
+	p2SString			folder;
 
 private:
 
 	//pugi::xml_document	map_file;
-	p2SString			folder;
 	bool				map_loaded;
 
 	
