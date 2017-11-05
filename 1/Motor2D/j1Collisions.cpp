@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "j1Collisions.h"
 #include "j1Player.h"
+#include "j1Map.h"
 #include "p2Log.h"
 
 j1Collision::j1Collision() : j1Module()
@@ -27,7 +28,7 @@ j1Collision::j1Collision() : j1Module()
 j1Collision::~j1Collision()
 {}
 
-bool j1Collision::Awake(pugi::xml_node& config) {
+bool j1Collision::Awake(const pugi::xml_node& config) {
 	bool ret = true;
 
 	pugi::xml_node local = config.child("collider");
@@ -105,12 +106,37 @@ bool j1Collision::Update(float dt)
 	return ret;
 }
 
+void j1Collision::LookColl(Entity* entity) {
+	
+	Collider* c1 = entity->collision_box;
+	Collider* c2;
+
+	for (uint k = 0; k < colliders.count(); ++k)
+	{
+		if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect) {
+			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
+
+			c2 = colliders[k];
+
+			SDL_Rect check;
+			if (c2->CheckCollision({
+			c1->rect.x + (int)entity->stats.speed.x,
+			c1->rect.y + (int)entity->stats.speed.y,
+			c1->rect.w,
+			c1->rect.h },
+			check) > 0) {
+
+			c1->callback->OnCollision(c1, c2, check);
+
+			}
+		}
+	}
+
+}
+
 void j1Collision::DebugDraw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-		debug = !debug;
-
-	if (debug == false)
+	if (App->map->debug_draw == false)
 		return;
 
 	Uint8 alpha = 80;

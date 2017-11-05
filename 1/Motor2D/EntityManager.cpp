@@ -1,5 +1,4 @@
 #include "EntityManager.h"
-#include "j1App.h"
 #include "j1Player.h"
 #include "j1Pathfinding.h"
 #include "j1Map.h"
@@ -67,6 +66,18 @@ int EntityManager::AddEntity(const uint& name)
 bool EntityManager::Start()
 {
 	bool ret = true;
+
+	p2List_item<tex>* item_tex = texs.start;
+
+	while (item_tex != NULL && ret == true) {
+		item_tex->data.texture = App->tex->Load(item_tex->data.source.GetString());
+		
+		if (item_tex->data.texture == NULL) {
+			ret = false;
+			LOG("Error Loading entity textures.");
+		}
+		item_tex = item_tex->next;
+	}
 
 	p2List_item<Entity*>* item = entities.start;
 
@@ -179,4 +190,15 @@ bool EntityManager::Save(pugi::xml_node& savegame)
 	}
 
 	return ret;
+}
+
+void EntityManager::Draw(float dt) {
+
+	p2List_item<Entity*>* item = entities.start;
+
+	while (item != NULL) {
+		item->data->Draw(dt);
+		item = item->next;
+	}
+
 }

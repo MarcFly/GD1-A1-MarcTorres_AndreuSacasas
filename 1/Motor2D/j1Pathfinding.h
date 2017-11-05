@@ -37,7 +37,7 @@ struct PathNode {
 
 	int CalculateF(const iPoint& dest) {
 		step_cost = parent->step_cost + 1;
-		dist_cost = pos.DistanceManhattan(dest);
+		dist_cost = pos.DistanceTo(dest);
 		return Score();
 	}
 

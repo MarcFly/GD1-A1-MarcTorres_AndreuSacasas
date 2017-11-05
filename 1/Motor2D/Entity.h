@@ -52,6 +52,7 @@ public:
 
 	// Called each loop iteration
 	virtual bool PreUpdate() { 
+		App->collisions->LookColl(this);
 		return true; 
 	};
 
@@ -67,6 +68,7 @@ public:
 
 	// Called each loop iteration
 	virtual bool PostUpdate() { 
+		App->collisions->LookColl(this);
 		return true; 
 	};
 
@@ -84,7 +86,7 @@ public:
 		return true;
 	};
 
-	virtual void OnCollision(Collider* c1, Collider* c2) {};
+	virtual void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) {};
 
 	virtual void Movement() {};
 
@@ -100,7 +102,7 @@ public: // Functions that stay the same
 public:
 	p2SString name;
 
-	SDL_Texture*		graphics = nullptr;
+	SDL_Texture**		graphics = nullptr;
 	Animation*			current_animation = nullptr;
 	move_state			state = error;
 	move_state			last_state = error;

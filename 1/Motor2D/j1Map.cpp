@@ -49,27 +49,33 @@ void j1Map::Draw()
 		p2List_item<layer_info*>* item_layer = Maps->layers.start; //Start layer
 
 		while (item_layer != nullptr) { //Check there are layers
-
-			item_tileset = GetTilesetFromTileId(*item_layer->data->data);
 			
-			uint* p = item_layer->data->data; // reset data pointing to data[0]
+			if(debug_draw != true && item_layer->data->draw_mode == 1)
+				item_layer = item_layer->next;
 
-			for (int i = 0; i < item_layer->data->height; i++) {
-				for (int j = 0; j < item_layer->data->width; j++) {
-					if (*p != 0) {
-						iPoint pos = MapToWorld(j, i);
+			else {
+				item_tileset = GetTilesetFromTileId(*item_layer->data->data);
 
-						App->render->Blit(
-							item_tileset->image.tex,
-							pos.x - item_tileset->tileoffset.x,
-							pos.y- item_tileset->tileoffset.y,
-							&item_tileset->GetRect(*p));
+				uint* p = item_layer->data->data; // reset data pointing to data[0]
+
+				for (int i = 0; i < item_layer->data->height; i++) {
+					for (int j = 0; j < item_layer->data->width; j++) {
+						if (*p != 0) {
+							iPoint pos = MapToWorld(j, i);
+
+							App->render->Blit(
+								item_tileset->image.tex,
+								pos.x - item_tileset->tileoffset.x,
+								pos.y - item_tileset->tileoffset.y,
+								&item_tileset->GetRect(*p));
+						}
+						p++;
 					}
-					p++;
 				}
+				item_layer = item_layer->next;
 			}
 
-		item_layer = item_layer->next;
+		
 		}
 	
 	}
@@ -375,50 +381,54 @@ tileset_info* j1Map::GetTilesetFromTileId(int gid) const
 }
 
 void j1Map::DrawNav() {
-	iPoint point;
+	if (debug_draw == true) {
+		iPoint point;
 
-	// Draw visited
-	p2List_item<iPoint>* item = App->pathfinding->visited.start;
+		// Draw visited
+		p2List_item<iPoint>* item = App->pathfinding->visited.start;
 
-	while (item)
-	{
-		point = item->data;
-		tileset_info* tileset = GetTilesetFromTileId(25); //Get green rect
+		while (item)
+		{
+			point = item->data;
+			tileset_info* tileset = GetTilesetFromTileId(69); //Get green rect
 
-		SDL_Rect r = tileset->GetRect(25);
-		iPoint pos = MapToWorld(point.x, point.y);
+			SDL_Rect r = tileset->GetRect(69);
+			iPoint pos = MapToWorld(point.x, point.y);
 
-		App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
+			App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
 
-		item = item->next;
+			item = item->next;
+		}
+
+		// Draw frontier
+		for (uint i = 0; i < App->pathfinding->frontier.Count(); ++i)
+		{
+			point = *(App->pathfinding->frontier.Peek(i));
+			tileset_info* tileset = GetTilesetFromTileId(70); //Get the red rect
+
+			SDL_Rect r = tileset->GetRect(70);
+			iPoint pos = MapToWorld(point.x, point.y);
+
+			App->render->Blit(tileset->image.tex, pos.x - tileset->tileoffset.x, pos.y - tileset->tileoffset.y, &r);
+		}
+
+	
+		// Draw pfrontier
+		for (uint i = 0; i < App->pathfinding->pfrontier.Count(); ++i)
+		{
+			point = *(App->pathfinding->pfrontier.Peek(i));
+			tileset_info* tileset = GetTilesetFromTileId(70); //Get the red rect
+
+			SDL_Rect r = tileset->GetRect(70);
+			iPoint pos = MapToWorld(point.x, point.y);
+
+			App->render->Blit(tileset->image.tex, pos.x - tileset->tileoffset.x, pos.y - tileset->tileoffset.y, &r);
+		}
+	
+	
+		DrawPath();
+		DrawNPath();
 	}
-
-	// Draw frontier
-	for (uint i = 0; i < App->pathfinding->frontier.Count(); ++i)
-	{
-		point = *(App->pathfinding->frontier.Peek(i));
-		tileset_info* tileset = GetTilesetFromTileId(26); //Get the red rect
-
-		SDL_Rect r = tileset->GetRect(26);
-		iPoint pos = MapToWorld(point.x, point.y);
-
-		App->render->Blit(tileset->image.tex, pos.x - tileset->tileoffset.x, pos.y - tileset->tileoffset.y, &r);
-	}
-
-	// Draw pfrontier
-	for (uint i = 0; i < App->pathfinding->pfrontier.Count(); ++i)
-	{
-		point = *(App->pathfinding->pfrontier.Peek(i));
-		tileset_info* tileset = GetTilesetFromTileId(26); //Get the red rect
-
-		SDL_Rect r = tileset->GetRect(26);
-		iPoint pos = MapToWorld(point.x, point.y);
-
-		App->render->Blit(tileset->image.tex, pos.x - tileset->tileoffset.x, pos.y - tileset->tileoffset.y, &r);
-	}
-
-	DrawPath();
-	DrawNPath();
 }
 
 void j1Map::DrawPath() {
@@ -427,9 +437,9 @@ void j1Map::DrawPath() {
 	p2List_item<iPoint>* item = App->pathfinding->path.start;
 	while (item)
 	{
-		tileset_info* tileset = GetTilesetFromTileId(26); //Get green rect
+		tileset_info* tileset = GetTilesetFromTileId(70); //Get green rect
 
-		SDL_Rect r = tileset->GetRect(26);
+		SDL_Rect r = tileset->GetRect(70);
 		iPoint pos = MapToWorld(item->data.x, item->data.y);
 
 		App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
@@ -443,9 +453,9 @@ void j1Map::DrawNPath() {
 	
 	for (int i = 0; i < App->pathfinding->closed_test.Count(); i++) {
 		iPoint pos_ = App->pathfinding->closed_test[i];
-		tileset_info* tileset = GetTilesetFromTileId(26); //Get green rect
+		tileset_info* tileset = GetTilesetFromTileId(70); //Get green rect
 
-		SDL_Rect r = tileset->GetRect(25);
+		SDL_Rect r = tileset->GetRect(69);
 		iPoint pos = MapToWorld(pos_.x, pos_.y);
 
 		App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
@@ -453,9 +463,9 @@ void j1Map::DrawNPath() {
 
 	for (int i = 0; i < App->pathfinding->last_path.Count(); i++) {
 		iPoint pos_ = App->pathfinding->last_path[i];
-		tileset_info* tileset = GetTilesetFromTileId(26); //Get green rect
+		tileset_info* tileset = GetTilesetFromTileId(69); //Get green rect
 
-		SDL_Rect r = tileset->GetRect(25);
+		SDL_Rect r = tileset->GetRect(70);
 		iPoint pos = MapToWorld(pos_.x, pos_.y);
 
 		App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);

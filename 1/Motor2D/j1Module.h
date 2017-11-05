@@ -11,6 +11,7 @@
 
 class j1App;
 class Collider;
+struct SDL_Rect;
 
 class j1Module
 {
@@ -78,7 +79,7 @@ public:
 	}
 
 	// Collision Reactor
-	virtual bool OnCollision(Collider* c1, Collider* c2) { 
+	virtual bool OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) { 
 		return true;
 	};
 

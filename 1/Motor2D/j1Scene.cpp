@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
+#include "EntityManager.h"
 #include "j1Scene.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -63,12 +64,18 @@ bool j1Scene::Update(float dt)
 
 	// TODO 2.5: Call load / save methods when pressing l/s
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->Trigger_Load();
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->Trigger_Save();
 
+	// Extra inputs for assignment
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->map->debug_draw = !App->map->debug_draw;
+
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+		App->ChangeFPSLimit();
 	// TODO 2.Homework Allow for change in volume
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
 		App->audio->Increase_Master();
@@ -96,11 +103,12 @@ bool j1Scene::Update(float dt)
 	}
 
 	// Framerate change
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-		App->ChangeFPSLimit();
+	
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
+	App->entities->Draw(dt);
+	App->collisions->DebugDraw();
 
 	// TODO 3.7: Set the window title like
 	// "Map:%dx%d Tiles:%dx%d Tilesets:%d"

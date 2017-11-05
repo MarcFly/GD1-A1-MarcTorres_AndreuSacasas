@@ -35,8 +35,8 @@
   <collisions>
     <collider type="63" x="0" y="0" w="0" h="0"/> <!-- NONE -->
     <collider type="64" x="30" y="10" w="40" h="40"/> <!-- ENTITY -->
-    <collider type="67" x="0" y="0" w="64" h="64"/> <!-- GROUND -->
-    <collider type="70" x="30" y="10" w="64" h="64"/> <!-- DIE -->
+    <collider type="65" x="0" y="0" w="64" h="64"/> <!-- GROUND -->
+    <collider type="66" x="30" y="10" w="64" h="64"/> <!-- DIE -->
     <collider type="67" x="0" y="0" w="10" h="9000"/> <!-- END -->
   </collisions>
 

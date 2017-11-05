@@ -10,6 +10,8 @@
 #include "p2List.h"
 
 struct SDL_Rect;
+class Entity;
+
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 63,
@@ -61,10 +63,12 @@ public:
 	j1Collision();
 	~j1Collision();
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
+
+	void LookColl(Entity* entity);
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
 	bool EraseCollider(Collider* collider);
@@ -77,6 +81,7 @@ private:
 
 	p2List<Collider*> colliders;
 
+	uint coll_detect;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 	
 	

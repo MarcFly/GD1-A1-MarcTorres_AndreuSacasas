@@ -2,8 +2,7 @@
 #define __ANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
-
-#define MAX_FRAMES 25
+#include "p2DynArray.h"
 
 class Animation
 {
@@ -14,7 +13,7 @@ public:
 	float speed = 0.5f;
 	int offset_x = 0;
 	int offset_y = 0;
-	SDL_Rect frames[MAX_FRAMES];
+	p2DynArray<SDL_Rect> frames;
 
 private:
 	float current_frame = 0.0f;
@@ -35,7 +34,7 @@ public:
 
 	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), last_frame(anim.last_frame)
 	{
-		SDL_memcpy(&frames, anim.frames, sizeof(frames));
+		SDL_memcpy(&frames, anim.frames.At(0) , sizeof(frames));
 	}
 
 	void PushBack(const SDL_Rect& rect)

@@ -45,45 +45,6 @@ void j1Pathfinding::SetMap(uint width, uint height, uint* data) {
 
 void j1Pathfinding::PropagateAStar(const iPoint& pos) {
 
-	/*
-
-	if (this_list->nodes[this_list->FindN(pos)].MoveCost() != -1) {
-		
-		iPoint curr;
-	
-		while (curr != pos) {
-			if (this_list->pfrontier.Pop(curr)) //Put actual frontier into curr, while it checks if there are frontiers left
-			{
-				iPoint neighbours[4]; //Create the 4 neighbours every tile has (N E S W)
-				neighbours[0].create(curr.x + 1, curr.y + 0); // E
-				neighbours[1].create(curr.x + 0, curr.y + 1); // S
-				neighbours[2].create(curr.x - 1, curr.y + 0); // W
-				neighbours[3].create(curr.x + 0, curr.y - 1); // N
-
-				for (uint i = 0; i < 4; ++i)
-				{
-
-					int new_cost = cost_so_far[curr.x][curr.y] + this_list->nodes[this_list->FindN(neighbours[i])].MoveCost() + neighbours[i].DistanceNoSqrt(pos);
-
-					// TODO 7.2: For each neighbor, if not visited, add it
-					// to the frontier queue and visited list
-					if (this_list->nodes[this_list->FindN(neighbours[i])].MoveCost() != -1 && (cost_so_far[neighbours[i].x][neighbours[i].y] == 0 || new_cost <= cost_so_far[neighbours[i].x][neighbours[i].y])) //Checks for visited tiles (if visited they don't go in), use .find to find a neighbour in the list
-					{
-						
-						this_list->pfrontier.Push(neighbours[i], new_cost);	//Add them as a frontier
-						this_list->breadcrumbs.add(curr);
-						// Calculate last distance and new distance
-
-						cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
-						
-					}
-				}
-			}
-
-		}
-
-	}
-	*/
 }
 
 
@@ -121,8 +82,7 @@ int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 				}
 			}
 			else break;
-			
-			//delete curr;
+
 		}
 
 		p2List_item<PathNode>* item = closed.nodes.end;
@@ -157,7 +117,7 @@ bool j1Pathfinding::IsWalkable(int x, int y) const {
 
 	if (ret == true) {
 		p2List_item<layer_info*>* item = App->map->Maps->layers.start;
-		while (item->data->draw_mode != 2)
+		while (item->data->draw_mode != 1)
 			item = item->next;
 
 		ret = (item->data->data[y * App->map->Maps->width + x] == 0);
@@ -190,7 +150,7 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const {
 	if (App->pathfinding->IsWalkable(cell.x, cell.y))
 		list_to_fill.nodes.add(PathNode(-1, -1, cell, this));
 
-	// TODO 8.Homework
+	/*// TODO 8.Homework
 	// north east
 	cell.create(pos.x + 1, pos.y + 1);
 	if (App->pathfinding->IsWalkable(cell.x, cell.y))
@@ -210,8 +170,51 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const {
 	cell.create(pos.x - 1, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell.x, cell.y))
 		list_to_fill.nodes.add(PathNode(-1, -1, cell, this));
-
+		*/
 	return list_to_fill.nodes.count();
+}
+
+// Settings makers
+void j1Pathfinding::ResetNav() {
+	pfrontier.Clear();
+	frontier.Clear();
+	visited.clear();
+	breadcrumbs.clear();
+	path.clear();
+	last_path.Clear();
+	closed_test.Clear();
+
+	for (int i = 0; i < COST_MAP; i++)
+		for (int j = 0; j < COST_MAP; j++)
+			cost_so_far[i][j] = 0;
+
+	pfrontier.Push(start, 0);
+	frontier.Push(start);
+	visited.add(start);
+	breadcrumbs.add(start);
+	path.add(start);
+}
+
+void j1Pathfinding::SetStart(const iPoint& pos) {
+	if (IsWalkable(pos.x, pos.y))
+		start = pos;
+}
+
+int	 j1Pathfinding::MovementCost(int x, int y) const {
+
+	int ret = -1;
+
+	if (x >= 0 && x < App->map->Maps->width && y >= 0 && y < App->map->Maps->height)
+	{
+		int id = App->map->Maps->layers.start->next->data->Get(x, y);
+
+		if (id == 0)
+			ret = 3;
+		else
+			ret = -1;
+	}
+
+	return ret;
 }
 
 //___________________________________________________________________________________________________________________________________________________________________________________
@@ -285,53 +288,6 @@ iPoint j1Pathfinding::PropagateDijkstra() {
 	}
 
 	return curr;
-}
-
-
-
-int	 j1Pathfinding::MovementCost(int x, int y) const {
-
-	int ret = -1;
-
-	if (x >= 0 && x < App->map->Maps->width && y >= 0 && y < App->map->Maps->height)
-	{
-		int id = App->map->Maps->layers.start->next->data->Get(x, y);
-
-		if (id == 0)
-			ret = 3;
-		else
-			ret = -1;
-	}
-
-	return ret;
-}
-
-
-
-// Settings makers
-void j1Pathfinding::ResetNav() {
-	pfrontier.Clear();
-	frontier.Clear();
-	visited.clear();
-	breadcrumbs.clear();
-	path.clear();
-	last_path.Clear();
-	closed_test.Clear();
-
-	for (int i = 0; i < COST_MAP; i++)
-		for (int j = 0; j < COST_MAP; j++)
-			cost_so_far[i][j] = 0;
-
-	pfrontier.Push(start, 0);
-	frontier.Push(start);
-	visited.add(start);
-	breadcrumbs.add(start);
-	path.add(start);
-}
-
-void j1Pathfinding::SetStart(const iPoint& pos) {
-	if (IsWalkable(pos.x, pos.y))
-		start = pos;
 }
 
 // Full Propagation

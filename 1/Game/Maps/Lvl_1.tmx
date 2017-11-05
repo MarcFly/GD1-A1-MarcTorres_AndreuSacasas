@@ -2,8 +2,8 @@
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="64" tileheight="64" nextobjectid="1">
  <properties>
   <property name="scale" type="float" value="1"/>
-  <property name="start_x" type="int" value="704"/>
-  <property name="start_y" type="int" value="832"/>
+  <property name="start_x" type="int" value="0"/>
+  <property name="start_y" type="int" value="180"/>
  </properties>
  <tileset firstgid="1" name="dirttiles" tilewidth="64" tileheight="64" tilecount="72" columns="8">
   <image source="textures/dirttiles.png" width="512" height="576"/>

@@ -24,7 +24,7 @@ public:
 	bool CleanUp();
 
 	// OnCollision reaction
-	void OnCollision(Collider* c1, Collider* c2);
+	void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check);
 
 public:
 

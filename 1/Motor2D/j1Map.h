@@ -204,14 +204,14 @@ private:
 public:
 
 	// TODO 3.1: Add your struct for map info as public for now
-	Map_info* Maps;
-	bool first_loop = true;
-	p2SString			folder;
-
+	Map_info*	Maps;
+	bool		first_loop = true;
+	p2SString	folder;
+	bool		debug_draw = false;
 private:
 
 	//pugi::xml_document	map_file;
-	bool				map_loaded;
+	bool		map_loaded;
 
 	
 };
