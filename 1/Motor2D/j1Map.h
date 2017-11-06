@@ -6,6 +6,8 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include "j1Textures.h"
+#include "j1Collisions.h"
+#include "j1App.h"
 
 struct SDL_Rect;
 struct SDL_Color;
@@ -121,6 +123,8 @@ enum renderorder {
 struct Map_info {
 	pugi::xml_document map_file;
 
+	p2SString	this_map;
+
 	orientation	map_type;
 	uint		renderorder;
 	//SDL_Color	bg_color;
@@ -146,6 +150,8 @@ struct Map_info {
 		for (int i = 0; i < layers.count(); i++)
 			delete layers[i];
 		layers.clear();
+
+		this_map.Clear();
 	}
 
 	
@@ -171,7 +177,10 @@ public:
 	bool CleanUp();
 
 	// Load new map
-	bool Load(const char* path);
+	bool LoadMap(const char* path);
+
+	bool Load(const pugi::xml_node& savegame);
+	bool Save(pugi::xml_node& savegame);
 
 	// TODO 4.8 Method to translate map to world coordinates?
 	iPoint MapToWorld(int x, int y) const;
@@ -200,6 +209,14 @@ private:
 	bool LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_layer);
 	
 	//void CreateCollider(layer_info& item_layer, tileset_info& item_tileset, int y, int x);
+
+	bool EraseMap() { 
+		delete Maps;
+		Maps = nullptr; 
+		
+		App->collisions->CleanUp();
+
+		return true; }
 
 public:
 

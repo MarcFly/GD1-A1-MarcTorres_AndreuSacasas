@@ -131,8 +131,8 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	uint scale = App->win->GetScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.x = (int)(camera.x) + x * scale;
+	rect.y = (int)(camera.y) + y * scale;
 
 	if(section != NULL)
 	{
@@ -144,10 +144,10 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	rect.x += (rect.w - rect.w * scale) * 0.5f;
-	rect.y += (rect.h - rect.h * scale) * 0.5f;
-	rect.w *= scale;
-	rect.h *= scale;
+	rect.x += (rect.w - rect.w * render_scale) * 0.5f;
+	rect.y += (rect.h - rect.h * render_scale) * 0.5f;
+	rect.w *= render_scale;
+	rect.h *= render_scale;
 
 
 	SDL_Point* p = NULL;

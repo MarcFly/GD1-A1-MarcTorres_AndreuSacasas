@@ -6,10 +6,24 @@
 	<audio>
 		<master_volume value="0" />
 	</audio>
-	<map />
-	<:anonymous />
+	<map>
+		<curr_map source="Lvl_1.tmx" />
+	</map>
+	<pathfinding />
 	<collisions />
-	<entities />
+	<entities>
+		<entity type="0" entity_id="0">
+			<speed x="0" y="0" />
+			<position x="577" y="707" />
+			<state type="0" />
+			<flip value="true" />
+			<collision_box offset_x="" offset_y="" w="40" h="60" />
+			<acceleration x="40" y="40" />
+			<jump_force value="-700" />
+			<max_speed x="400" y="400" />
+			<render_scale value="1" />
+		</entity>
+	</entities>
 	<scene />
 	<renderer>
 		<camera x="0" y="-180" />

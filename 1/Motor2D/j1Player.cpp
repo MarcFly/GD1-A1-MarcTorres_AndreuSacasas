@@ -4,11 +4,6 @@
 #include "j1Map.h"
 #include "j1Render.h"
 
-j1Player::j1Player()
-{
-	name.create("player");
-}
-
 bool j1Player::Start()
 {
 	bool ret = true;
@@ -32,6 +27,8 @@ bool j1Player::UpdateTick(float dt)
 	App->test_ticks++;
 
 
+	LOG("Player POS %i %i", position.x, position.y);
+	LOG("Player COLL %i %i", collision_box->rect.x, collision_box->rect.y);
 
 	return ret;
 }
@@ -40,6 +37,7 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
+	
 	
 	// Camera movement Inputs
 	// TODO 10.6: Make the camera movement independent of framerate
@@ -59,13 +57,17 @@ bool j1Player::Update(float dt)
 	position.x += stats.speed.x * dt;
 	position.y += stats.speed.y * dt;
 
-	collision_box->rect = {position.x,position.y, current_animation->GetCurrentFrame().w, current_animation->GetCurrentFrame().h };
-
+	//collision_box->rect = {position.x,position.y, current_animation->GetCurrentFrame().w, current_animation->GetCurrentFrame().h };
+	collision_box->rect.x = position.x;
+	collision_box->rect.y = position.y;
 	Movement(dt);
 
-	//App->collisions->LookColl(this, dt);
+	
+	App->collisions->LookColl(this, dt);
 
-	LOG("Player POS %i %i", position.x, position.y);
+	
+
+	//App->collisions->LookColl(this, dt);
 
 	return ret;
 }
@@ -74,29 +76,47 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 {
 	if (c2->type == COLLIDER_GROUND)
 	{
-		if (check.w > check.h)
+		if (abs(this->stats.speed.y) > 0 && this->stats.speed.y != stats.accel.y) 
 		{
-			if (c1->rect.y > c2->rect.y)
+			if (abs(this->stats.speed.x > this->stats.accel.x * 2) && (this->position.x + this->stats.speed.x - c2->rect.x) > abs(this->position.x - c2->rect.x) && check.h > check.w)
 			{
-				this->position.y += (check.h + 1);
-				this->stats.speed.y = 0;
+				if (c1->rect.x > c2->rect.x)
+				{
+					this->position.x = c2->rect.x + c2->rect.w + 1;
+					this->stats.speed.x = 0;
+				}
+				else if (c1->rect.x <= c2->rect.x)
+				{
+					this->position.x = c2->rect.x - c1->rect.w - 1;
+					this->stats.speed.x = 0;
+				}
 			}
-			else
+		}
+
+		if (check.w > check.h && check.w > 0)
+		{
+			if (c1->rect.y < c2->rect.y)
 			{
-				this->position.y -= (check.h + 1);
+				this->position.y = c2->rect.y - c1->rect.h - 1;
+				this->stats.speed.y = 0;
+				this->can_jump = true;
+			}
+			else if(c1->rect.y >= c2->rect.y)
+			{
+				this->position.y = c2->rect.y + c2->rect.h + 1;
 				this->stats.speed.y = 0;
 			}
 		}
-		else
+		else if (check.h > check.w && check.h > 0)
 		{
 			if (c1->rect.x > c2->rect.x)
 			{
-				this->position.x += (check.w + 1);
+				this->position.x = c2->rect.x + c2->rect.w + 1;
 				this->stats.speed.x = 0;
 			}
-			else
+			else if(c1->rect.x <= c2->rect.x)
 			{
-				this->position.x -= (check.w + 1);
+				this->position.x = c2->rect.x - c1->rect.w - 1;
 				this->stats.speed.x = 0;
 			}
 		}
@@ -113,6 +133,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 	{
 
 	}
+
+	
+	
+	collision_box->rect.x = position.x;
+	collision_box->rect.y = position.y;
+
 }
 
 void j1Player::Movement(float dt) {
@@ -149,28 +175,25 @@ void j1Player::Movement(float dt) {
 			if (stats.speed.x + stats.accel.x / 2 >= 0)
 				stats.speed.x = 0;
 			else
-				stats.speed.x += stats.accel.x / 2;
+				stats.speed.x /= 2;
 		}
 		else if (stats.speed.x > 0) {
 			if (stats.speed.x - stats.accel.x / 2 <= 0)
 				stats.speed.x = 0;
 			else
-				stats.speed.x -= stats.accel.x / 2;
+				stats.speed.x /= 2;
 		}
 	}
-	if ((state == fall) && stats.speed.y <= stats.max_speed.y + stats.accel.y)
-	{
-		stats.speed.y += stats.accel.y ;
 
-	}
-	else {
 
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && can_jump == true) {
+
+		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == (KEY_REPEAT || KEY_DOWN) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && can_jump == true) {
 			if (!is_jumping)
 				Jump();
 
 			is_jumping = true;
-			if (stats.speed.y < -6)
+
+			if (stats.speed.y < 0)
 				stats.speed.y /= 1.07;
 
 			else
@@ -186,7 +209,7 @@ void j1Player::Movement(float dt) {
 		}
 
 		
-	}
+	
 	// Draw everything --------------------------------------
 
 }

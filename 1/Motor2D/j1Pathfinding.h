@@ -96,6 +96,7 @@ class j1Pathfinding : public j1Module
 // Pathfinding
 
 public:
+	j1Pathfinding();
 
 	// Called before render is available
 	bool Awake(const pugi::xml_node& conf);

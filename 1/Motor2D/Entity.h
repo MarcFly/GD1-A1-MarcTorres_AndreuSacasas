@@ -33,14 +33,19 @@ public:
 	Entity() {};
 
 	// Destructor
-	virtual ~Entity() {};
+	virtual ~Entity() {
+		delete current_animation;
+		animations.clear();
+		graphics = nullptr;
+
+		delete collision_box;
+	};
 
 	// Called before render is available
-	virtual bool Awake(const pugi::xml_node& config, const pugi::xml_node& sprites) {
+	virtual bool Awake(const pugi::xml_node& sprites, const pugi::xml_node& properties) {
 		LoadSprites(sprites);
 
-		pugi::xml_node temp = sprites.child("stats");
-		LoadProperties(temp);
+		LoadProperties(properties);
 
 		return true; 
 	};
@@ -53,6 +58,7 @@ public:
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt) { 
 		App->collisions->LookColl(this, dt);
+		stats.speed.y += stats.accel.y;
 		return true; 
 	};
 
@@ -69,7 +75,6 @@ public:
 	// Called each loop iteration
 	virtual bool PostUpdate(float dt) { 
 		App->collisions->LookColl(this, dt);
-		stats.speed.y += stats.accel.y;
 		return true; 
 	};
 
@@ -79,13 +84,9 @@ public:
 	};
 
 	// Called when triggered
-	virtual bool Load(const pugi::xml_node& savegame) {
-		return true;
-	};
+	virtual bool Load(const pugi::xml_node& savegame);
 
-	virtual bool Save(pugi::xml_node& savegame) {
-		return true;
-	};
+	virtual bool Save(pugi::xml_node& savegame);
 
 	virtual void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) {};
 
@@ -116,8 +117,9 @@ public:
 	float			render_scale;
 	iPoint			position;
 	bool			flip = false; //false = Right true = Left
-
 	
+	int				type;
+	int				entity_id;
 
 public: // Short Functions that stay the same for every entity
 

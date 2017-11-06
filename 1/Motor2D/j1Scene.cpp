@@ -42,7 +42,7 @@ bool j1Scene::Start()
 {
 	bool ret = true;
 	// LOAD MAPS AND MUSIC HERE
-	if (ret == true) ret = App->map->Load(Map_list.start->data->GetString());
+	if (ret == true) ret = App->map->LoadMap(Map_list.start->data->GetString());
 	if (ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 
 	return ret;

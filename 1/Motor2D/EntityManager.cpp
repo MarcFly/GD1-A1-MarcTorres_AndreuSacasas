@@ -34,28 +34,34 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 		pugi::xml_node entity_n = config.child("entity");
 
 		while (entity_n != NULL) {
-			AddEntity(entity_n.attribute("type").as_uint());
+			
+			AddEntity(entity_n.attribute("type").as_uint(), FindEntities(entity_n.attribute("type").as_uint()));
 			entity_n = entity_n.next_sibling("entity");
 		}
 
 		p2List_item<Entity*>* item = entities.start;
 
-		pugi::xml_node temp = root.child("entity");
+		pugi::xml_node temp_properties = root.child("entity");
 
 		while (item != NULL && ret == true) {
-			ret = item->data->Awake(config.child(item->data->name.GetString()), temp);
+
+			pugi::xml_node temp_sprites = root.child("animations");
+			while (temp_sprites.attribute("type").as_int() != item->data->type)
+				temp_sprites = temp_sprites.next_sibling();
+
+			ret = item->data->Awake(temp_sprites, temp_properties);
 			item = item->next;
-			temp = temp.next_sibling("entity");
+			temp_properties = temp_properties.next_sibling("entity");
 		}
 	}
 	
 	return ret;
 }
 
-int EntityManager::AddEntity(const uint& name)
+int EntityManager::AddEntity(const uint& name, const uint& eid)
 {
 	if (name == (uint)player) {
-		entities.add(new j1Player());
+		entities.add(new j1Player(name, eid));
 		return (int)player;
 	}
 
@@ -114,9 +120,6 @@ bool EntityManager::PreUpdate(float dt) // Only for movement collisions
 	while (item != NULL && ret == true) {
 		ret = item->data->PreUpdate(dt);
 
-		item->data->collision_box->rect.w = item->data->current_animation->GetCurrentFrame().w;
-		item->data->collision_box->rect.h = item->data->current_animation->GetCurrentFrame().h;
-
 		item = item->next;
 	}
 
@@ -167,11 +170,24 @@ bool EntityManager::PostUpdate(float dt) // // Only for movement collisions
 bool EntityManager::Load(const pugi::xml_node& savegame)
 {
 	bool ret = true;
-	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
-		ret = item->data->Load(savegame);
-		item = item->next;
+	entities.clear();
+	
+	p2List_item<Entity*>* item;
+
+	pugi::xml_node temp = savegame.first_child();
+
+	while (temp != NULL && ret == true) {
+		
+		AddEntity(temp.attribute("type").as_uint(), FindEntities(temp.attribute("type").as_uint()));
+
+		item = entities.end;
+		
+		//while (temp.attribute("type").as_int() != item->data->type && temp.attribute("entity_id").as_int() != item->data->entity_id)
+		
+		ret = item->data->Load(temp);
+
+		temp = temp.next_sibling();
 	}
 
 
@@ -201,4 +217,20 @@ void EntityManager::Draw(float dt) {
 		item = item->next;
 	}
 
+}
+
+int EntityManager::FindEntities(const uint& type) {
+	p2List_item<Entity*>* item = entities.start;
+
+	int ret = 0;
+
+	while (item != NULL)
+	{
+		if (item->data->type == type)
+			ret++;
+
+		item = item->next;
+	}
+
+	return ret;
 }

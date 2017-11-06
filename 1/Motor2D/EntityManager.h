@@ -31,7 +31,7 @@ struct tex {
 	}
 
 	bool operator ==(tex comp) const{
-		return (comp.source.GetString() == source.GetString());
+		return (comp.source == source);
 	}
 };
 
@@ -73,13 +73,16 @@ public:
 	void Draw(float dt);
 
 	// Add entity by config
-	int AddEntity(const uint& name);
+	int AddEntity(const uint& name, const uint& eid);
+
+	int FindEntities(const uint& type);
 
 private:
 	p2List<Entity*>			entities;
-	pugi::xml_document		sprites_doc;
+	
 
 public:
+	pugi::xml_document		sprites_doc;
 	p2SString			tex_folder;
 	p2List<tex>			texs;
 

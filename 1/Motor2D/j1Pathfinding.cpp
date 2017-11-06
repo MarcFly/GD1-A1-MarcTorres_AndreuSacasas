@@ -4,6 +4,10 @@
 #include "p2Log.h"
 
 /// PATHFINDING
+j1Pathfinding::j1Pathfinding()
+{
+	name.create("pathfinding");
+}
 
 bool j1Pathfinding::Awake(const pugi::xml_node& config) {
 	bool ret = true;

@@ -80,8 +80,8 @@ void j1Map::Draw()
 
 							App->render->Blit(
 								item_tileset->image.tex,
-								pos.x - item_tileset->tileoffset.x,
-								pos.y - item_tileset->tileoffset.y,
+								pos.x - item_tileset->tileoffset.x + item_layer->data->parallax * App->render->camera.x,
+								pos.y - item_tileset->tileoffset.y + item_layer->data->parallax * App->render->camera.y,
 								&item_tileset->GetRect(*p));
 						}
 						p++;
@@ -108,13 +108,13 @@ bool j1Map::CleanUp()
 
 	// TODO 3.2: Make sure you clean up any memory allocated
 	// from tilesets / map
-	delete Maps;
+	EraseMap();
 
 	return true;
 }
 
 // Load new map
-bool j1Map::Load(const char* file_name)
+bool j1Map::LoadMap(const char* file_name)
 {
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
@@ -137,6 +137,7 @@ bool j1Map::Load(const char* file_name)
 		Maps = new Map_info();
 
 		LoadMapData(root_node, *Maps);
+		Maps->this_map.create(file_name);
 	}
 
 	// TODO 3.4: Create and call a private function to load a tileset
@@ -487,4 +488,27 @@ void j1Map::DrawNPath() {
 
 		App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
 	}
+}
+
+//---------------------------------------------------------------------------------------
+bool j1Map::Load(const pugi::xml_node& savegame)
+{
+	bool ret = true;
+
+	if (Maps->this_map.GetString() != savegame.child("curr_map").attribute("source").as_string()){
+		App->map->EraseMap();
+		App->map->LoadMap(savegame.child("curr_map").attribute("source").as_string());
+		first_loop = true;
+	}
+
+	return ret;
+}
+
+bool j1Map::Save(pugi::xml_node& savegame)
+{
+	bool ret = true;
+
+	savegame.append_child("curr_map").append_attribute("source") = Maps->this_map.GetString();
+
+	return ret;
 }

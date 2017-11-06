@@ -136,6 +136,8 @@ void j1Collision::LookColl(Entity* entity, float dt) {
 		}
 	}
 
+	entity->UpdateState();
+
 }
 
 void j1Collision::DebugDraw()

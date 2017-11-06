@@ -9,7 +9,7 @@ class j1Player : public Entity
 {
 public:
 
-	j1Player();
+	j1Player(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
 
 	// Called before the first frame
 	bool Start();
