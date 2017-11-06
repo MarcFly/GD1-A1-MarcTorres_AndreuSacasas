@@ -70,7 +70,7 @@ bool Entity::LoadSprites(const pugi::xml_node& sprite_node) {
 bool Entity::LoadProperties(const pugi::xml_node& sprite_node) {
 	bool ret = true;
 
-	
+	position = {sprite_node.child("start_pos").attribute("x").as_int(), sprite_node.child("start_pos").attribute("y").as_int()};
 	stats.max_speed = { sprite_node.child("max_speed").attribute("x").as_int(), sprite_node.child("max_speed").attribute("x").as_int() };
 	stats.accel = { sprite_node.child("acceleration").attribute("x").as_float(),sprite_node.child("acceleration").attribute("y").as_float() };
 	stats.jump_force = sprite_node.child("jump_force").attribute("value").as_int();

@@ -6,9 +6,10 @@
   <entity type="0">
     <texture source="Player.png"/>
     <stats>
-        <max_speed x="8" y="16"/>
-        <acceleration x="0.5" y="1"/>
-        <jump_force value="-15"/>
+        <start_pos x="704" y="180"/>
+        <max_speed x="480" y="960"/>
+        <acceleration x="30" y="60"/>
+        <jump_force value="-900"/>
         <collision_box offset_x="" offset_y="" h="60" w="40"/>
         <render_scale value="1.0"/>
     </stats>

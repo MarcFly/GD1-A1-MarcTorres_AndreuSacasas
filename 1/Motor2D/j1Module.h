@@ -38,7 +38,7 @@ public:
 	}
 
 	// Called each loop iteration
-	virtual bool PreUpdate()
+	virtual bool PreUpdate(float dt)
 	{
 		return true;
 	}
@@ -56,7 +56,7 @@ public:
 	}
 	
 	// Called each loop iteration
-	virtual bool PostUpdate()
+	virtual bool PostUpdate(float dt)
 	{
 		return true;
 	}
@@ -79,9 +79,7 @@ public:
 	}
 
 	// Collision Reactor
-	virtual bool OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) { 
-		return true;
-	};
+	virtual void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) {};
 
 public:
 

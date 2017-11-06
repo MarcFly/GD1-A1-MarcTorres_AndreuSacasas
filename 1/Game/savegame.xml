@@ -4,11 +4,14 @@
 	<window />
 	<textures />
 	<audio>
-		<master_volume value="64" />
+		<master_volume value="0" />
 	</audio>
 	<map />
+	<:anonymous />
+	<collisions />
+	<entities />
 	<scene />
 	<renderer>
-		<camera x="370" y="160" />
+		<camera x="0" y="-180" />
 	</renderer>
 </savegame>

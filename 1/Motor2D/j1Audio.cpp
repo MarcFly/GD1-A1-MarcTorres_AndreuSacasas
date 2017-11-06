@@ -60,7 +60,7 @@ bool j1Audio::Awake(const pugi::xml_node& config)
 }
 
 // Called each loop iteration
-bool j1Audio::PreUpdate() {
+bool j1Audio::PreUpdate(float dt) {
 	Mix_VolumeMusic(master_volume);	//Use master volume fins que sapiga diferenciar fx i music
 
 	return true;

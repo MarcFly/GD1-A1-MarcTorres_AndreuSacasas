@@ -14,7 +14,7 @@ class Entity;
 
 enum COLLIDER_TYPE
 {
-	COLLIDER_NONE = 63,
+	COLLIDER_NONE = 64,
 	COLLIDER_ENTITY,
 	COLLIDER_GROUND,
 	COLLIDER_DIE,
@@ -64,11 +64,11 @@ public:
 	~j1Collision();
 
 	bool Awake(const pugi::xml_node& config);
-	bool PreUpdate();
+	bool PreUpdate(float dt);
 	bool Update(float dt);
 	bool CleanUp();
 
-	void LookColl(Entity* entity);
+	void LookColl(Entity* entity, float dt);
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
 	bool EraseCollider(Collider* collider);

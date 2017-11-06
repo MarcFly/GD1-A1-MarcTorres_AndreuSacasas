@@ -23,7 +23,7 @@ public:
 	bool Awake(const pugi::xml_node& config);
 
 	// Called each loop iteration
-	bool PreUpdate();
+	bool PreUpdate(float dt);
 
 	// Called before quitting
 	bool CleanUp();

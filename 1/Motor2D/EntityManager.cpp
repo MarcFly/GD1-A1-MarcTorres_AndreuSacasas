@@ -105,14 +105,14 @@ bool EntityManager::CleanUp()
 	return ret;
 }
 
-bool EntityManager::PreUpdate() // Only for movement collisions
+bool EntityManager::PreUpdate(float dt) // Only for movement collisions
 {
 	bool ret = true;
 
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		ret = item->data->PreUpdate();
+		ret = item->data->PreUpdate(dt);
 
 		item->data->collision_box->rect.w = item->data->current_animation->GetCurrentFrame().w;
 		item->data->collision_box->rect.h = item->data->current_animation->GetCurrentFrame().h;
@@ -150,14 +150,14 @@ bool EntityManager::Update(float dt)
 
 	return ret;
 }
-bool EntityManager::PostUpdate() // // Only for movement collisions
+bool EntityManager::PostUpdate(float dt) // // Only for movement collisions
 {
 	bool ret = true;
 
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		ret = item->data->PostUpdate();
+		ret = item->data->PostUpdate(dt);
 		item = item->next;
 	}
 

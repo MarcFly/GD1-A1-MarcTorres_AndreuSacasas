@@ -3,6 +3,7 @@
 #include "j1Render.h"
 //#include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Collisions.h"
 #include <math.h>
 #include <string>
 #include "j1Pathfinding.h"
@@ -50,13 +51,27 @@ void j1Map::Draw()
 
 		while (item_layer != nullptr) { //Check there are layers
 			
-			if(debug_draw != true && item_layer->data->draw_mode == 1)
+			uint* p = item_layer->data->data; // reset data pointing to data[0]
+
+			if(debug_draw != true && item_layer->data->draw_mode == 1 && !first_loop)
 				item_layer = item_layer->next;
+			else if (first_loop && item_layer->data->draw_mode == 1)
+			{
+				for (int i = 0; i < item_layer->data->height; i++) {
+					for (int j = 0; j < item_layer->data->width; j++) {
+						if (*p > 64)
+							App->collisions->AddCollider({ j * (int)Maps->tilewidth, i * (int)Maps->tileheight, (int)Maps->tilewidth, (int)Maps->tileheight }, (COLLIDER_TYPE)*p);
+						p++;
+					}
+				}
+
+				first_loop = false;
+			}
 
 			else {
 				item_tileset = GetTilesetFromTileId(*item_layer->data->data);
 
-				uint* p = item_layer->data->data; // reset data pointing to data[0]
+				
 
 				for (int i = 0; i < item_layer->data->height; i++) {
 					for (int j = 0; j < item_layer->data->width; j++) {
@@ -72,6 +87,8 @@ void j1Map::Draw()
 						p++;
 					}
 				}
+
+
 				item_layer = item_layer->next;
 			}
 

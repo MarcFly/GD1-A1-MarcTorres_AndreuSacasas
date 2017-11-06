@@ -51,8 +51,8 @@ public:
 	};
 
 	// Called each loop iteration
-	virtual bool PreUpdate() { 
-		App->collisions->LookColl(this);
+	virtual bool PreUpdate(float dt) { 
+		App->collisions->LookColl(this, dt);
 		return true; 
 	};
 
@@ -67,8 +67,9 @@ public:
 	};
 
 	// Called each loop iteration
-	virtual bool PostUpdate() { 
-		App->collisions->LookColl(this);
+	virtual bool PostUpdate(float dt) { 
+		App->collisions->LookColl(this, dt);
+		stats.speed.y += stats.accel.y;
 		return true; 
 	};
 
@@ -122,7 +123,7 @@ public: // Short Functions that stay the same for every entity
 
 	
 	void Jump() {
-		stats.speed.y += stats.jump_force;
+		stats.speed.y = stats.jump_force;
 	}
 
 	Animation* FindAnimByName(move_state _state_) {

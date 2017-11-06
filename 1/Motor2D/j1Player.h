@@ -26,9 +26,12 @@ public:
 	// OnCollision reaction
 	void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check);
 
+	void Movement(float dt);
+
 public:
 
-	
+	bool can_jump = true;
+	bool is_jumping = false;
 };
 
 

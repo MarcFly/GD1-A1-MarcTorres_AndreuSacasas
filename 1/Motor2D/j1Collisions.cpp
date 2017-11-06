@@ -31,6 +31,8 @@ j1Collision::~j1Collision()
 bool j1Collision::Awake(const pugi::xml_node& config) {
 	bool ret = true;
 
+	coll_detect = config.child("settings").attribute("coll_detect").as_uint();
+
 	pugi::xml_node local = config.child("collider");
 	while (local.attribute("type").as_string() != "") {
 		TypeRect* item = new TypeRect;
@@ -49,7 +51,7 @@ bool j1Collision::Awake(const pugi::xml_node& config) {
 	return ret;
 }
 
-bool j1Collision::PreUpdate()
+bool j1Collision::PreUpdate(float dt)
 {
 	bool ret = true;
 	// Remove all colliders scheduled for deletion
@@ -106,7 +108,7 @@ bool j1Collision::Update(float dt)
 	return ret;
 }
 
-void j1Collision::LookColl(Entity* entity) {
+void j1Collision::LookColl(Entity* entity, float dt) {
 	
 	Collider* c1 = entity->collision_box;
 	Collider* c2;
@@ -115,19 +117,21 @@ void j1Collision::LookColl(Entity* entity) {
 	{
 		if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect) {
 			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
-
 			c2 = colliders[k];
 
-			SDL_Rect check;
-			if (c2->CheckCollision({
-			c1->rect.x + (int)entity->stats.speed.x,
-			c1->rect.y + (int)entity->stats.speed.y,
-			c1->rect.w,
-			c1->rect.h },
-			check) > 0) {
+			if (c1 != c2) {
+				SDL_Rect check;
 
-			c1->callback->OnCollision(c1, c2, check);
+				if (c2->CheckCollision({
+				c1->rect.x + (int)(entity->stats.speed.x * dt),
+				c1->rect.y + (int)(entity->stats.speed.y * dt),
+				c1->rect.w,
+				c1->rect.h },
+				check) > 0 && check.w > 0 && check.h > 0) {
 
+					entity->OnCollision(c1, c2, check);
+
+				}
 			}
 		}
 	}
@@ -201,6 +205,6 @@ bool j1Collision::EraseCollider(Collider* collider)
 
 int Collider::CheckCollision(const SDL_Rect& r, SDL_Rect& res_rect) const
 {
-	SDL_IntersectRect(&rect, &r, &res_rect);
+	SDL_IntersectRect(&this->rect, &r, &res_rect);
 	return (res_rect.w * res_rect.h);
 }
