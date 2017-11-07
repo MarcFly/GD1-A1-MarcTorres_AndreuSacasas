@@ -183,11 +183,12 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 10.4: Calculate the dt: differential time since last frame
-	uint32 time = frame_time.Read();
-	if (frame_time.Read() > 0)
-		dt = ((1000 /fps_cap) + (((1000.0f / fps_cap) - (time / fps_cap)) )) / 1000.0f;
-	else
-		dt = (1000 / fps_cap) / 1000.f;
+	float time = frame_time.ReadSec();
+	
+	dt = (1.0f/ (float)fps_cap);
+	if (time > dt)
+		dt = time;
+
 	frame_time.Start(); //Do it after dt lol
 
 	p2List_item<j1Module*>* item;
@@ -246,8 +247,9 @@ void j1App::FinishUpdate()
 	// TODO 10.2: Use SDL_Delay to make sure you get your capped framerate
 	
 	// TODO 10.3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	uint32 delay = ((last_frame_ms / (1000 / fps_cap)) + 1) * (1000 / fps_cap) - last_frame_ms;
-	SDL_Delay(delay);
+	float delay = (1000.0f / fps_cap) - last_frame_ms;
+	if(delay > 0)
+		SDL_Delay(delay);
 	
 }
 

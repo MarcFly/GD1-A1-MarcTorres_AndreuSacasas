@@ -28,6 +28,10 @@ public:
 
 	void Movement(float dt);
 
+	void MoveRight();
+	void MoveLeft();
+	void DoJump();
+	void NoMove();
 public:
 
 	bool can_jump = true;

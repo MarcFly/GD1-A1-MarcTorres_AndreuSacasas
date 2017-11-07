@@ -37,8 +37,6 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
-	
-	
 	// Camera movement Inputs
 	// TODO 10.6: Make the camera movement independent of framerate
 
@@ -60,12 +58,10 @@ bool j1Player::Update(float dt)
 	//collision_box->rect = {position.x,position.y, current_animation->GetCurrentFrame().w, current_animation->GetCurrentFrame().h };
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
-	Movement(dt);
 
+	Movement(dt);
 	
 	App->collisions->LookColl(this, dt);
-
-	
 
 	//App->collisions->LookColl(this, dt);
 
@@ -144,69 +140,28 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 void j1Player::Movement(float dt) {
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-
-		if (stats.speed.x > 0 || (stats.speed.x <= 0 && abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x))
-			stats.speed.x -= stats.accel.x;
-
-		else
-			stats.speed.x = -stats.max_speed.x;
-
-		if (state == move_state::move)
-			can_jump = true;
+		MoveLeft();
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-
-		if (stats.speed.x < 0 || (stats.speed.x >= 0 && abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x))
-			stats.speed.x += stats.accel.x;
-		else
-			stats.speed.x = stats.max_speed.x;
-
-		if (state == move_state::move)
-			can_jump = true;
+		MoveRight();
 	}
 	else
 	{
-		if (stats.speed.x == 0 && stats.speed.y == 0 && !can_jump)
-			can_jump = true;
-
-		if (stats.speed.x < 0) {
-
-			if (stats.speed.x + stats.accel.x / 2 >= 0)
-				stats.speed.x = 0;
-			else
-				stats.speed.x /= 2;
-		}
-		else if (stats.speed.x > 0) {
-			if (stats.speed.x - stats.accel.x / 2 <= 0)
-				stats.speed.x = 0;
-			else
-				stats.speed.x /= 2;
-		}
+		NoMove();
 	}
 
 
 
-		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == (KEY_REPEAT || KEY_DOWN) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && can_jump == true) {
-			if (!is_jumping)
-				Jump();
+	if ((App->input->GetKey(SDL_SCANCODE_SPACE) == (KEY_REPEAT || KEY_DOWN) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && can_jump == true) {
+		DoJump();
+	}
 
-			is_jumping = true;
-
-			if (stats.speed.y < 0)
-				stats.speed.y /= 1.07;
-
-			else
-			{
-				can_jump = false;
-			}
-		}
-
-		else if (is_jumping == true)
-		{
-			can_jump = false;
-			is_jumping = false;
-		}
+	else if (is_jumping == true)
+	{
+		can_jump = false;
+		is_jumping = false;
+	}
 
 		
 	
@@ -214,3 +169,57 @@ void j1Player::Movement(float dt) {
 
 }
 
+void j1Player::MoveLeft(){
+	if (stats.speed.x > 0 || (stats.speed.x <= 0 && abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x))
+		stats.speed.x -= stats.accel.x;
+
+	else
+		stats.speed.x = -stats.max_speed.x;
+
+	if (state == move_state::move)
+		can_jump = true;
+}
+
+void j1Player::MoveRight() {
+	if (stats.speed.x < 0 || (stats.speed.x >= 0 && abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x))
+		stats.speed.x += stats.accel.x;
+	else
+		stats.speed.x = stats.max_speed.x;
+
+	if (state == move_state::move)
+		can_jump = true;
+}
+
+void j1Player::NoMove() {
+	if (stats.speed.x == 0 && stats.speed.y == 0 && !can_jump)
+		can_jump = true;
+
+	if (stats.speed.x < 0) {
+
+		if (stats.speed.x + stats.accel.x / 2 >= 0)
+			stats.speed.x = 0;
+		else
+			stats.speed.x /= 2;
+	}
+	else if (stats.speed.x > 0) {
+		if (stats.speed.x - stats.accel.x / 2 <= 0)
+			stats.speed.x = 0;
+		else
+			stats.speed.x /= 2;
+	}
+}
+
+void j1Player::DoJump() {
+	if (!is_jumping)
+		Jump();
+
+	is_jumping = true;
+
+	if (stats.speed.y < 0)
+		stats.speed.y /= 1.07;
+
+	else
+	{
+		can_jump = false;
+	}
+}
