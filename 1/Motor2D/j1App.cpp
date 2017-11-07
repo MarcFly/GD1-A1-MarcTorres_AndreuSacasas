@@ -145,6 +145,7 @@ bool j1App::Update()
 	if(ret == true)
 		ret = DoUpdate();
 
+
 	if(ret == true)
 		ret = PostUpdate();
 
@@ -315,6 +316,8 @@ bool j1App::DoUpdateTick()
 // Call modules on each loop iteration
 bool j1App::DoUpdate()
 {
+	
+	
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -331,9 +334,18 @@ bool j1App::DoUpdate()
 		// TODO 10.5: send dt as an argument to all updates
 		// you will need to update module parent class
 		// and all modules that use update
-
+		PERF_START(ptimer);
 		ret = item->data->Update(dt);
+		if (ptimer.ReadMs() > 50) {
+			PERF_PEEK(ptimer);
+
+			PERF_PEEK(ptimer);
+		}
+
+		
 	}
+
+	
 
 	return ret;
 }

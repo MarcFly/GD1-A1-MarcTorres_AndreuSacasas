@@ -58,8 +58,6 @@ public:
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt) { 
 		stats.speed.y += stats.accel.y * dt;
-		App->collisions->LookColl(this, dt);
-		App->collisions->LookColl(this, dt);
 		return true; 
 	};
 
@@ -75,7 +73,7 @@ public:
 
 	// Called each loop iteration
 	virtual bool PostUpdate(float dt) { 
-		
+
 		return true; 
 	};
 

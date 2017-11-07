@@ -70,7 +70,7 @@ bool j1Collision::PreUpdate(float dt)
 bool j1Collision::Update(float dt)
 {
 	bool ret = true;
-	Collider* c1;
+	/*Collider* c1;
 	Collider* c2;
 
 	for (uint i = 0; i < colliders.count(); ++i)
@@ -100,11 +100,11 @@ bool j1Collision::Update(float dt)
 
 					c1->callback->OnCollision(c1, c2, check);
 
-				}*/
+				}
 			}
 		}
 	}
-
+	*/
 	return ret;
 }
 
