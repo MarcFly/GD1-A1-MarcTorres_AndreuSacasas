@@ -43,6 +43,7 @@ bool j1Scene::Start()
 	bool ret = true;
 	// LOAD MAPS AND MUSIC HERE
 	if (ret == true) ret = App->map->LoadMap(Map_list.start->data->GetString());
+	curr_map = 0;
 	if (ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 
 	return ret;
@@ -85,7 +86,8 @@ bool j1Scene::Update(float dt)
 		App->audio->Decrease_Master();
 	}
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+		LoadNextMap();
 
 	// Pathfinding Inputs
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
@@ -144,4 +146,22 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void j1Scene::LoadNextMap()
+{
+	App->map->CleanUp();
+	App->entities->CleanUp();
+	App->collisions->CleanUp();
+	App->pathfinding->CleanUp();
+
+	if (Map_list.At(curr_map)->next != NULL) {
+		App->map->LoadMap(Map_list[curr_map + 1]->GetString());
+		curr_map++;
+	}
+	else
+	{
+		App->map->LoadMap(Map_list.start->data->GetString());
+		curr_map = 0;
+	}
 }

@@ -56,9 +56,14 @@ bool j1Player::Update(float dt)
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
 
+	
+
 	Movement(dt);
 
 	App->collisions->LookColl(this, dt);
+
+	App->render->camera.x = - position.x + 300;
+
 
 	return ret;
 }
@@ -76,11 +81,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	}
 	else if (c2->type == COLLIDER_END)
 	{
-
+		App->map->EraseMap();
 	}
 	else if (c2->type == COLLIDER_DIE)
 	{
-
+		position.x = App->map->Maps->start_pos.x;
+		position.y = App->map->Maps->start_pos.y;
 	}
 	else if (c2->type == COLLIDER_ENTITY)
 	{

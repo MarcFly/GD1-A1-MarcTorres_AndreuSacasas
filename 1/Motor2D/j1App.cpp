@@ -189,8 +189,6 @@ void j1App::PrepareUpdate()
 	
 	if (delay > 0)
 		dt = 1.0f / (float)fps_cap;
-	else
-		dt += abs(delay / 1000.0f);
 
 	LOG("%f", dt);
 

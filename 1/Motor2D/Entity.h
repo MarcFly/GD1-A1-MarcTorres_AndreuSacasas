@@ -35,7 +35,14 @@ public:
 	// Destructor
 	virtual ~Entity() {
 		delete current_animation;
+		
+		p2List_item<Animation*>* item = animations.start;
+		while (item != NULL) {
+			delete item;
+			item = item->next;
+		}
 		animations.clear();
+
 		graphics = nullptr;
 
 		delete collision_box;
