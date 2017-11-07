@@ -26,10 +26,6 @@ bool j1Player::UpdateTick(float dt)
 
 	App->test_ticks++;
 
-
-	LOG("Player POS %i %i", position.x, position.y);
-	LOG("Player COLL %i %i", collision_box->rect.x, collision_box->rect.y);
-
 	return ret;
 }
 
@@ -61,10 +57,9 @@ bool j1Player::Update(float dt)
 	collision_box->rect.y = position.y;
 
 	Movement(dt);
-	
-	App->collisions->LookColl(this, dt);
 
-	//App->collisions->LookColl(this, dt);
+	App->collisions->LookColl(this, dt);
+	App->collisions->LookColl(this, dt);
 
 	return ret;
 }
@@ -75,30 +70,30 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 	{
 		
 
-		if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h && check.w > 0 && check.h > 1)
+		if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h)
 		{
 			if (c1->rect.y < c2->rect.y)
 			{
-				this->position.y = c2->rect.y - c1->rect.h - 1;
+				this->position.y = c2->rect.y - c1->rect.h;
 				this->stats.speed.y = 0;
 				this->can_jump = true;
 			}
 			else if(c1->rect.y >= c2->rect.y)
 			{
-				this->position.y = c2->rect.y + c2->rect.h + 1;
+				this->position.y = c2->rect.y + c2->rect.h;
 				this->stats.speed.y = 0;
 			}
 		}
-		else if ((float)check.h / (float)c1->rect.h  > (float)check.w / (float)c1->rect.w && check.h > 0 && check.w > 1)
+		else if ((float)check.h / (float)c1->rect.h  > (float)check.w / (float)c1->rect.w )
 		{
 			if (c1->rect.x > c2->rect.x)
 			{
-				this->position.x = c2->rect.x + c2->rect.w + 1;
+				this->position.x = c2->rect.x + c2->rect.w;
 				this->stats.speed.x = 0;
 			}
 			else if(c1->rect.x <= c2->rect.x)
 			{
-				this->position.x = c2->rect.x - c1->rect.w - 1;
+				this->position.x = c2->rect.x - c1->rect.w;
 				this->stats.speed.x = 0;
 			}
 		}
@@ -109,12 +104,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 			{
 				if (c1->rect.x > c2->rect.x)
 				{
-					this->position.x = c2->rect.x + c2->rect.w + 1;
+					this->position.x = c2->rect.x + c2->rect.w;
 					this->stats.speed.x = 0;
 				}
 				else if (c1->rect.x <= c2->rect.x)
 				{
-					this->position.x = c2->rect.x - c1->rect.w - 1;
+					this->position.x = c2->rect.x - c1->rect.w;
 					this->stats.speed.x = 0;
 				}
 			}
@@ -173,10 +168,10 @@ void j1Player::Movement(float dt) {
 }
 
 void j1Player::MoveLeft(float dt){
-	if (abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x && stats.speed.x < 0)
-		stats.speed.x -= stats.accel.x;
+	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.x && stats.speed.x < 0)
+		stats.speed.x -= stats.accel.x * dt;
 	else if (stats.speed.x >= 0)
-		stats.speed.x -= stats.accel.x * 2;
+		stats.speed.x -= stats.accel.x * 2 * dt;
 	else
 		stats.speed.x = -stats.max_speed.x;
 
@@ -185,12 +180,12 @@ void j1Player::MoveLeft(float dt){
 }
 
 void j1Player::MoveRight(float dt) {
-	if (abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x)
-		stats.speed.x += stats.accel.x;
+	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.x)
+		stats.speed.x += stats.accel.x * dt;
 	else if (stats.speed.x <= 0)
-		stats.speed.x += stats.accel.x * 2;
+		stats.speed.x += stats.accel.x * 2 * dt;
 	else
-		stats.speed.x = stats.max_speed.x ;
+		stats.speed.x = stats.max_speed.x;
 
 	if (state == move_state::move)
 		can_jump = true;
@@ -202,22 +197,22 @@ void j1Player::NoMove(float dt) {
 
 	if (stats.speed.x < 0) {
 
-		if (stats.speed.x + stats.accel.x >= 0)
+		if (stats.speed.x + stats.accel.x * dt >= 0)
 			stats.speed.x = 0;
 		else
-			stats.speed.x += stats.accel.x * 2;
+			stats.speed.x += stats.accel.x * 2 * dt;
 	}
 	else if (stats.speed.x > 0) {
-		if (stats.speed.x - stats.accel.x <= 0)
+		if (stats.speed.x - stats.accel.x * dt <= 0)
 			stats.speed.x = 0;
 		else
-			stats.speed.x -= stats.accel.x * 2;
+			stats.speed.x -= stats.accel.x * 2 * dt;
 	}
 }
 
 void j1Player::DoJump(float dt) {
 	if (!is_jumping)
-		Jump();
+		stats.speed.y = stats.jump_force * dt;
 
 	is_jumping = true;
 

@@ -183,13 +183,15 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 10.4: Calculate the dt: differential time since last frame
-	float time = frame_time.ReadSec();
-	
-	dt = (1.0f/ (float)fps_cap);
-	if (time > dt)
-		dt = time;
-
+	dt = frame_time.ReadMs() / 1000.0f;
 	frame_time.Start(); //Do it after dt lol
+	
+	if (delay > 0)
+		dt = 1.0f / (float)fps_cap;
+	else
+		dt += abs(delay / 1000.0f);
+
+	LOG("%f", dt);
 
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -234,7 +236,7 @@ void j1App::FinishUpdate()
 
 	float avg_fps = float(frame_count) / startup_time.ReadSec();
 	float seconds_since_startup = startup_time.ReadSec();
-	uint32 last_frame_ms = frame_time.Read();
+	uint32 last_frame_ms = frame_time.ReadMs();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
 	p2SString title;
@@ -247,7 +249,7 @@ void j1App::FinishUpdate()
 	// TODO 10.2: Use SDL_Delay to make sure you get your capped framerate
 	
 	// TODO 10.3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	float delay = (1000.0f / fps_cap) - last_frame_ms;
+	delay = (1000.0f / fps_cap) - last_frame_ms;
 	if(delay > 0)
 		SDL_Delay(delay);
 	
@@ -302,7 +304,7 @@ bool j1App::DoUpdateTick()
 				ret = item->data->UpdateTick(dt * ((float)fps_cap / (float)item->data->tick_cap));
 				item->data->dt_sum = 0;
 			}
-			
+			item->data->dt_sum += GetDT();
 		}
 	}
 	
@@ -397,7 +399,7 @@ const char* j1App::GetTitle() const
 
 float j1App::GetDT() const
 {
-	return 0.0f;
+	return dt;
 }
 // ---------------------------------------
 const char* j1App::GetOrganization() const

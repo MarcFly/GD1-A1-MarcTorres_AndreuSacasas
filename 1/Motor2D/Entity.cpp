@@ -33,8 +33,6 @@ void Entity::UpdateState() {
 		flip = false;
 	else if (stats.speed.x < 0)
 		flip = true;
-
-	LOG("%s State %d", name.GetString(), state);
 }
 
 bool Entity::LoadSprites(const pugi::xml_node& sprite_node) {
