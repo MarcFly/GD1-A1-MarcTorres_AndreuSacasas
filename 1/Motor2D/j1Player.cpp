@@ -54,6 +54,7 @@ bool j1Player::Update(float dt)
 
 	position.x += stats.speed.x * dt;
 	position.y += stats.speed.y * dt;
+		
 
 	//collision_box->rect = {position.x,position.y, current_animation->GetCurrentFrame().w, current_animation->GetCurrentFrame().h };
 	collision_box->rect.x = position.x;
@@ -72,24 +73,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 {
 	if (c2->type == COLLIDER_GROUND)
 	{
-		if (abs(this->stats.speed.y) > 0 && this->stats.speed.y != stats.accel.y) 
-		{
-			if (abs(this->stats.speed.x > this->stats.accel.x * 2) && (this->position.x + this->stats.speed.x - c2->rect.x) > abs(this->position.x - c2->rect.x) && check.h > check.w)
-			{
-				if (c1->rect.x > c2->rect.x)
-				{
-					this->position.x = c2->rect.x + c2->rect.w + 1;
-					this->stats.speed.x = 0;
-				}
-				else if (c1->rect.x <= c2->rect.x)
-				{
-					this->position.x = c2->rect.x - c1->rect.w - 1;
-					this->stats.speed.x = 0;
-				}
-			}
-		}
+		
 
-		if (check.w > check.h && check.w > 0)
+		if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h && check.w > 0 && check.h > 1)
 		{
 			if (c1->rect.y < c2->rect.y)
 			{
@@ -103,7 +89,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 				this->stats.speed.y = 0;
 			}
 		}
-		else if (check.h > check.w && check.h > 0)
+		else if ((float)check.h / (float)c1->rect.h  > (float)check.w / (float)c1->rect.w && check.h > 0 && check.w > 1)
 		{
 			if (c1->rect.x > c2->rect.x)
 			{
@@ -114,6 +100,23 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 			{
 				this->position.x = c2->rect.x - c1->rect.w - 1;
 				this->stats.speed.x = 0;
+			}
+		}
+
+		if (abs(this->stats.speed.y) > 0 && abs(this->stats.speed.x) > this->stats.accel.x * 10)
+		{
+			if ((this->position.x + this->stats.speed.x - c2->rect.x) < (this->position.x - c2->rect.x) && check.h > 0 && this->stats.speed.y)
+			{
+				if (c1->rect.x > c2->rect.x)
+				{
+					this->position.x = c2->rect.x + c2->rect.w + 1;
+					this->stats.speed.x = 0;
+				}
+				else if (c1->rect.x <= c2->rect.x)
+				{
+					this->position.x = c2->rect.x - c1->rect.w - 1;
+					this->stats.speed.x = 0;
+				}
 			}
 		}
 	}
@@ -140,21 +143,21 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
 void j1Player::Movement(float dt) {
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		MoveLeft();
+		MoveLeft(dt);
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		MoveRight();
+		MoveRight(dt);
 	}
 	else
 	{
-		NoMove();
+		NoMove(dt);
 	}
 
 
 
 	if ((App->input->GetKey(SDL_SCANCODE_SPACE) == (KEY_REPEAT || KEY_DOWN) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && can_jump == true) {
-		DoJump();
+		DoJump(dt);
 	}
 
 	else if (is_jumping == true)
@@ -169,10 +172,11 @@ void j1Player::Movement(float dt) {
 
 }
 
-void j1Player::MoveLeft(){
-	if (stats.speed.x > 0 || (stats.speed.x <= 0 && abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x))
+void j1Player::MoveLeft(float dt){
+	if (abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x && stats.speed.x < 0)
 		stats.speed.x -= stats.accel.x;
-
+	else if (stats.speed.x >= 0)
+		stats.speed.x -= stats.accel.x * 2;
 	else
 		stats.speed.x = -stats.max_speed.x;
 
@@ -180,36 +184,38 @@ void j1Player::MoveLeft(){
 		can_jump = true;
 }
 
-void j1Player::MoveRight() {
-	if (stats.speed.x < 0 || (stats.speed.x >= 0 && abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x))
+void j1Player::MoveRight(float dt) {
+	if (abs(stats.speed.x) + stats.accel.x <= stats.max_speed.x)
 		stats.speed.x += stats.accel.x;
+	else if (stats.speed.x <= 0)
+		stats.speed.x += stats.accel.x * 2;
 	else
-		stats.speed.x = stats.max_speed.x;
+		stats.speed.x = stats.max_speed.x ;
 
 	if (state == move_state::move)
 		can_jump = true;
 }
 
-void j1Player::NoMove() {
+void j1Player::NoMove(float dt) {
 	if (stats.speed.x == 0 && stats.speed.y == 0 && !can_jump)
 		can_jump = true;
 
 	if (stats.speed.x < 0) {
 
-		if (stats.speed.x + stats.accel.x / 2 >= 0)
+		if (stats.speed.x + stats.accel.x >= 0)
 			stats.speed.x = 0;
 		else
-			stats.speed.x /= 2;
+			stats.speed.x += stats.accel.x * 2;
 	}
 	else if (stats.speed.x > 0) {
-		if (stats.speed.x - stats.accel.x / 2 <= 0)
+		if (stats.speed.x - stats.accel.x <= 0)
 			stats.speed.x = 0;
 		else
-			stats.speed.x /= 2;
+			stats.speed.x -= stats.accel.x * 2;
 	}
 }
 
-void j1Player::DoJump() {
+void j1Player::DoJump(float dt) {
 	if (!is_jumping)
 		Jump();
 
