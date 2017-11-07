@@ -84,7 +84,7 @@ bool j1Collision::Update(float dt)
 		// avoid checking collisions already checked
 		for (uint k = i + 1; k < colliders.count(); ++k)
 		{
-			if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < 200 && abs(c1->rect.y - colliders[k]->rect.y) < 200) {
+			if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < 100 && abs(c1->rect.y - colliders[k]->rect.y) < 100) {
 			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
 
 				c2 = colliders[k];
