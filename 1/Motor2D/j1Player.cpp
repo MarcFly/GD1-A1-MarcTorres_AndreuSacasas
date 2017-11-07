@@ -59,61 +59,20 @@ bool j1Player::Update(float dt)
 	Movement(dt);
 
 	App->collisions->LookColl(this, dt);
-	App->collisions->LookColl(this, dt);
 
 	return ret;
 }
 
-void j1Player::OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check)
+void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 {
 	if (c2->type == COLLIDER_GROUND)
 	{
 		
-
-		if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h)
-		{
-			if (c1->rect.y < c2->rect.y)
-			{
-				this->position.y = c2->rect.y - c1->rect.h;
-				this->stats.speed.y = 0;
-				this->can_jump = true;
-			}
-			else if(c1->rect.y >= c2->rect.y)
-			{
-				this->position.y = c2->rect.y + c2->rect.h;
-				this->stats.speed.y = 0;
-			}
-		}
-		else if ((float)check.h / (float)c1->rect.h  > (float)check.w / (float)c1->rect.w )
-		{
-			if (c1->rect.x > c2->rect.x)
-			{
-				this->position.x = c2->rect.x + c2->rect.w;
-				this->stats.speed.x = 0;
-			}
-			else if(c1->rect.x <= c2->rect.x)
-			{
-				this->position.x = c2->rect.x - c1->rect.w;
-				this->stats.speed.x = 0;
-			}
-		}
-
-		if (abs(this->stats.speed.y) > 0 && abs(this->stats.speed.x) > this->stats.accel.x * 10)
-		{
-			if ((this->position.x + this->stats.speed.x - c2->rect.x) < (this->position.x - c2->rect.x) && check.h > 0 && this->stats.speed.y)
-			{
-				if (c1->rect.x > c2->rect.x)
-				{
-					this->position.x = c2->rect.x + c2->rect.w;
-					this->stats.speed.x = 0;
-				}
-				else if (c1->rect.x <= c2->rect.x)
-				{
-					this->position.x = c2->rect.x - c1->rect.w;
-					this->stats.speed.x = 0;
-				}
-			}
-		}
+		
+			CorrectCollision(c1, c2, check);
+			c2->CheckCollision(c1->rect, check);
+		
+		
 	}
 	else if (c2->type == COLLIDER_END)
 	{
@@ -222,5 +181,53 @@ void j1Player::DoJump(float dt) {
 	else
 	{
 		can_jump = false;
+	}
+}
+
+void j1Player::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
+{
+	if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h)
+	{
+		if (c1->rect.y < c2->rect.y)
+		{
+			this->position.y = c2->rect.y - c1->rect.h;
+			this->stats.speed.y = 0;
+			this->can_jump = true;
+		}
+		else if (c1->rect.y >= c2->rect.y)
+		{
+			this->position.y = c2->rect.y + c2->rect.h;
+			this->stats.speed.y = 0;
+		}
+	}
+	if ((float)check.h / (float)c1->rect.h  > (float)check.w / (float)c1->rect.w)
+	{
+		if (c1->rect.x > c2->rect.x)
+		{
+			this->position.x = c2->rect.x + c2->rect.w;
+			this->stats.speed.x = 0;
+		}
+		else if (c1->rect.x <= c2->rect.x)
+		{
+			this->position.x = c2->rect.x - c1->rect.w;
+			this->stats.speed.x = 0;
+		}
+	}
+
+	if (abs(this->stats.speed.y) > 0 && abs(this->stats.speed.x) > this->stats.accel.x * 10)
+	{
+		if ((this->position.x + this->stats.speed.x - c2->rect.x) < (this->position.x - c2->rect.x) && check.h > 0 && this->stats.speed.y)
+		{
+			if (c1->rect.x > c2->rect.x)
+			{
+				this->position.x = c2->rect.x + c2->rect.w;
+				this->stats.speed.x = 0;
+			}
+			else if (c1->rect.x <= c2->rect.x)
+			{
+				this->position.x = c2->rect.x - c1->rect.w;
+				this->stats.speed.x = 0;
+			}
+		}
 	}
 }

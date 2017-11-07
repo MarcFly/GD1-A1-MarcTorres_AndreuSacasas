@@ -89,7 +89,7 @@ public:
 
 	virtual bool Save(pugi::xml_node& savegame);
 
-	virtual void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) {};
+	virtual void OnCollision(Collider* c1, Collider* c2, SDL_Rect& check) {};
 
 	virtual void Movement() {};
 

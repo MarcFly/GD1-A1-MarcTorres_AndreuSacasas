@@ -77,11 +77,11 @@ public:
 	bool debug = false;
 	p2List<TypeRect*> rect_list;
 
+	p2List<Collider*> colliders;
+	uint coll_detect;
+
 private:
 
-	p2List<Collider*> colliders;
-
-	uint coll_detect;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 	
 	
