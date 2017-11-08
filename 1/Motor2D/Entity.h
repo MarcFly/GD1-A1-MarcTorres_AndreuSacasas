@@ -86,6 +86,18 @@ public:
 
 	// Called before quitting
 	virtual bool CleanUp() { 
+		delete current_animation;
+
+		p2List_item<Animation*>* item = animations.start;
+		while (item != NULL) {
+			item->data->Reset();
+			item = item->next;
+		}
+		animations.clear();
+
+		graphics = nullptr;
+
+		App->collisions->EraseCollider(collision_box);
 		return true; 
 	};
 

@@ -20,9 +20,6 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
-	// Called before quitting
-	bool CleanUp();
-
 	// OnCollision reaction
 	void OnCollision(Collider* c1, Collider* c2, SDL_Rect& check);
 	void CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check);

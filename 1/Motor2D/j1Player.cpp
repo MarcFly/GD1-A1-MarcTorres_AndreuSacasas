@@ -14,12 +14,6 @@ bool j1Player::Start()
 	return ret;
 }
 
-bool j1Player::CleanUp()
-{
-	bool ret = true;
-
-	return ret;
-}
 bool j1Player::UpdateTick(float dt)
 {
 	bool ret = true;

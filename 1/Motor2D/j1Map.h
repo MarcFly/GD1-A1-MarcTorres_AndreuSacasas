@@ -198,9 +198,15 @@ public:
 	bool EraseMap() {
 		delete Maps;
 		Maps = nullptr;
+		
+		p2List_item<Collider*>* item = App->collisions->colliders.start;
+		while (item != NULL)
+		{
+			if (item->data->type != COLLIDER_ENTITY)
+				App->collisions->EraseCollider(item->data);
 
-		App->collisions->CleanUp();
-
+			item = item->next;
+		}
 		return true;
 	}
 
