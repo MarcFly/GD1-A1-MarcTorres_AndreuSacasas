@@ -150,9 +150,8 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadNextMap()
 {
-	App->map->CleanUp();
+	App->map->EraseMap();
 	App->entities->CleanUp();
-	App->collisions->CleanUp();
 	App->pathfinding->CleanUp();
 
 	if (Map_list.At(curr_map)->next != NULL) {
