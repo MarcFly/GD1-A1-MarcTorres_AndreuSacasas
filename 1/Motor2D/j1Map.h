@@ -48,6 +48,7 @@ struct layer_info {
 	inline int Get(const int& x, const int& y) { return data[y*width + x]; }
 
 	~layer_info() {
+		name.Clear();
 		delete[] data;
 	}
 };
@@ -97,9 +98,13 @@ struct tileset_info {
 	}
 
 	~tileset_info() {
+		name.Clear();
+
 		for (int i = 0; i < terrains.count(); i++)
 			delete terrains[i];
 		terrains.clear();
+
+		App->tex->UnLoad(image.tex);
 	}
 };
 
@@ -154,7 +159,6 @@ struct Map_info {
 		this_map.Clear();
 	}
 
-	
 };
 
 // ----------------------------------------------------

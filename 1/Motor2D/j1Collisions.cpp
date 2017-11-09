@@ -187,6 +187,19 @@ bool j1Collision::CleanUp()
 	return true;
 }
 
+bool j1Collision::CleanColliders(){
+	bool ret = true;
+	p2List_item<Collider*>* item = colliders.start;
+	while (item != NULL)
+	{
+		if(item->data != nullptr)
+			delete item->data;
+		item->data = nullptr;
+		item = item->next;
+	}
+
+	colliders.clear();
+}
 Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_)
 {
 	Collider* ret = new Collider(rect,type_,callback_);

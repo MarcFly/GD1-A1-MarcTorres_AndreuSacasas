@@ -15,6 +15,7 @@
 #include "EntityManager.h"
 #include "j1Pathfinding.h"
 #include "j1App.h"
+#include "Brofiler\Brofiler.h"
 
 // TODO 9.3: Measure the amount of ms that takes to execute:
 // App constructor, Awake, Start and CleanUp
@@ -84,6 +85,8 @@ bool j1App::Awake()
 	bool ret = true;
 
 	ret = LoadConfig();
+
+	fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
 	ChangeFPSLimit();
 	
@@ -187,9 +190,9 @@ void j1App::PrepareUpdate()
 	dt = frame_time.ReadMs() / 1000.0f;
 	frame_time.Start(); //Do it after dt lol
 	
-	if (delay > 0)
+	if (dt < 1.0f / (float)fps_cap)
 		dt = 1.0f / (float)fps_cap;
-
+		
 	LOG("%f", dt);
 
 	p2List_item<j1Module*>* item;
@@ -249,7 +252,7 @@ void j1App::FinishUpdate()
 	
 	// TODO 10.3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
 	delay = (1000.0f / fps_cap) - last_frame_ms;
-	if(delay > 0)
+	if(cap)
 		SDL_Delay(delay);
 	
 }
@@ -477,6 +480,8 @@ void j1App::ChangeFPSLimit() {
 	//fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
 	// Code that takes screen refresh rate to set framerate cap
+	/* THIS CODE CHANGES BETWEEN PERSONAL AND SCREEN REFRESH RATE TO CAP THE FRAMES
+	
 	DEVMODE lpdvm;
 	memset(&lpdvm, 0, sizeof(DEVMODE));
 	EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &lpdvm);
@@ -485,6 +490,8 @@ void j1App::ChangeFPSLimit() {
 	else
 		fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
+	*/ // Code to Cap specifically
 
+	cap = !cap;
 }
 

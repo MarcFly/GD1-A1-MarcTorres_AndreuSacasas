@@ -3,6 +3,7 @@
 #include "j1Input.h"
 #include "j1Map.h"
 #include "j1Render.h"
+#include "j1Scene.h"
 
 bool j1Player::Start()
 {
@@ -75,7 +76,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	}
 	else if (c2->type == COLLIDER_END)
 	{
-		App->map->EraseMap();
+		App->scene->LoadNextMap();
 	}
 	else if (c2->type == COLLIDER_DIE)
 	{
@@ -118,6 +119,8 @@ void j1Player::Movement(float dt) {
 	{
 		can_jump = false;
 		is_jumping = false;
+
+		
 	}
 
 		
@@ -127,24 +130,24 @@ void j1Player::Movement(float dt) {
 }
 
 void j1Player::MoveLeft(float dt){
-	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.x && stats.speed.x < 0)
+	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.x * dt && stats.speed.x < 0)
 		stats.speed.x -= stats.accel.x * dt;
 	else if (stats.speed.x >= 0)
 		stats.speed.x -= stats.accel.x * 2 * dt;
 	else
-		stats.speed.x = -stats.max_speed.x;
+		stats.speed.x = -stats.max_speed.x * dt;
 
 	if (state == move_state::move)
 		can_jump = true;
 }
 
 void j1Player::MoveRight(float dt) {
-	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.x)
+	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.x * dt)
 		stats.speed.x += stats.accel.x * dt;
 	else if (stats.speed.x <= 0)
 		stats.speed.x += stats.accel.x * 2 * dt;
 	else
-		stats.speed.x = stats.max_speed.x;
+		stats.speed.x = stats.max_speed.x * dt;
 
 	if (state == move_state::move)
 		can_jump = true;

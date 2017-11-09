@@ -68,6 +68,8 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
+	bool CleanColliders();
+
 	void LookColl(Entity* entity, float dt);
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);

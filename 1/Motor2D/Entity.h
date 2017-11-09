@@ -64,7 +64,11 @@ public:
 
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt) { 
-		stats.speed.y += stats.accel.y * dt;
+		if (stats.speed.y + stats.accel.y * dt < stats.max_speed.y * dt)
+			stats.speed.y += stats.accel.y * dt;
+		else
+			stats.speed.y = stats.max_speed.y * dt;
+
 		return true; 
 	};
 

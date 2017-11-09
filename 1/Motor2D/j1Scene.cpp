@@ -151,8 +151,11 @@ bool j1Scene::CleanUp()
 void j1Scene::LoadNextMap()
 {
 	App->map->EraseMap();
-	App->entities->CleanUp();
-	App->pathfinding->CleanUp();
+	App->entities->CleanEntities();
+	App->pathfinding->ResetNav();
+	p2List_item<Collider*>* item = App->collisions->colliders.start;
+
+	
 
 	if (Map_list.At(curr_map)->next != NULL) {
 		App->map->LoadMap(Map_list[curr_map + 1]->GetString());

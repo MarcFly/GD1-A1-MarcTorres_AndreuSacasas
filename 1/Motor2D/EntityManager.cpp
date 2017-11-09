@@ -99,14 +99,16 @@ bool EntityManager::CleanUp()
 {
 	bool ret = true;
 
-	p2List_item<Entity*>* item = entities.start;
+	CleanEntities();
+	
+	p2List_item<tex>* item = texs.start;
 
-	while (item != NULL && ret == true) {
-		ret = item->data->CleanUp();
-		item = item->next;
+	while (item != NULL)
+	{
+		App->tex->UnLoad(item->data.texture);
 	}
 
-	entities.clear();
+	texs.clear();
 
 	return ret;
 }
@@ -231,6 +233,23 @@ int EntityManager::FindEntities(const uint& type) {
 
 		item = item->next;
 	}
+
+	return ret;
+}
+
+bool EntityManager::CleanEntities() {
+	bool ret = true;
+
+	p2List_item<Entity*>* item = entities.start;
+
+	while (item != NULL)
+	{
+		ret = item->data->CleanUp();
+		delete item->data;
+		item = item->next;
+	}
+
+	entities.clear();
 
 	return ret;
 }

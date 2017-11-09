@@ -65,6 +65,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Called to delete entities
+	bool CleanEntities();
+
 	// Called when triggered
 	bool Load(const pugi::xml_node& savegame);
 
