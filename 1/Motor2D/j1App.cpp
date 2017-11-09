@@ -335,6 +335,8 @@ bool j1App::DoUpdate()
 			continue;
 		}
 
+		p2SString name("Update %s", item->data->name.GetString());
+		BROFILER_CATEGORY(name.GetString(), Profiler::Color::Orchid);
 		// TODO 10.5: send dt as an argument to all updates
 		// you will need to update module parent class
 		// and all modules that use update
