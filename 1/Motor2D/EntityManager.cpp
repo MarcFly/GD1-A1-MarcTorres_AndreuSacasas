@@ -106,6 +106,7 @@ bool EntityManager::CleanUp()
 	while (item != NULL)
 	{
 		App->tex->UnLoad(item->data.texture);
+		item = item->next;
 	}
 
 	texs.clear();
@@ -245,7 +246,6 @@ bool EntityManager::CleanEntities() {
 	while (item != NULL)
 	{
 		ret = item->data->CleanUp();
-		delete item->data;
 		item = item->next;
 	}
 

@@ -171,16 +171,7 @@ bool j1Collision::CleanUp()
 {
 	LOG("Freeing all colliders");
 
-	for (uint i = 0; i < colliders.count(); ++i)
-	{
-		if (colliders[i] != nullptr)
-		{
-			delete colliders[i];
-			colliders[i] = nullptr;
-		}
-	}
-
-	colliders.clear();
+	CleanColliders();
 
 	rect_list.clear();
 
@@ -199,7 +190,10 @@ bool j1Collision::CleanColliders(){
 	}
 
 	colliders.clear();
+
+	return ret;
 }
+
 Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_)
 {
 	Collider* ret = new Collider(rect,type_,callback_);

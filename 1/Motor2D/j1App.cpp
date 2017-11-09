@@ -187,11 +187,13 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 10.4: Calculate the dt: differential time since last frame
-	dt = frame_time.ReadMs() / 1000.0f;
+	dt = (frame_time.ReadMs() / 1000.0f);
 	frame_time.Start(); //Do it after dt lol
 	
 	if (dt < 1.0f / (float)fps_cap)
 		dt = 1.0f / (float)fps_cap;
+
+	dt *= EXPECTED;
 		
 	LOG("%f", dt);
 
@@ -252,8 +254,9 @@ void j1App::FinishUpdate()
 	
 	// TODO 10.3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
 	delay = (1000.0f / fps_cap) - last_frame_ms;
-	if(cap)
-		SDL_Delay(delay);
+	
+	if(delay > 0)
+	SDL_Delay(delay);
 	
 }
 
@@ -480,7 +483,7 @@ void j1App::ChangeFPSLimit() {
 	//fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
 	// Code that takes screen refresh rate to set framerate cap
-	/* THIS CODE CHANGES BETWEEN PERSONAL AND SCREEN REFRESH RATE TO CAP THE FRAMES
+	 //THIS CODE CHANGES BETWEEN PERSONAL AND SCREEN REFRESH RATE TO CAP THE FRAMES
 	
 	DEVMODE lpdvm;
 	memset(&lpdvm, 0, sizeof(DEVMODE));
@@ -490,8 +493,8 @@ void j1App::ChangeFPSLimit() {
 	else
 		fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
-	*/ // Code to Cap specifically
+	 // Code to Cap specifically
 
-	cap = !cap;
+	//cap = !cap;
 }
 

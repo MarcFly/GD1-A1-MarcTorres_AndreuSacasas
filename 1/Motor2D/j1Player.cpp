@@ -46,12 +46,8 @@ bool j1Player::Update(float dt)
 	position.x += stats.speed.x * dt;
 	position.y += stats.speed.y * dt;
 		
-
-	//collision_box->rect = {position.x,position.y, current_animation->GetCurrentFrame().w, current_animation->GetCurrentFrame().h };
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
-
-	
 
 	Movement(dt);
 
@@ -165,7 +161,7 @@ void j1Player::NoMove(float dt) {
 			stats.speed.x += stats.accel.x * 2 * dt;
 	}
 	else if (stats.speed.x > 0) {
-		if (stats.speed.x - stats.accel.x * dt <= 0)
+		if (stats.speed.x - stats.accel.x * 2 * dt <= 0)
 			stats.speed.x = 0;
 		else
 			stats.speed.x -= stats.accel.x * 2 * dt;

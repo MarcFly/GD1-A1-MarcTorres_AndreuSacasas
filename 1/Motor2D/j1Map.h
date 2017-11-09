@@ -203,15 +203,6 @@ public:
 		delete Maps;
 		Maps = nullptr;
 		
-		p2List_item<Collider*>* item = App->collisions->colliders.start;
-		while (item != NULL)
-		{
-			if (item->data != NULL && item->data->type != COLLIDER_ENTITY)
-				App->collisions->EraseCollider(item->data);
-
-			item = item->next;
-		}
-		
 		return true;
 	}
 

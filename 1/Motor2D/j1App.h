@@ -7,6 +7,7 @@
 #include "j1PerfTimer.h"
 #include "PugiXml\src\pugixml.hpp"
 
+#define EXPECTED 60.0f
 #define PERF_START(timer) timer.Start()
 #define PERF_PEEK(timer) LOG("%s took %f ms", __FUNCTION__, timer.ReadMs())
 
