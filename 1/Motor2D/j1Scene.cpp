@@ -169,4 +169,6 @@ void j1Scene::LoadNextMap()
 		curr_map = 0;
 		App->map->first_loop = true;
 	}
+
+	App->entities->LoadEntities();
 }

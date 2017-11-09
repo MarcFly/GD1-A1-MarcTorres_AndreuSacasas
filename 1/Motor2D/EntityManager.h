@@ -68,6 +68,8 @@ public:
 	// Called to delete entities
 	bool CleanEntities();
 
+	bool LoadEntities();
+
 	// Called when triggered
 	bool Load(const pugi::xml_node& savegame);
 

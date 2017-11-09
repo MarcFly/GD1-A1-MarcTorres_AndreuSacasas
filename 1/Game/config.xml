@@ -57,8 +57,6 @@
 	  <ticks value="60"/>
     <folder source="textures/"/>
 	  <sprites source="sprites.xml"/>
-	  <entity type="0"/>
-	  <entity type="-1"/>
   </entities>
 
   <scene>

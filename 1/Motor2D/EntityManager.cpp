@@ -2,6 +2,7 @@
 #include "j1Player.h"
 #include "j1Pathfinding.h"
 #include "j1Map.h"
+#include "j1Scene.h"
 
 EntityManager::EntityManager()
 {
@@ -29,30 +30,8 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 		ret = false;
 	}
 	else {
-		pugi::xml_node root = sprites_doc.child("sprites");
-
-		pugi::xml_node entity_n = config.child("entity");
-
-		while (entity_n != NULL) {
-			
-			AddEntity(entity_n.attribute("type").as_uint(), FindEntities(entity_n.attribute("type").as_uint()));
-			entity_n = entity_n.next_sibling("entity");
-		}
-
-		p2List_item<Entity*>* item = entities.start;
-
-		pugi::xml_node temp_properties = root.child("entity");
-
-		while (item != NULL && ret == true) {
-
-			pugi::xml_node temp_sprites = root.child("animations");
-			while (temp_sprites.attribute("type").as_int() != item->data->type)
-				temp_sprites = temp_sprites.next_sibling();
-
-			ret = item->data->Awake(temp_sprites, temp_properties);
-			item = item->next;
-			temp_properties = temp_properties.next_sibling("entity");
-		}
+		
+		LoadEntities();
 	}
 	
 	return ret;
@@ -250,6 +229,34 @@ bool EntityManager::CleanEntities() {
 	}
 
 	entities.clear();
+
+	return ret;
+}
+
+bool EntityManager::LoadEntities()
+{
+	bool ret = true;
+
+	pugi::xml_node root = sprites_doc.child("sprites");
+
+	p2List_item<Entity*>* item;
+
+	p2SString curr_map("%i", App->scene->curr_map);
+	pugi::xml_node temp_properties = root.find_child_by_attribute("value", curr_map.GetString()).child("entity");
+
+	while (temp_properties.attribute("type").as_string() != "" && ret == true) {
+		AddEntity(temp_properties.attribute("type").as_uint(), FindEntities(temp_properties.attribute("type").as_uint()));
+
+		item = entities.end;
+
+		pugi::xml_node temp_sprites = root.child("animations");
+		while (temp_sprites.attribute("type").as_int() != item->data->type)
+			temp_sprites = temp_sprites.next_sibling();
+
+		ret = item->data->Awake(temp_sprites, temp_properties);
+		item = item->next;
+		temp_properties = temp_properties.next_sibling("entity");
+	}
 
 	return ret;
 }
