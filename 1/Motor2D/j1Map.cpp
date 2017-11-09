@@ -7,6 +7,7 @@
 #include <math.h>
 #include <string>
 #include "j1Pathfinding.h"
+#include "j1Scene.h"
 
 struct SDL_Texture;
 
@@ -497,7 +498,9 @@ bool j1Map::Load(const pugi::xml_node& savegame)
 
 	if (Maps->this_map.GetString() != savegame.child("curr_map").attribute("source").as_string()){
 		App->map->EraseMap();
-		App->map->LoadMap(savegame.child("curr_map").attribute("source").as_string());
+		App->collisions->CleanColliders();
+		App->map->LoadMap(App->scene->Map_list[savegame.child("curr_map").attribute("source").as_int()]->GetString());
+		App->scene->curr_map = savegame.child("curr_map").attribute("source").as_int();
 		first_loop = true;
 	}
 
@@ -508,7 +511,7 @@ bool j1Map::Save(pugi::xml_node& savegame)
 {
 	bool ret = true;
 
-	savegame.append_child("curr_map").append_attribute("source") = Maps->this_map.GetString();
+	savegame.append_child("curr_map").append_attribute("source") = App->scene->curr_map;
 
 	return ret;
 }

@@ -32,10 +32,15 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void LoadNextMap();
+
+	int curr_map;
+	p2List<p2SString*> Map_list;
+
 private:
 	SDL_Texture* img;
 
-	p2List<p2SString*> Map_list;
+	
 };
 
 #endif // __j1SCENE_H__

@@ -48,6 +48,7 @@ struct layer_info {
 	inline int Get(const int& x, const int& y) { return data[y*width + x]; }
 
 	~layer_info() {
+		name.Clear();
 		delete[] data;
 	}
 };
@@ -97,9 +98,13 @@ struct tileset_info {
 	}
 
 	~tileset_info() {
+		name.Clear();
+
 		for (int i = 0; i < terrains.count(); i++)
 			delete terrains[i];
 		terrains.clear();
+
+		App->tex->UnLoad(image.tex);
 	}
 };
 
@@ -154,7 +159,6 @@ struct Map_info {
 		this_map.Clear();
 	}
 
-	
 };
 
 // ----------------------------------------------------
@@ -195,6 +199,13 @@ public:
 	// Find Tileset
 	tileset_info* GetTilesetFromTileId(int gid) const;
 
+	bool EraseMap() {
+		delete Maps;
+		Maps = nullptr;
+		
+		return true;
+	}
+
 private:
 
 	// TODO 3.3.2 Functions/Methods to load map data
@@ -210,13 +221,7 @@ private:
 	
 	//void CreateCollider(layer_info& item_layer, tileset_info& item_tileset, int y, int x);
 
-	bool EraseMap() { 
-		delete Maps;
-		Maps = nullptr; 
-		
-		App->collisions->CleanUp();
-
-		return true; }
+	
 
 public:
 

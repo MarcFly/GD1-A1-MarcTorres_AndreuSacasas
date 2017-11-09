@@ -9,9 +9,9 @@
 
   <entity type="0">
       <position x="704" y="180"/>
-      <max_speed x="4000" y="8000"/>
-      <acceleration x="400" y="400"/>
-      <jump_force value="-7000"/>
+      <max_speed x="8" y="2"/>
+      <acceleration x="0.5" y="0.5"/>
+      <jump_force value="-4"/>
       <collision_box offset_x="" offset_y="" h="60" w="40"/>
       <render_scale value="1.0"/>
       <state value="0"/>

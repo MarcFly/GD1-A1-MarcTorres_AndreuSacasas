@@ -43,6 +43,7 @@ bool j1Scene::Start()
 	bool ret = true;
 	// LOAD MAPS AND MUSIC HERE
 	if (ret == true) ret = App->map->LoadMap(Map_list.start->data->GetString());
+	curr_map = 0;
 	if (ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 
 	return ret;
@@ -60,7 +61,7 @@ bool j1Scene::Update(float dt)
 	// Get Mouse Position
 	iPoint pos;
 	App->input->GetMousePosition(pos.x, pos.y);
-	pos = App->map->WorldToMap(pos.x - App->render->camera.x, pos.y - App->render->camera.y );
+	pos = App->map->WorldToMap(pos.x - App->render->camera.x, pos.y - App->render->camera.y);
 
 	// TODO 2.5: Call load / save methods when pressing l/s
 
@@ -76,6 +77,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
 		App->ChangeFPSLimit();
+
 	// TODO 2.Homework Allow for change in volume
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
 		App->audio->Increase_Master();
@@ -85,7 +87,10 @@ bool j1Scene::Update(float dt)
 		App->audio->Decrease_Master();
 	}
 
-	
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN){
+		LoadNextMap();
+		// Si no solucionem problema de carga, posar un timer a poder cargar mapes constantmen
+	}
 
 	// Pathfinding Inputs
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
@@ -144,4 +149,24 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void j1Scene::LoadNextMap()
+{
+	App->map->EraseMap();
+	App->entities->CleanEntities();
+	App->pathfinding->ResetNav();
+	App->collisions->CleanColliders();
+
+	if (Map_list.At(curr_map)->next != NULL) {
+		App->map->LoadMap(Map_list[curr_map + 1]->GetString());
+		App->map->first_loop = true;
+		curr_map++;
+	}
+	else
+	{
+		App->map->LoadMap(Map_list.start->data->GetString());
+		curr_map = 0;
+		App->map->first_loop = true;
+	}
 }

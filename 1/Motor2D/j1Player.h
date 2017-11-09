@@ -20,11 +20,9 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
-	// Called before quitting
-	bool CleanUp();
-
 	// OnCollision reaction
-	void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check);
+	void OnCollision(Collider* c1, Collider* c2, SDL_Rect& check);
+	void CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check);
 
 	void Movement(float dt);
 
@@ -32,6 +30,7 @@ public:
 	void MoveLeft(float dt);
 	void DoJump(float dt);
 	void NoMove(float dt);
+
 public:
 
 	bool can_jump = true;

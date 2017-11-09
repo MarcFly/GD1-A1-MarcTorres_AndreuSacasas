@@ -7,6 +7,7 @@
 #include "j1PerfTimer.h"
 #include "PugiXml\src\pugixml.hpp"
 
+#define EXPECTED 60.0f
 #define PERF_START(timer) timer.Start()
 #define PERF_PEEK(timer) LOG("%s took %f ms", __FUNCTION__, timer.ReadMs())
 
@@ -135,7 +136,7 @@ private:
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
 	uint				fps_cap;
-
+	bool  cap = false;
 	float dt;
 	float delay;
 	float sth;

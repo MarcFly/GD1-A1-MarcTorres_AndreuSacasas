@@ -35,7 +35,14 @@ public:
 	// Destructor
 	virtual ~Entity() {
 		delete current_animation;
+		
+		p2List_item<Animation*>* item = animations.start;
+		while (item != NULL) {
+			delete item;
+			item = item->next;
+		}
 		animations.clear();
+
 		graphics = nullptr;
 
 		delete collision_box;
@@ -57,9 +64,11 @@ public:
 
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt) { 
-		stats.speed.y += stats.accel.y * dt;
-		App->collisions->LookColl(this, dt);
-		App->collisions->LookColl(this, dt);
+		if (stats.speed.y + stats.accel.y * dt < stats.max_speed.y * dt)
+			stats.speed.y += stats.accel.y * dt;
+		else
+			stats.speed.y = stats.max_speed.y * dt;
+
 		return true; 
 	};
 
@@ -75,12 +84,24 @@ public:
 
 	// Called each loop iteration
 	virtual bool PostUpdate(float dt) { 
-		
+
 		return true; 
 	};
 
 	// Called before quitting
 	virtual bool CleanUp() { 
+		delete current_animation;
+
+		p2List_item<Animation*>* item = animations.start;
+		while (item != NULL) {
+			item->data->Reset();
+			item = item->next;
+		}
+		animations.clear();
+
+		graphics = nullptr;
+
+		App->collisions->EraseCollider(collision_box);
 		return true; 
 	};
 
@@ -89,7 +110,7 @@ public:
 
 	virtual bool Save(pugi::xml_node& savegame);
 
-	virtual void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) {};
+	virtual void OnCollision(Collider* c1, Collider* c2, SDL_Rect& check) {};
 
 	virtual void Movement() {};
 

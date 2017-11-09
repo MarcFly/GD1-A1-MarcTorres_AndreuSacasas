@@ -79,7 +79,7 @@ public:
 	}
 
 	// Collision Reactor
-	virtual void OnCollision(Collider* c1, Collider* c2, const SDL_Rect& check) {};
+	virtual void OnCollision(Collider* c1, Collider* c2, SDL_Rect& check) {};
 
 public:
 

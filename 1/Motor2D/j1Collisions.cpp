@@ -70,7 +70,7 @@ bool j1Collision::PreUpdate(float dt)
 bool j1Collision::Update(float dt)
 {
 	bool ret = true;
-	Collider* c1;
+	/*Collider* c1;
 	Collider* c2;
 
 	for (uint i = 0; i < colliders.count(); ++i)
@@ -84,7 +84,7 @@ bool j1Collision::Update(float dt)
 		// avoid checking collisions already checked
 		for (uint k = i + 1; k < colliders.count(); ++k)
 		{
-			if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < 200 && abs(c1->rect.y - colliders[k]->rect.y) < 200) {
+			if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < 100 && abs(c1->rect.y - colliders[k]->rect.y) < 100) {
 			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
 
 				c2 = colliders[k];
@@ -100,11 +100,11 @@ bool j1Collision::Update(float dt)
 
 					c1->callback->OnCollision(c1, c2, check);
 
-				}*/
+				}
 			}
 		}
 	}
-
+	*/
 	return ret;
 }
 
@@ -171,20 +171,27 @@ bool j1Collision::CleanUp()
 {
 	LOG("Freeing all colliders");
 
-	for (uint i = 0; i < colliders.count(); ++i)
-	{
-		if (colliders[i] != nullptr)
-		{
-			delete colliders[i];
-			colliders[i] = nullptr;
-		}
-	}
-
-	colliders.clear();
+	CleanColliders();
 
 	rect_list.clear();
 
 	return true;
+}
+
+bool j1Collision::CleanColliders(){
+	bool ret = true;
+	p2List_item<Collider*>* item = colliders.start;
+	while (item != NULL)
+	{
+		if(item->data != nullptr)
+			delete item->data;
+		item->data = nullptr;
+		item = item->next;
+	}
+
+	colliders.clear();
+
+	return ret;
 }
 
 Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_)
