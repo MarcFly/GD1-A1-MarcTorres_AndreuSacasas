@@ -63,6 +63,21 @@ bool j1Scene::Update(float dt)
 	App->input->GetMousePosition(pos.x, pos.y);
 	pos = App->map->WorldToMap(pos.x - App->render->camera.x, pos.y - App->render->camera.y);
 
+	// Camera movement Inputs
+	// TODO 10.6: Make the camera movement independent of framerate
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		App->render->camera.y -= 12 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		App->render->camera.y += 12 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		App->render->camera.x -= 12 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		App->render->camera.x += 12 * dt;
+
 	// TODO 2.5: Call load / save methods when pressing l/s
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
