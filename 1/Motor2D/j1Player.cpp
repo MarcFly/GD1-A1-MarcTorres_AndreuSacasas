@@ -4,6 +4,7 @@
 #include "j1Map.h"
 #include "j1Render.h"
 #include "j1Scene.h"
+#include "EntityManager.h"
 
 bool j1Player::Start()
 {
@@ -39,7 +40,10 @@ bool j1Player::Update(float dt)
 	App->collisions->LookColl(this, dt);
 
 	//App->render->camera.x = - position.x + 300;
-
+	if (HIT_TIMER != nullptr && HIT_TIMER->ReadSec() > 50) {
+		delete HIT_TIMER;
+		HIT_TIMER = nullptr;
+	}
 
 	return ret;
 }
@@ -64,9 +68,19 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 		position.x = App->map->Maps->start_pos.x;
 		position.y = App->map->Maps->start_pos.y;
 	}
-	else if (c2->type == COLLIDER_ENTITY)
+	else if (c2->type == COLLIDER_ENEMY)
 	{
-
+		if (c1->rect.y + c1->rect.h < c2->rect.y + 3) {
+			App->entities->DestroyEntity(App->entities->FindEntities(App->entities->FindByColl(c2)->type, App->entities->FindByColl(c2)->entity_id));
+			this->stats.speed *= { 1.0F, -1.0f };
+		}
+		else if(HIT_TIMER == nullptr){
+			this->stats.hp -= 1;
+			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
+			this->stats.speed *= { -1.0f, -1.0f };
+			HIT_TIMER = new j1Timer;
+			HIT_TIMER->Start();
+		}
 	}
 
 	

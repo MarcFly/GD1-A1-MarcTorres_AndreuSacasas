@@ -4,18 +4,19 @@
 #include "j1Map.h"
 
 void Entity::Draw(float dt) {
+	if (this != nullptr) {
+		current_animation = FindAnimByName(state);
 
-	current_animation = FindAnimByName(state);
 
-
-	App->render->Blit(*graphics,
-		position.x - current_animation->offset_x,
-		position.y - current_animation->offset_y,
-		&current_animation->frames[current_animation->GetAnimationFrame(dt, current_animation->frames.Count())],
-		current_animation->speed,
-		0.0,
-		render_scale, 
-		flip);
+		App->render->Blit(*graphics,
+			position.x - current_animation->offset_x,
+			position.y - current_animation->offset_y,
+			&current_animation->frames[current_animation->GetAnimationFrame(dt, current_animation->frames.Count())],
+			current_animation->speed,
+			0.0,
+			render_scale,
+			flip);
+	}
 }
 
 void Entity::UpdateState() {
@@ -90,13 +91,23 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 	state = (move_state)property_node.child("state").attribute("value").as_int();
 	render_scale = property_node.child("render_scale").attribute("value").as_float();
 
-	collision_box = App->collisions->AddCollider({
-			position.x,
-			position.y,
-			property_node.child("collision_box").attribute("w").as_int(),
-			property_node.child("collision_box").attribute("h").as_int()},
-		COLLIDER_ENTITY,
-		App->entities);
+	if(type == 0)
+		collision_box = App->collisions->AddCollider({
+				position.x,
+				position.y,
+				property_node.child("collision_box").attribute("w").as_int(),
+				property_node.child("collision_box").attribute("h").as_int()},
+			COLLIDER_PLAYER,
+			App->entities);
+
+	else
+		collision_box = App->collisions->AddCollider({
+				position.x,
+				position.y,
+				property_node.child("collision_box").attribute("w").as_int(),
+				property_node.child("collision_box").attribute("h").as_int() },
+			COLLIDER_ENEMY,
+			App->entities);
 
 	return ret;
 }

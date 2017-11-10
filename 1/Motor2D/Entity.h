@@ -7,6 +7,7 @@
 #include "p2Log.h"
 #include "j1Collisions.h"
 #include "Animation.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -25,6 +26,7 @@ struct entity_stats {
 	iPoint max_speed;
 	fPoint speed;
 	int jump_force;	
+	int hp;
 };
 
 class Entity
@@ -142,6 +144,8 @@ public:
 	
 	int				type;
 	int				entity_id;
+
+	j1Timer* HIT_TIMER = nullptr;
 
 public: // Short Functions that stay the same for every entity
 

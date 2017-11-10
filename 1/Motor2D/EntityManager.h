@@ -11,7 +11,7 @@ class Entity;
 enum entity_type {
 	none = -1,
 	player = 0,
-	
+	crawler,
 	max_
 };
 
@@ -68,7 +68,11 @@ public:
 	// Called to delete entities
 	bool CleanEntities();
 
+	bool DestroyEntity(const int & at);
+
 	bool LoadEntities();
+
+	Entity* FindByColl(const Collider* c);
 
 	// Called when triggered
 	bool Load(const pugi::xml_node& savegame);
@@ -80,7 +84,11 @@ public:
 	// Add entity by config
 	int AddEntity(const uint& name, const uint& eid);
 
-	int FindEntities(const uint& type);
+	int FindEntities(const uint& type, const uint& eid = INT_MAX);
+
+	Entity* GetEntity(const int& at) {
+		return entities.At(at)->data;
+	}
 
 private:
 	p2List<Entity*>			entities;
