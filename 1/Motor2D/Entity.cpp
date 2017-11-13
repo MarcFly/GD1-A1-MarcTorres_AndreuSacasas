@@ -106,7 +106,7 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 				position.y,
 				property_node.child("collision_box").attribute("w").as_int(),
 				property_node.child("collision_box").attribute("h").as_int() },
-			COLLIDER_ENEMY,
+			COLLIDER_CRAWLER,
 			App->entities);
 
 	return ret;
@@ -132,32 +132,35 @@ bool Entity::Save(pugi::xml_node& savegame)
 {
 	bool ret = true;
 
-	savegame.append_child("entity").append_attribute("type") = type;
-	savegame.child("entity").append_attribute("entity_id") = entity_id;
+	
+	pugi::xml_node temp_node = savegame.append_child("entity");
 
-	savegame.child("entity").append_child("speed").append_attribute("x") = stats.speed.x;
-	savegame.child("entity").child("speed").append_attribute("y") = stats.speed.y;
+	temp_node.append_attribute("type") = type;
+	temp_node.append_attribute("entity_id") = entity_id;
 
-	savegame.child("entity").append_child("position").append_attribute("x") = position.x;
-	savegame.child("entity").child("position").append_attribute("y") = position.y;
+	temp_node.append_child("speed").append_attribute("x") = stats.speed.x;
+	temp_node.child("speed").append_attribute("y") = stats.speed.y;
 
-	savegame.child("entity").append_child("state").append_attribute("type") = state;
-	savegame.child("entity").append_child("flip").append_attribute("value") = flip;
+	temp_node.append_child("position").append_attribute("x") = position.x;
+	temp_node.child("position").append_attribute("y") = position.y;
 
-	savegame.child("entity").append_child("collision_box").append_attribute("offset_x") = "";
-	savegame.child("entity").child("collision_box").append_attribute("offset_y") = "";
-	savegame.child("entity").child("collision_box").append_attribute("w") = collision_box->rect.w;
-	savegame.child("entity").child("collision_box").append_attribute("h") = collision_box->rect.h;
+	temp_node.append_child("state").append_attribute("type") = state;
+	temp_node.append_child("flip").append_attribute("value") = flip;
 
-	savegame.child("entity").append_child("acceleration").append_attribute("x") = stats.accel.x;
-	savegame.child("entity").child("acceleration").append_attribute("y") = stats.accel.y;
+	temp_node.append_child("collision_box").append_attribute("offset_x") = "";
+	temp_node.child("collision_box").append_attribute("offset_y") = "";
+	temp_node.child("collision_box").append_attribute("w") = collision_box->rect.w;
+	temp_node.child("collision_box").append_attribute("h") = collision_box->rect.h;
 
-	savegame.child("entity").append_child("jump_force").append_attribute("value") = stats.jump_force;
+	temp_node.append_child("acceleration").append_attribute("x") = stats.accel.x;
+	temp_node.child("acceleration").append_attribute("y") = stats.accel.y;
 
-	savegame.child("entity").append_child("max_speed").append_attribute("x") = stats.max_speed.x;
-	savegame.child("entity").child("max_speed").append_attribute("y") = stats.max_speed.y;
+	temp_node.append_child("jump_force").append_attribute("value") = stats.jump_force;
 
-	savegame.child("entity").append_child("render_scale").append_attribute("value") = render_scale;
+	temp_node.append_child("max_speed").append_attribute("x") = stats.max_speed.x;
+	temp_node.child("max_speed").append_attribute("y") = stats.max_speed.y;
+
+	temp_node.append_child("render_scale").append_attribute("value") = render_scale;
 
 	return ret;
 }

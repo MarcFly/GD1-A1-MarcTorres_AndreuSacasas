@@ -14,19 +14,19 @@ j1Collision::j1Collision() : j1Module()
 			matrix[i][j] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_GROUND] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_CRAWLER] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_DIE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_END] = true;
 
-	matrix[COLLIDER_ENEMY][COLLIDER_GROUND] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_DIE] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_GROUND] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_DIE] = true;
 
 	matrix[COLLIDER_GROUND][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_GROUND][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER] = true;
 
 	matrix[COLLIDER_DIE][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_DIE][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_DIE][COLLIDER_CRAWLER] = true;
 
 	matrix[COLLIDER_END][COLLIDER_PLAYER] = true;
 }
@@ -172,7 +172,7 @@ void j1Collision::DebugDraw()
 			break;
 		case COLLIDER_END:
 			break;
-		case COLLIDER_ENEMY:
+		case COLLIDER_CRAWLER:
 			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
 				break;
 		

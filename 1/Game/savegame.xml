@@ -12,30 +12,20 @@
 	<pathfinding />
 	<collisions />
 	<entities>
-		<entity type="0" entity_id="0" entity_id="0">
-			<speed x="0" y="0.5" y="0" />
-			<position x="704" y="772" y="480" />
-			<state type="3" />
+		<entity type="0" entity_id="0">
+			<speed x="0" y="0" />
+			<position x="650" y="772" />
+			<state type="0" />
 			<flip value="false" />
-			<collision_box offset_x="" offset_y="" w="40" h="60" offset_y="" w="60" h="30" />
-			<acceleration x="0.5" y="0.5" y="0" />
-			<jump_force value="-4" />
-			<max_speed x="8" y="8" y="3" />
-			<render_scale value="1" />
-			<speed x="3" />
-			<position x="1085" />
-			<state type="1" />
-			<flip value="false" />
-			<collision_box offset_x="" />
-			<acceleration x="0" />
-			<jump_force value="0" />
-			<max_speed x="3" />
+			<collision_box offset_x="" offset_y="" w="40" h="60" />
+			<acceleration x="0.5" y="0.5" />
+			<jump_force value="-12" />
+			<max_speed x="8" y="8" />
 			<render_scale value="1" />
 		</entity>
-		<entity type="1" />
 	</entities>
 	<scene />
 	<renderer>
-		<camera x="-427" y="-180" />
+		<camera x="0" y="-180" />
 	</renderer>
 </savegame>

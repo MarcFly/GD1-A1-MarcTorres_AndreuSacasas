@@ -145,7 +145,7 @@ public:
 	int				type;
 	int				entity_id;
 
-	j1Timer* HIT_TIMER = nullptr;
+	j1Timer HIT_TIMER;
 
 public: // Short Functions that stay the same for every entity
 

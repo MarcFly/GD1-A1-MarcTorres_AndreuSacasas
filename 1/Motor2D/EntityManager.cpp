@@ -174,7 +174,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 		
 		ret = item->data->Load(temp);
 
-		temp = temp.next_sibling();
+		temp = temp.next_sibling("entity");
 	}
 
 
@@ -188,7 +188,8 @@ bool EntityManager::Save(pugi::xml_node& savegame)
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		ret = item->data->Save(savegame);
+		if(item->data != nullptr)
+			ret = item->data->Save(savegame);
 		item = item->next;
 	}
 

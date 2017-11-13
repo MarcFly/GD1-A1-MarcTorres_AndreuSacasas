@@ -56,12 +56,15 @@ void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	}
 	else if (c2->type == COLLIDER_PLAYER)
 	{
-		if (c2->rect.y + c2->rect.h < c1->rect.y + 3)
+		if (c2->rect.y + c2->rect.h < c1->rect.y + 3) {
 			App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
-		else if(App->entities->GetEntity(App->entities->FindEntities(type, entity_id))->HIT_TIMER == nullptr) {
+			App->entities->GetEntity(App->entities->FindEntities(type, entity_id))->stats.speed *= { 1.0F, -1.0f };
+		}
+		else if(App->entities->GetEntity(App->entities->FindEntities(type, entity_id))->HIT_TIMER.ReadSec() >= 5) {
 			App->entities->FindByColl(c2)->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			this->stats.speed *= { -1.0f,-1.0f };
+			App->entities->GetEntity(App->entities->FindEntities(type, entity_id))->HIT_TIMER.Start();
 		}
 	}
 
