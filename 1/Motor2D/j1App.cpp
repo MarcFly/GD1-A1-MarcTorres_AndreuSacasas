@@ -193,6 +193,9 @@ void j1App::PrepareUpdate()
 	if (dt < 1.0f / (float)fps_cap)
 		dt = 1.0f / (float)fps_cap;
 
+	if(dt > 3.0f / (float)fps_cap)
+		dt = 1.0f / (float)fps_cap;
+
 	dt *= EXPECTED;
 		
 	LOG("%f", dt);

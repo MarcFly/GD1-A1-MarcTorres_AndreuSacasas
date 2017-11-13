@@ -37,9 +37,14 @@ public:
 	int curr_map;
 	p2List<p2SString*> Map_list;
 
+	void GodMode(float dt);
+
+	void NotGodMode(float dt);
+
 private:
 	SDL_Texture* img;
 
+	bool god_mode = false;
 	
 };
 

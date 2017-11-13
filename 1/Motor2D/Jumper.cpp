@@ -1,4 +1,4 @@
-#include "Crawler.h"
+#include "Jumper.h"
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Map.h"
@@ -6,7 +6,7 @@
 #include "j1Scene.h"
 #include "EntityManager.h"
 
-bool Crawler::Start()
+bool Jumper::Start()
 {
 	bool ret = true;
 
@@ -17,7 +17,7 @@ bool Crawler::Start()
 	return ret;
 }
 
-bool Crawler::UpdateTick(float dt)
+bool Jumper::UpdateTick(float dt)
 {
 	bool ret = true;
 
@@ -26,7 +26,7 @@ bool Crawler::UpdateTick(float dt)
 	return ret;
 }
 
-bool Crawler::Update(float dt)
+bool Jumper::Update(float dt)
 {
 	bool ret = true;
 
@@ -45,7 +45,7 @@ bool Crawler::Update(float dt)
 	return ret;
 }
 
-void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
+void Jumper::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 {
 	if (c2->type == COLLIDER_GROUND)
 	{
@@ -69,11 +69,11 @@ void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			App->entities->FindByColl(c2)->stats.speed *= { 1.1f, -1.2f };
 			collision_box->active = false;
 		}
-		else if(App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
+		else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
 			App->entities->FindByColl(c2)->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			App->entities->FindByColl(c2)->HIT_TIMER.Start();
-			this->stats.speed *= { -2.0f, 1.0f };
+			this->stats.speed *= { -1.0f, 1.0f };
 		}
 	}
 
@@ -84,13 +84,13 @@ void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 
 }
 
-void Crawler::Movement(float dt) {
+void Jumper::Movement(float dt) {
 
-	// On enemies this will be used for fly and probably later on with jumper and crawler properly falling
+	// On enemies this will be used for fly and probably later on with jumper and Jumper properly falling
 	stats.speed.x = stats.max_speed.x;
 }
 
-void Crawler::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
+void Jumper::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 {
 	if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h)
 	{
@@ -105,5 +105,5 @@ void Crawler::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed.y = 0;
 		}
 	}
-	
+
 }

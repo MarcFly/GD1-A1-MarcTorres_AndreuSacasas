@@ -133,8 +133,9 @@ bool EntityManager::Update(float dt)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true && item->data != nullptr) {
-		ret = item->data->Update(dt);
+	while (item != nullptr && item != NULL && ret == true) {
+		if(item->data != NULL && item->data != nullptr)
+			ret = item->data->Update(dt);
 		item = item->next;
 	}
 
@@ -227,7 +228,7 @@ int EntityManager::FindEntities(const uint& type, const uint& eid) {
 	{
 		for (int i = 0; i < entities.count(); i++)
 		{
-			if (entities[i]->type == type && entities[i]->entity_id == eid) {
+			if (entities.At(i)->data != nullptr && entities.At(i)->data->type == type && entities.At(i)->data->entity_id == eid) {
 				ret = i;
 				break;
 			}
@@ -257,9 +258,9 @@ bool EntityManager::CleanEntities() {
 bool EntityManager::DestroyEntity(const int& at) {
 	bool ret = true;
 	
-	if(entities[at] != nullptr)
-		ret = entities[at]->CleanUp();
-	entities[at] = nullptr;
+	if(entities.At(at)->data != nullptr)
+		ret = entities.At(at)->data->CleanUp();
+	entities.At(at)->data = nullptr;
 
 	return ret;
 }

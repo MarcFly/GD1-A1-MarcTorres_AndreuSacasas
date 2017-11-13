@@ -14,13 +14,16 @@ class Entity;
 
 enum COLLIDER_TYPE
 {
-	COLLIDER_NONE = 64,
-	COLLIDER_PLAYER,
+	COLLIDER_NONE = 65,
 	COLLIDER_GROUND,
 	COLLIDER_DIE,
 	COLLIDER_END,
+	COLLIDER_CRAWL_NAV,
+	COLLIDER_FLY_NAV,
+	COLLIDER_PLAYER,
 	COLLIDER_CRAWLER,
 	COLLIDER_FLYER,
+	
 	COLLIDER_MAX
 };
 
@@ -71,7 +74,7 @@ public:
 
 	bool CleanColliders();
 
-	void LookColl(Entity* entity, float dt);
+	bool LookColl(Entity* entity, float dt);
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module* callback_ = nullptr);
 	bool EraseCollider(Collider* collider);

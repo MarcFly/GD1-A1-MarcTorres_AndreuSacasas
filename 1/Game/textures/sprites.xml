@@ -2,16 +2,16 @@
 <!-- Entity XML: contains sprite position and stats -->
 
 <sprites>
-<!-- TYPE player = 0, walker = 1, flyer = 2 -->
+<!-- TYPE player = 0, walker = 1, jumper = 2, flyer = 3 -->
 
   <!--///////////////////////////////////////////////////////////////////-->
   <!--                        ENTITY PROPERTIES                          -->
 <map value="0">
   <entity type="0">
       <position x="704" y="180"/>
-      <max_speed x="8" y="8"/>
-      <acceleration x="0.5" y="0.5"/>
-      <jump_force value="-12"/>
+      <max_speed x="8" y="16"/>
+      <acceleration x="1" y="0.8"/>
+      <jump_force value="-18"/>
       <collision_box offset_x="" offset_y="" h="60" w="40"/>
       <render_scale value="1.0"/>
       <state value="0"/>
@@ -19,10 +19,10 @@
       <flip value="false"/>
   </entity>
   <entity type="1">
-        <position x="704" y="680"/>
-        <max_speed x="3" y="6"/>
-        <acceleration x="0" y="0"/>
-        <jump_force value="0"/>
+        <position x="704" y="700"/>
+        <max_speed x="3" y="1"/>
+        <acceleration x="0" y="0.5"/>
+        <jump_force value="-12"/>
         <collision_box offset_x="" offset_y="" h="30" w="60"/>
         <render_scale value="1.0"/>
         <state value="0"/>
@@ -36,7 +36,7 @@
   <!--                       ENTITY ANIMATIONS                           -->
 
   <animations type="0" source="Player.png" w="79" h="80">
-    <animation name="idle" offset_x="18" offset_y="16" speed="0.5" loop="true">
+    <animation name="idle" offset_x="18" offset_y="16" speed="0.05" loop="true">
       <rect x="0" y="405"/>
       <rect x="80" y="405"/>
       <rect x="160" y="405"/>

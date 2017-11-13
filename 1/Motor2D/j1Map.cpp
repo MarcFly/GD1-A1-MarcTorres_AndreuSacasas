@@ -50,12 +50,13 @@ void j1Map::Draw()
 	
 		p2List_item<layer_info*>* item_layer = Maps->layers.start; //Start layer
 
-		while (item_layer != nullptr) { //Check there are layers
+		while (item_layer != nullptr && item_layer != NULL) { //Check there are layers
 			
 			uint* p = item_layer->data->data; // reset data pointing to data[0]
 
 			if(debug_draw != true && item_layer->data->draw_mode == 1 && !first_loop)
 				item_layer = item_layer->next;
+
 			else if (first_loop && item_layer->data->draw_mode == 1)
 			{
 				for (int i = 0; i < item_layer->data->height; i++) {
@@ -65,8 +66,7 @@ void j1Map::Draw()
 						p++;
 					}
 				}
-
-				first_loop = false;
+				
 			}
 
 			else {
@@ -90,13 +90,18 @@ void j1Map::Draw()
 				}
 
 
-				item_layer = item_layer->next;
+				
 			}
+			if (item_layer == nullptr)
+				break;
 
+			item_layer = item_layer->next;
 		
 		}
-	
+		first_loop = false;
 	}
+
+	
 
 	DrawNav();
 	

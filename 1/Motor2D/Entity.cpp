@@ -23,7 +23,7 @@ void Entity::UpdateState() {
 
 	if (stats.speed.y < 0)
 		state = jump;
-	else if (stats.speed.y > 0)
+	else if (stats.speed.y > stats.accel.y * 2)
 		state = fall;
 	else if (abs(stats.speed.x) > stats.accel.x)
 		state = move;
@@ -83,7 +83,7 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 	bool ret = true;
 
 	position = {property_node.child("position").attribute("x").as_int(), property_node.child("position").attribute("y").as_int()};
-	stats.max_speed = { property_node.child("max_speed").attribute("x").as_int(), property_node.child("max_speed").attribute("x").as_int() };
+	stats.max_speed = { property_node.child("max_speed").attribute("x").as_int(), property_node.child("max_speed").attribute("y").as_int() };
 	stats.accel = { property_node.child("acceleration").attribute("x").as_float(),property_node.child("acceleration").attribute("y").as_float() };
 	stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
 	stats.speed = { property_node.child("speed").attribute("x").as_float(), property_node.child("speed").attribute("y").as_float() };

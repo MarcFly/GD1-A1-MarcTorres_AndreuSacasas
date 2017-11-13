@@ -13,22 +13,25 @@ j1Collision::j1Collision() : j1Module()
 		for (int j = 0; j < COLLIDER_MAX; j++)
 			matrix[i][j] = false;
 
-	matrix[COLLIDER_PLAYER][COLLIDER_GROUND] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_CRAWLER] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_DIE] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_END] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_GROUND]		= true;
+	matrix[COLLIDER_PLAYER][COLLIDER_CRAWLER]		= true;
+	matrix[COLLIDER_PLAYER][COLLIDER_DIE]			= true;
+	matrix[COLLIDER_PLAYER][COLLIDER_END]			= true;
 
-	matrix[COLLIDER_CRAWLER][COLLIDER_GROUND] = true;
-	matrix[COLLIDER_CRAWLER][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_CRAWLER][COLLIDER_DIE] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_GROUND]		= true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_PLAYER]		= true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_DIE]			= true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_CRAWL_NAV]	= true;
 
-	matrix[COLLIDER_GROUND][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER] = true;
+	matrix[COLLIDER_GROUND][COLLIDER_PLAYER]		= true;
+	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER]		= true;
 
-	matrix[COLLIDER_DIE][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_DIE][COLLIDER_CRAWLER] = true;
+	matrix[COLLIDER_DIE][COLLIDER_PLAYER]			= true;
+	matrix[COLLIDER_DIE][COLLIDER_CRAWLER]			= true;
 
-	matrix[COLLIDER_END][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_END][COLLIDER_PLAYER]			= true;
+
+	matrix[COLLIDER_CRAWL_NAV][COLLIDER_CRAWLER]	= true;
 }
 
 j1Collision::~j1Collision()
@@ -114,14 +117,15 @@ bool j1Collision::Update(float dt)
 	return ret;
 }
 
-void j1Collision::LookColl(Entity* entity, float dt) {
-	
+bool j1Collision::LookColl(Entity* entity, float dt) {
+	bool ret = false;
+
 	Collider* c1 = entity->collision_box;
 	Collider* c2;
 
 	for (uint k = 0; k < colliders.count(); ++k)
 	{
-		if (colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect) {
+		if (c1->to_delete != true && colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect) {
 			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
 			c2 = colliders[k];
 
@@ -135,6 +139,7 @@ void j1Collision::LookColl(Entity* entity, float dt) {
 				c1->rect.h },
 				check) > 0 && check.w > 0 && check.h > 0) {
 
+					ret = true;
 					entity->OnCollision(c1, c2, check);
 
 				}
@@ -142,8 +147,7 @@ void j1Collision::LookColl(Entity* entity, float dt) {
 		}
 	}
 
-	entity->UpdateState();
-
+	return ret;
 }
 
 void j1Collision::DebugDraw()

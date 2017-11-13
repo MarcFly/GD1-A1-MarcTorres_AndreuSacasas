@@ -12,6 +12,8 @@ enum entity_type {
 	none = -1,
 	player = 0,
 	crawler,
+	jumper,
+	flyer,
 	max_
 };
 
