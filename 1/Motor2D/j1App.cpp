@@ -88,9 +88,8 @@ bool j1App::Awake()
 
 	fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
-	CapFps(fps_cap);
-
 	ChangeFPSLimit();
+	CapFps(fps_cap);
 	
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -190,15 +189,15 @@ void j1App::PrepareUpdate()
 
 
 	// TODO 10.4: Calculate the dt: differential time since last frame
-	dt = frame_time.ReadMs();
+	dt = frame_time.ReadMs() / 1000.0f;
 	frame_time.Start();
   
-  if(dt > 5.0f / (float)fps_cap)
-    dt = 5.0f / (float)fps_cap;
+	if(dt > 5.0f / (float)fps_cap)
+		dt = 5.0f / (float)fps_cap;
   
-  dt *= EXPECTED;
+	dt *= EXPECTED;
   
-  p2List_item<j1Module*>* item;
+	p2List_item<j1Module*>* item;
 	item = modules.start;
 
 	while (item != NULL)
@@ -396,6 +395,7 @@ void j1App::CapFps(float fps)
 	if(fps > 0)
 		capped_ms = (1000 / fps);
 }
+
 // ---------------------------------------
 const char* j1App::GetOrganization() const
 {

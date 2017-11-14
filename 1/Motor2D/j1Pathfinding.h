@@ -109,6 +109,7 @@ public:
 	
 	// Path things
 	int CreateFPath(const iPoint& origin, const iPoint& dest);
+
 	const p2DynArray<iPoint>* GetLastPath() const
 	{
 		return &last_path;
@@ -129,8 +130,6 @@ public:
 	}
 
 
-	void PropagateAStar(const iPoint& pos);
-
 public:
 	
 
@@ -142,23 +141,10 @@ public:
 	p2DynArray<iPoint> last_path;
 
 	p2DynArray<iPoint> closed_test; // To show what A* does to find it, seems wrong for now
-	//Pathfinding~ Hacked bullshit--------------------------------------------------------------------------------------------------------------
-	iPoint				start;
-	p2Queue<iPoint>		frontier;
-	p2PQueue<iPoint>	pfrontier;
-	p2List<iPoint>		visited;
-	p2List<iPoint>		breadcrumbs;
-	p2List<iPoint>		path;
 
-	iPoint PropagateBFS();
-	void PropagateToBFS(const iPoint& pos);
-
-	iPoint PropagateDijkstra();
-	void PropagateToDijkstra(const iPoint& pos);
-
+	iPoint start;
 	
 	void ResetNav();
-	void CreatePath(const iPoint& pos);
 	int	 MovementCost(int x, int y) const;
 	void SetStart(const iPoint& pos);
 

@@ -4,6 +4,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "Crawler.h"
+#include "Flyer.h"
 
 EntityManager::EntityManager()
 {
@@ -48,6 +49,10 @@ int EntityManager::AddEntity(const uint& name, const uint& eid)
 	{
 		entities.add(new Crawler(name, eid));
 		return (int)crawler;
+	}
+	else if (name == (uint)flyer) {
+		entities.add(new Flyer(name, eid));
+		return (int)flyer;
 	}
 	
 	return none;

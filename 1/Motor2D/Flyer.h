@@ -26,12 +26,11 @@ public:
 
 	void Movement(float dt);
 
-	void MoveRight(float dt);
-	void MoveLeft(float dt);
-
-	void NoMove(float dt);
+	void Dive(float dt);
 
 public:
+
+	float vec_v = rand() % 20;
 
 };
 

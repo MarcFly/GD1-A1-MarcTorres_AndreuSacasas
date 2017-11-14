@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "j1Scene.h"
 #include "EntityManager.h"
+#include "j1Pathfinding.h"
 
 bool Flyer::Start()
 {
@@ -13,6 +14,8 @@ bool Flyer::Start()
 	current_animation = FindAnimByName(idle);
 	state = idle;
 	HIT_TIMER.Start();
+
+	vec_v = sqrt(stats.max_speed.x * stats.max_speed.x + stats.max_speed.y * stats.max_speed.y);
 
 	return ret;
 }
@@ -30,11 +33,15 @@ bool Flyer::Update(float dt)
 {
 	bool ret = true;
 
+	stats.speed.y -= stats.accel.y;
+
 	position.x += stats.speed.x * dt;
 	position.y += stats.speed.y * dt;
 
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
+
+	App->pathfinding->CreateFPath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
 
 	Movement(dt);
 
@@ -82,12 +89,25 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
 
+	
+
 }
 
 void Flyer::Movement(float dt) {
 
 	// On enemies this will be used for fly and probably later on with Flyer and Flyer properly falling
-	stats.speed.x = stats.max_speed.x;
+	if (App->pathfinding->GetLastPath() != nullptr)
+	{
+		iPoint next = *App->pathfinding->GetLastPath()->At(0);
+		iPoint present = App->map->WorldToMap(position.x, position.y);
+		iPoint multiplier = next - App->map->WorldToMap(position.x, position.y);
+
+		stats.speed.x = vec_v * multiplier.x;
+		stats.speed.y = vec_v * multiplier.y;
+
+	}
+	else
+		stats.speed.x = vec_v;
 }
 
 void Flyer::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)

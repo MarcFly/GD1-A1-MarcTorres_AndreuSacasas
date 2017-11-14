@@ -59,14 +59,7 @@ void j1Map::Draw()
 
 			else if (first_loop && item_layer->data->draw_mode == 1)
 			{
-				for (int i = 0; i < item_layer->data->height; i++) {
-					for (int j = 0; j < item_layer->data->width; j++) {
-						if (*p > 64)
-							App->collisions->AddCollider({ j * (int)Maps->tilewidth, i * (int)Maps->tileheight, (int)Maps->tilewidth, (int)Maps->tileheight }, (COLLIDER_TYPE)*p);
-						p++;
-					}
-				}
-				
+				CreateMapColl(item_layer, p);
 			}
 
 			else {
@@ -82,7 +75,7 @@ void j1Map::Draw()
 							App->render->Blit(
 								item_tileset->image.tex,
 								pos.x - item_tileset->tileoffset.x + item_layer->data->parallax * App->render->camera.x,
-								pos.y - item_tileset->tileoffset.y + item_layer->data->parallax * App->render->camera.y,
+								pos.y - item_tileset->tileoffset.y,
 								&item_tileset->GetRect(*p));
 						}
 						p++;
@@ -323,6 +316,8 @@ bool j1Map::LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_lay
 			item_layer.parallax = temp.attribute("value").as_float();
 		else if (test == "draw_mode")
 			item_layer.draw_mode = temp.attribute("value").as_uint();
+		else if (test == "die")
+			item_layer.Die = temp.attribute("value").as_int();
 		temp = temp.next_sibling("property");
 	}
 	//Load all tiles in layer data
@@ -405,72 +400,9 @@ tileset_info* j1Map::GetTilesetFromTileId(int gid) const
 }
 
 void j1Map::DrawNav() {
-	if (debug_draw == true) {
-		iPoint point;
 
-		// Draw visited
-		p2List_item<iPoint>* item = App->pathfinding->visited.start;
-
-		while (item)
-		{
-			point = item->data;
-			tileset_info* tileset = GetTilesetFromTileId(69); //Get green rect
-
-			SDL_Rect r = tileset->GetRect(69);
-			iPoint pos = MapToWorld(point.x, point.y);
-
-			App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
-
-			item = item->next;
-		}
-
-		// Draw frontier
-		for (uint i = 0; i < App->pathfinding->frontier.Count(); ++i)
-		{
-			point = *(App->pathfinding->frontier.Peek(i));
-			tileset_info* tileset = GetTilesetFromTileId(70); //Get the red rect
-
-			SDL_Rect r = tileset->GetRect(70);
-			iPoint pos = MapToWorld(point.x, point.y);
-
-			App->render->Blit(tileset->image.tex, pos.x - tileset->tileoffset.x, pos.y - tileset->tileoffset.y, &r);
-		}
-
-	
-		// Draw pfrontier
-		for (uint i = 0; i < App->pathfinding->pfrontier.Count(); ++i)
-		{
-			point = *(App->pathfinding->pfrontier.Peek(i));
-			tileset_info* tileset = GetTilesetFromTileId(70); //Get the red rect
-
-			SDL_Rect r = tileset->GetRect(70);
-			iPoint pos = MapToWorld(point.x, point.y);
-
-			App->render->Blit(tileset->image.tex, pos.x - tileset->tileoffset.x, pos.y - tileset->tileoffset.y, &r);
-		}
-	
-	
-		DrawPath();
 		DrawNPath();
-	}
-}
-
-void j1Map::DrawPath() {
-	// Draw Path
-
-	p2List_item<iPoint>* item = App->pathfinding->path.start;
-	while (item)
-	{
-		tileset_info* tileset = GetTilesetFromTileId(70); //Get green rect
-
-		SDL_Rect r = tileset->GetRect(70);
-		iPoint pos = MapToWorld(item->data.x, item->data.y);
-
-		App->render->Blit(tileset->image.tex, pos.x, pos.y - tileset->tileoffset.y, &r);
-
-		item = item->next;
-	}
-
+	
 }
 
 void j1Map::DrawNPath() {
@@ -519,4 +451,20 @@ bool j1Map::Save(pugi::xml_node& savegame)
 	savegame.append_child("curr_map").append_attribute("source") = App->scene->curr_map;
 
 	return ret;
+}
+
+void j1Map::CreateMapColl(p2List_item<layer_info*>* item_layer, uint* p)
+{
+
+	for (int i = 0; i < item_layer->data->height; i++) {
+		for (int j = 0; j < item_layer->data->width; j++) {
+			if (*p > 64)
+				App->collisions->AddCollider({ j * (int)Maps->tilewidth, i * (int)Maps->tileheight, (int)Maps->tilewidth, (int)Maps->tileheight }, (COLLIDER_TYPE)*p);
+			p++;
+		}
+	}
+
+	if (item_layer->data->Die != 0)
+		App->collisions->AddCollider({ 0, ( 5 + item_layer->data->Die ) * (int)Maps->tileheight,  (int)Maps->width * (int)Maps->tilewidth, (int)Maps->tileheight }, COLLIDER_DIE);
+
 }

@@ -44,6 +44,7 @@ public:
 private:
 	SDL_Texture* img;
 
+public:
 	bool god_mode = false;
 	
 };

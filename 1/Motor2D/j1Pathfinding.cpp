@@ -28,12 +28,6 @@ bool j1Pathfinding::CleanUp() {
 	if (tile_x != nullptr)
 		App->tex->UnLoad(tile_x);
 
-	pfrontier.Clear();
-	frontier.Clear();
-	path.clear();
-	visited.clear();
-	breadcrumbs.clear();
-
 	return true;
 }
 
@@ -46,11 +40,6 @@ void j1Pathfinding::SetMap(uint width, uint height, uint* data) {
 	map = new uint[width*height];
 	memcpy(map, data, width*height);
 }
-
-void j1Pathfinding::PropagateAStar(const iPoint& pos) {
-
-}
-
 
 
 int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
@@ -180,23 +169,12 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const {
 
 // Settings makers
 void j1Pathfinding::ResetNav() {
-	pfrontier.Clear();
-	frontier.Clear();
-	visited.clear();
-	breadcrumbs.clear();
-	path.clear();
 	last_path.Clear();
 	closed_test.Clear();
 
 	for (int i = 0; i < COST_MAP; i++)
 		for (int j = 0; j < COST_MAP; j++)
 			cost_so_far[i][j] = 0;
-
-	pfrontier.Push(start, 0);
-	frontier.Push(start);
-	visited.add(start);
-	breadcrumbs.add(start);
-	path.add(start);
 }
 
 void j1Pathfinding::SetStart(const iPoint& pos) {
@@ -219,123 +197,4 @@ int	 j1Pathfinding::MovementCost(int x, int y) const {
 	}
 
 	return ret;
-}
-
-//___________________________________________________________________________________________________________________________________________________________________________________
- //___________________________________________________________________________________________________________________________________________________________________________________
- //___________________________________________________________________________________________________________________________________________________________________________________
-// BFS
-
-iPoint j1Pathfinding::PropagateBFS() {
-	// TODO 7.1 If frontier queue contains elements
-	// pop the last one and calculate its 4 neighbors
-	iPoint curr;
-	if (frontier.Pop(curr)) //Put actual frontier into curr, while it checks if there are frontiers left
-	{
-		iPoint neighbours[4]; //Create the 4 neighbours every tile has (N E S W)
-		neighbours[0].create(curr.x + 1, curr.y + 0); // E
-		neighbours[1].create(curr.x + 0, curr.y + 1); // S
-		neighbours[2].create(curr.x - 1, curr.y + 0); // W
-		neighbours[3].create(curr.x + 0, curr.y - 1); // N
-
-		for (uint i = 0; i < 4; ++i)
-		{
-			// TODO 7.2: For each neighbor, if not visited, add it
-			// to the frontier queue and visited list
-			if (visited.find(neighbours[i]) == -1 && IsWalkable(neighbours[i].x, neighbours[i].y)) //Checks for visited tiles (if visited they don't go in), use .find to find a neighbour in the list
-			{
-
-				frontier.Push(neighbours[i]);	//Add them as a frontier
-				visited.add(neighbours[i]);		//Add the neighbour that you just visited
-
-												// TODO 7.Homework, breadcrumbs are added everytime that it comes from somewhere
-				breadcrumbs.add(curr);
-			}
-		}
-	}
-
-	return curr;
-}
-
-iPoint j1Pathfinding::PropagateDijkstra() {
-
-	// TODO 7.1 If frontier queue contains elements
-	// pop the last one and calculate its 4 neighbors
-	iPoint curr;
-	if (pfrontier.Pop(curr)) //Put actual frontier into curr, while it checks if there are frontiers left
-	{
-		iPoint neighbours[4]; //Create the 4 neighbours every tile has (N E S W)
-		neighbours[0].create(curr.x + 1, curr.y + 0); // E
-		neighbours[1].create(curr.x + 0, curr.y + 1); // S
-		neighbours[2].create(curr.x - 1, curr.y + 0); // W
-		neighbours[3].create(curr.x + 0, curr.y - 1); // N
-
-		for (uint i = 0; i < 4; ++i)
-		{
-
-			// TODO 7.2: For each neighbor, if not visited, add it
-			// to the frontier queue and visited list
-			if (visited.find(neighbours[i]) == -1 && MovementCost(neighbours[i].x, neighbours[i].y) != -1) //Checks for visited tiles (if visited they don't go in), use .find to find a neighbour in the list
-			{
-				int new_cost = cost_so_far[curr.x][curr.y] + MovementCost(neighbours[i].x, neighbours[i].y);
-
-				if (cost_so_far[neighbours[i].x][neighbours[i].y] == 0 || new_cost <= cost_so_far[neighbours[i].x][neighbours[i].y]) {
-					cost_so_far[neighbours[i].x][neighbours[i].y] = new_cost;
-					pfrontier.Push(neighbours[i], new_cost);	//Add them as a frontier
-					visited.add(neighbours[i]);		//Add the neighbour that you just visited
-
-													// TODO 7.Homework, breadcrumbs are added everytime that it comes from somewhere
-					breadcrumbs.add(curr);
-				}
-			}
-		}
-	}
-
-	return curr;
-}
-
-// Full Propagation
-void j1Pathfinding::PropagateToBFS(const iPoint& pos) {
-	ResetNav();
-	if (IsWalkable(pos.x, pos.y))
-	{
-		// PropagateBFS until you reach the goal
-		iPoint test = start;
-		while (pos != test) {
-			test = PropagateBFS();
-		}
-
-		CreatePath(pos);
-
-	}
-}
-
-void j1Pathfinding::PropagateToDijkstra(const iPoint& pos) {
-	ResetNav();
-	if (MovementCost(pos.x, pos.y) != -1)
-	{
-		// PropagateBFS until you reach the goal
-		iPoint test = start;
-		while (pos != test) {
-			test = PropagateDijkstra();
-		}
-
-		CreatePath(pos);
-
-	}
-}
-
-void j1Pathfinding::CreatePath(const iPoint& pos) {
-
-	// Create Path to goal
-	path.clear();
-	iPoint goal(pos.x, pos.y);
-	if (visited.find(goal) != -1) {
-		while (goal != start) {
-			path.add(goal);
-			goal = breadcrumbs[visited.find(goal)];
-		}
-
-		path.add(goal);
-	}
 }

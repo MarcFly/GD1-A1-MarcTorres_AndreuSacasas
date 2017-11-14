@@ -35,7 +35,7 @@ struct layer_info {
 
 	float	parallax;
 	int		draw_mode; // 0 = Default, 1 = Collisions / Navigation, ?
-
+	int		Die = 0;   // Designates where the death collider is put
 	// Data storing Tiles system
 	uint*	data = nullptr;
 	uint	size = 0;
@@ -196,6 +196,8 @@ public:
 	void DrawPath();
 	void DrawNPath();
 
+	// Create Map Collisions
+	void CreateMapColl(p2List_item<layer_info*>* item_layer, uint* p);
 	// Find Tileset
 	tileset_info* GetTilesetFromTileId(int gid) const;
 

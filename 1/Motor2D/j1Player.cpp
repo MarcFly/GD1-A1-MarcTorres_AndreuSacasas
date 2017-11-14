@@ -39,7 +39,9 @@ bool j1Player::Update(float dt)
 	
 	App->collisions->LookColl(this, dt);
 	UpdateState();
-	//App->render->camera.x = - position.x + 300;
+
+	if(!App->scene->god_mode)
+		App->render->camera.x = - position.x + 300;
 	
 
 	return ret;

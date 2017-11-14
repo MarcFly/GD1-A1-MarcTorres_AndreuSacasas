@@ -62,6 +62,7 @@ public:
 	const char* GetOrganization() const;
 
 	float GetDT() const;
+	int GetFpsCap() const { return fps_cap; }
 	void CapFps(float fps);
 	void FrameRateCalculations();
 
