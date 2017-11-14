@@ -188,8 +188,26 @@ void j1App::PrepareUpdate()
 	frame_count++;
 	last_sec_frame_count++;
 
+
+	// TODO 10.4: Calculate the dt: differential time since last frame
 	dt = frame_time.ReadMs();
 	frame_time.Start();
+  
+  if(dt > 5.0f / (float)fps_cap)
+    dt = 5.0f / (float)fps_cap;
+  
+  dt *= EXPECTED;
+  
+  p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL)
+	{
+		if(item->data->tick_cap > 0)
+			item->data->dt_sum += dt;
+
+		item = item->next;
+	}
 	
 }
 

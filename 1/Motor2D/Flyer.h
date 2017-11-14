@@ -1,15 +1,15 @@
-#ifndef __j1PLAYER_H__
-#define __j1PLAYER_H__
+#ifndef __Flyer_H__
+#define __Flyer_H__
 
 #include "Entity.h"
 
 class Entity;
 
-class j1Player : public Entity
+class Flyer : public Entity
 {
 public:
 
-	j1Player(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
+	Flyer(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
 
 	// Called before the first frame
 	bool Start();
@@ -28,15 +28,12 @@ public:
 
 	void MoveRight(float dt);
 	void MoveLeft(float dt);
-	void DoJump(float dt);
+
 	void NoMove(float dt);
 
 public:
 
-	bool can_jump = true;
-	bool is_jumping = false;
-
 };
 
 
-#endif // __j1TEXTURES_H__
+#endif // __j1Flyer_H__

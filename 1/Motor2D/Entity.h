@@ -7,6 +7,7 @@
 #include "p2Log.h"
 #include "j1Collisions.h"
 #include "Animation.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 struct Collider;
@@ -25,6 +26,7 @@ struct entity_stats {
 	iPoint max_speed;
 	fPoint speed;
 	int jump_force;	
+	int hp;
 };
 
 class Entity
@@ -64,10 +66,10 @@ public:
 
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt) { 
-		if (stats.speed.y + stats.accel.y * dt < stats.max_speed.y * dt)
+		if (stats.speed.y + stats.accel.y * dt < stats.max_speed.y)
 			stats.speed.y += stats.accel.y * dt;
 		else
-			stats.speed.y = stats.max_speed.y * dt;
+			stats.speed.y = stats.max_speed.y;
 
 		return true; 
 	};
@@ -142,6 +144,8 @@ public:
 	
 	int				type;
 	int				entity_id;
+
+	j1Timer HIT_TIMER;
 
 public: // Short Functions that stay the same for every entity
 

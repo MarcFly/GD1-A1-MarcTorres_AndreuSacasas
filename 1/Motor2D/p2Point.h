@@ -75,6 +75,14 @@ public:
 		return(*this);
 	}
 
+	const p2Point& operator *=(const p2Point& v)
+	{
+		x *= v.x;
+		y *= v.y;
+
+		return (*this);
+	}
+
 	bool operator ==(const p2Point& v) const
 	{
 		return (x == v.x && y == v.y);

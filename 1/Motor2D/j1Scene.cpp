@@ -62,70 +62,18 @@ bool j1Scene::Update(float dt)
 	iPoint pos;
 	App->input->GetMousePosition(pos.x, pos.y);
 	pos = App->map->WorldToMap(pos.x - App->render->camera.x, pos.y - App->render->camera.y);
+	
+	
+	if (god_mode)
+		GodMode(dt);
+	else
+		NotGodMode(dt);
 
-	// Camera movement Inputs
-	// TODO 10.6: Make the camera movement independent of framerate
-
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 12 * dt;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 12 * dt;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 12 * dt;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 12 * dt;
-
-	// TODO 2.5: Call load / save methods when pressing l/s
-
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->Trigger_Load();
-
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->Trigger_Save();
-
-	// Extra inputs for assignment
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
-		App->map->debug_draw = !App->map->debug_draw;
-
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
-		App->ChangeFPSLimit();
-
-	// TODO 2.Homework Allow for change in volume
-	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
-		App->audio->Increase_Master();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_REPEAT) {
-		App->audio->Decrease_Master();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN){
-		LoadNextMap();
-		// Si no solucionem problema de carga, posar un timer a poder cargar mapes constantmen
-	}
-
-	// Pathfinding Inputs
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN)
-		App->pathfinding->PropagateDijkstra();
-
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
-		App->pathfinding->PropagateDijkstra();
-
-	if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
-		App->pathfinding->CreateFPath(App->pathfinding->start, pos);
-
-	if (App->input->GetMouseButtonDown(3) == KEY_DOWN) {
-		App->pathfinding->SetStart(pos);
-		App->pathfinding->ResetNav();
-	}
-
-	// Framerate change
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		god_mode = !god_mode;
 	
 
-	//App->render->Blit(img, 0, 0);
+	// Draw all
 	App->map->Draw();
 	App->entities->Draw(dt);
 	App->collisions->DebugDraw();
@@ -186,4 +134,57 @@ void j1Scene::LoadNextMap()
 	}
 
 	App->entities->LoadEntities();
+}
+
+void j1Scene::GodMode(float dt)
+{
+	// Camera movement Inputs
+	// TODO 10.6: Make the camera movement independent of framerate
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		App->render->camera.y -= 12 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		App->render->camera.y += 12 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		App->render->camera.x -= 12 * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		App->render->camera.x += 12 * dt;
+
+	// Extra inputs for assignment
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->map->debug_draw = !App->map->debug_draw;
+
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+		App->ChangeFPSLimit();
+
+}
+
+void j1Scene::NotGodMode(float dt) 
+{
+	// TODO 2.5: Call load / save methods when pressing l/s
+
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+		App->Trigger_Load();
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+		App->Trigger_Save();
+
+
+
+	// TODO 2.Homework Allow for change in volume
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT) {
+		App->audio->Increase_Master();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_REPEAT) {
+		App->audio->Decrease_Master();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+		LoadNextMap();
+		// Si no solucionem problema de carga, posar un timer a poder cargar mapes constantmen
+	}
 }

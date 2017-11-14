@@ -3,6 +3,7 @@
 #include "j1Pathfinding.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "Crawler.h"
 
 EntityManager::EntityManager()
 {
@@ -43,7 +44,11 @@ int EntityManager::AddEntity(const uint& name, const uint& eid)
 		entities.add(new j1Player(name, eid));
 		return (int)player;
 	}
-
+	else if (name == (uint)crawler)
+	{
+		entities.add(new Crawler(name, eid));
+		return (int)crawler;
+	}
 	
 	return none;
 }
@@ -99,7 +104,7 @@ bool EntityManager::PreUpdate(float dt) // Only for movement collisions
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
+	while (item != NULL && ret == true && item->data != nullptr) {
 		ret = item->data->PreUpdate(dt);
 
 		item = item->next;
@@ -114,7 +119,7 @@ bool EntityManager::UpdateTick(float dt)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
+	while (item != NULL && ret == true && item->data != nullptr) {
 		ret = item->data->UpdateTick(dt);
 		item = item->next;
 	}
@@ -128,8 +133,9 @@ bool EntityManager::Update(float dt)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
-		ret = item->data->Update(dt);
+	while (item != nullptr && item != NULL && ret == true) {
+		if(item->data != NULL && item->data != nullptr)
+			ret = item->data->Update(dt);
 		item = item->next;
 	}
 
@@ -141,7 +147,7 @@ bool EntityManager::PostUpdate(float dt) // // Only for movement collisions
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
+	while (item != NULL && ret == true && item->data != nullptr) {
 		ret = item->data->PostUpdate(dt);
 		item = item->next;
 	}
@@ -169,7 +175,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 		
 		ret = item->data->Load(temp);
 
-		temp = temp.next_sibling();
+		temp = temp.next_sibling("entity");
 	}
 
 
@@ -183,7 +189,8 @@ bool EntityManager::Save(pugi::xml_node& savegame)
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		ret = item->data->Save(savegame);
+		if(item->data != nullptr)
+			ret = item->data->Save(savegame);
 		item = item->next;
 	}
 
@@ -201,17 +208,31 @@ void EntityManager::Draw(float dt) {
 
 }
 
-int EntityManager::FindEntities(const uint& type) {
-	p2List_item<Entity*>* item = entities.start;
+int EntityManager::FindEntities(const uint& type, const uint& eid) {
+
 
 	int ret = 0;
-
-	while (item != NULL)
+	if (eid == INT_MAX)
 	{
-		if (item->data->type == type)
-			ret++;
+		p2List_item<Entity*>* item = entities.start;
 
-		item = item->next;
+		while (item != NULL)
+		{
+			if (item->data->type == type)
+				ret++;
+
+			item = item->next;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < entities.count(); i++)
+		{
+			if (entities.At(i)->data != nullptr && entities.At(i)->data->type == type && entities.At(i)->data->entity_id == eid) {
+				ret = i;
+				break;
+			}
+		}
 	}
 
 	return ret;
@@ -224,11 +245,22 @@ bool EntityManager::CleanEntities() {
 
 	while (item != NULL)
 	{
-		ret = item->data->CleanUp();
+		if(item->data != nullptr)
+			ret = item->data->CleanUp();
 		item = item->next;
 	}
 
 	entities.clear();
+
+	return ret;
+}
+
+bool EntityManager::DestroyEntity(const int& at) {
+	bool ret = true;
+	
+	if(entities.At(at)->data != nullptr)
+		ret = entities.At(at)->data->CleanUp();
+	entities.At(at)->data = nullptr;
 
 	return ret;
 }
@@ -259,4 +291,19 @@ bool EntityManager::LoadEntities()
 	}
 
 	return ret;
+}
+
+Entity* EntityManager::FindByColl(const Collider* c)
+{
+	p2List_item<Entity*>* item = entities.start;
+
+	while (item != NULL)
+	{
+		if (c == item->data->collision_box)
+			return item->data;
+
+		item = item->next;
+	}
+
+	return nullptr;
 }
