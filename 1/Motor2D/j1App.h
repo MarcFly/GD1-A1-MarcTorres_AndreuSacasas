@@ -62,6 +62,8 @@ public:
 	const char* GetOrganization() const;
 
 	float GetDT() const;
+	void CapFps(float fps);
+	void FrameRateCalculations();
 
 	// TODO 1: Create methods to save and load
 	// that can be called anytime, even if they 
@@ -140,6 +142,7 @@ private:
 	float dt;
 	float delay;
 	float sth;
+	float capped_ms;
 
 	// TODO 1.2: Create two new variables from pugui namespace:
 	// a xml_document to store the while config file and

@@ -88,6 +88,8 @@ bool j1App::Awake()
 
 	fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
+	CapFps(fps_cap);
+
 	ChangeFPSLimit();
 	
 	p2List_item<j1Module*>* item;
@@ -186,21 +188,17 @@ void j1App::PrepareUpdate()
 	frame_count++;
 	last_sec_frame_count++;
 
+
 	// TODO 10.4: Calculate the dt: differential time since last frame
-	dt = (frame_time.ReadMs() / 1000.0f);
-	frame_time.Start(); //Do it after dt lol
-	
-	if (dt < 1.0f / (float)fps_cap)
-		dt = 1.0f / (float)fps_cap;
-
-	if(dt > 3.0f / (float)fps_cap)
-		dt = 1.0f / (float)fps_cap;
-
-	dt *= EXPECTED;
-		
-	LOG("%f", dt);
-
-	p2List_item<j1Module*>* item;
+	dt = frame_time.ReadMs();
+	frame_time.Start();
+  
+  if(dt > 5.0f / (float)fps_cap)
+    dt = 5.0f / (float)fps_cap;
+  
+  dt *= EXPECTED;
+  
+  p2List_item<j1Module*>* item;
 	item = modules.start;
 
 	while (item != NULL)
@@ -226,40 +224,11 @@ void j1App::FinishUpdate()
 	trigger_load_module = false;
 	trigger_save_module = false;
 
-	// TODO 9.4: Now calculate:
-	// Amount of frames since startup
-	// Amount of time since game start (use a low resolution timer)
-	// Average FPS for the whole game life
-	// Amount of ms took the last update
-	// Amount of frames during the last second
-
-	if (last_sec_frame_time.Read() > 1000)
-	{
-		last_sec_frame_time.Start();
-		prev_last_sec_frame_count = last_sec_frame_count;
-		last_sec_frame_count = 0;
-		test_ticks = 0;
-	}
-
-	float avg_fps = float(frame_count) / startup_time.ReadSec();
-	float seconds_since_startup = startup_time.ReadSec();
-	uint32 last_frame_ms = frame_time.ReadMs();
-	uint32 frames_on_last_update = prev_last_sec_frame_count;
-
-	p2SString title;
-	title.create("Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %i",
-		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup,  frame_count);
-
-
-	App->win->SetTitle(title.GetString());
-
 	// TODO 10.2: Use SDL_Delay to make sure you get your capped framerate
 	
 	// TODO 10.3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	delay = (1000.0f / fps_cap) - last_frame_ms;
-	
-	if(delay > 0)
-	SDL_Delay(delay);
+
+	FrameRateCalculations();
 	
 }
 
@@ -422,6 +391,11 @@ float j1App::GetDT() const
 {
 	return dt;
 }
+void j1App::CapFps(float fps)
+{
+	if(fps > 0)
+		capped_ms = (1000 / fps);
+}
 // ---------------------------------------
 const char* j1App::GetOrganization() const
 {
@@ -482,7 +456,8 @@ const bool j1App::Save() {
 	return ret;
 }
 
-void j1App::ChangeFPSLimit() {
+void j1App::ChangeFPSLimit()
+{
 
 	// TODO 1: Read from config file your framerate cap
 	//fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
@@ -501,5 +476,31 @@ void j1App::ChangeFPSLimit() {
 	 // Code to Cap specifically
 
 	//cap = !cap;
+}
+
+void j1App::FrameRateCalculations()
+{
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	float avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
+	uint32 last_frame_ms = frame_time.ReadMs();
+	uint32 frames_on_last_update = prev_last_sec_frame_count;
+
+	p2SString title;
+	title.create("Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %i",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+
+	App->win->SetTitle(title.GetString());
+
+	if (capped_ms > 0 && last_frame_ms < capped_ms)
+	{
+		SDL_Delay(capped_ms - last_frame_ms);
+	}
 }
 
