@@ -16,7 +16,7 @@
 #include "j1Pathfinding.h"
 #include "j1App.h"
 #include "Brofiler\Brofiler.h"
-
+#include <time.h>
 // TODO 9.3: Measure the amount of ms that takes to execute:
 // App constructor, Awake, Start and CleanUp
 // LOG the result
@@ -79,6 +79,7 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	srand(time(NULL));
 
 	PERF_START(ptimer);
 

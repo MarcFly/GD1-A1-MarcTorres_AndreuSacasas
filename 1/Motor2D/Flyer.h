@@ -26,11 +26,11 @@ public:
 
 	void Movement(float dt);
 
-	void Dive(float dt);
+	// void Dive(float dt);
 
 public:
 
-	float vec_v = rand() % 20;
+	float vec_v = rand()%20;
 
 };
 

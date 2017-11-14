@@ -95,8 +95,8 @@ void j1Map::Draw()
 	}
 
 	
-
-	DrawNav();
+	if(debug_draw)
+		DrawNav();
 	
 }
 

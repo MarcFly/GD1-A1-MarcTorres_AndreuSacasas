@@ -100,7 +100,7 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 			COLLIDER_PLAYER,
 			App->entities);
 
-	else
+	else if(type == 1)
 		collision_box = App->collisions->AddCollider({
 				position.x,
 				position.y,
@@ -108,6 +108,14 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 				property_node.child("collision_box").attribute("h").as_int() },
 			COLLIDER_CRAWLER,
 			App->entities);
+	else if (type == 3)
+		collision_box = App->collisions->AddCollider({
+		position.x,
+		position.y,
+		property_node.child("collision_box").attribute("w").as_int(),
+		property_node.child("collision_box").attribute("h").as_int() },
+		COLLIDER_FLYER,
+		App->entities);
 
 	return ret;
 }

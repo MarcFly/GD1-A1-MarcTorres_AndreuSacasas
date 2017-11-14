@@ -79,6 +79,7 @@ void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 
 
 
+
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
 

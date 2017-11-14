@@ -41,8 +41,6 @@ bool Flyer::Update(float dt)
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
 
-	App->pathfinding->CreateFPath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
-
 	Movement(dt);
 
 	App->collisions->LookColl(this, dt);
@@ -58,12 +56,6 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	{
 		CorrectCollision(c1, c2, check);
 		c2->CheckCollision(c1->rect, check);
-	}
-	if (c2->type == COLLIDER_CRAWL_NAV && HIT_TIMER.ReadSec() >= 1)
-	{
-		this->stats.speed.x *= -1;
-		this->stats.max_speed.x *= -1;
-		HIT_TIMER.Start();
 	}
 	else if (c2->type == COLLIDER_DIE)
 	{
@@ -96,8 +88,12 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 void Flyer::Movement(float dt) {
 
 	// On enemies this will be used for fly and probably later on with Flyer and Flyer properly falling
-	if (App->pathfinding->GetLastPath() != nullptr)
+	if(position.DistanceTo(App->entities->GetEntity(0)->position) < 1000)
+		App->pathfinding->CreateFPath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
+
+	if (App->pathfinding->GetLastPath()->At(0) != nullptr && App->entities->GetEntity(0)->HIT_TIMER.ReadSec() >= 5)
 	{
+
 		iPoint next = *App->pathfinding->GetLastPath()->At(0);
 		iPoint present = App->map->WorldToMap(position.x, position.y);
 		iPoint multiplier = next - App->map->WorldToMap(position.x, position.y);
@@ -106,8 +102,10 @@ void Flyer::Movement(float dt) {
 		stats.speed.y = vec_v * multiplier.y;
 
 	}
-	else
+	else {
 		stats.speed.x = vec_v;
+		stats.speed.y = 0;
+	}
 }
 
 void Flyer::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
