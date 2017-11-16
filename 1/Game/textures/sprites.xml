@@ -35,7 +35,7 @@
     <acceleration x="0" y="0"/>
     <jump_force value="0"/>
     <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="1.0"/>
+    <render_scale value="2.0"/>
     <state value="0"/>
     <speed x="0" y="0"/>
     <flip value="false"/>
@@ -46,7 +46,7 @@
     <acceleration x="0" y="0"/>
     <jump_force value="0"/>
     <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="1.0"/>
+    <render_scale value="2.0"/>
     <state value="0"/>
     <speed x="0" y="0"/>
     <flip value="false"/>
@@ -152,6 +152,9 @@
       <rect x="138" y="0"/>
       <rect x="161" y="0"/>
       <rect x="184" y="0"/>
+      <rect x="207" y="0"/>
+      <rect x="230" y="0"/>
+      <rect x="253" y="0"/>
     </animation>
     <animation name="jump" offset_x="18" offset_y="12" speed="0.6" loop="true">
       <rect x="0" y="0"/>
@@ -161,40 +164,23 @@
     </animation>
   </animations>
 
-  <animations type="3" source="Player.png" w="79" h="80">
-    <animation name="idle" offset_x="18" offset_y="16" speed="0.5" loop="true">
-      <rect x="0" y="405"/>
-      <rect x="80" y="405"/>
-      <rect x="160" y="405"/>
-      <rect x="240" y="405"/>
-      <rect x="320" y="405"/>
-      <rect x="400" y="405"/>
-      <rect x="480" y="405"/>
-    </animation>
-    <animation name="move" offset_x="18" offset_y="12" speed="0.6" loop="true">
+  <animations type="3" source="FlyingFish.png" w="22" h="15">
+    <animation name="idle" offset_x="0" offset_y="0" speed="0.2" loop="false">
       <rect x="0" y="0"/>
-      <rect x="80" y="0"/>
-      <rect x="160" y="0"/>
-      <rect x="240" y="0"/>
-      <rect x="320" y="0"/>
-      <rect x="400" y="0"/>
-      <rect x="480" y="0"/>
-      <rect x="560" y="0"/>
-      <rect x="640" y="0"/>
     </animation>
-    <animation name="jump" offset_x="18" offset_y ="16" speed="0.2" loop="false" >
-      <rect x="0" y="486"/>
-      <rect x="80" y="486"/>
-      <rect x="160" y="486"/>
-      <rect x="240" y="486"/>
-      <rect x="320" y="486"/>
-      <!-- Last Frame is while still going up-->
+    <animation name="move" offset_x="0" offset_y="0" speed="0.2" loop="true">
+      <rect x="0" y="0"/>
+      <rect x="24" y="0"/>
+      <rect x="48" y="0"/>
+      <rect x="72" y="0"/>
+      <rect x="96" y="0"/>
+      <rect x="120" y="0"/>
+    </animation>
+    <animation name="jump" offset_x="0" offset_y ="0" speed="0.2" loop="false" >
+      <rect x="0" y="0"/>
     </animation >
-    <animation name="fall" offset_x="18" offset_y="16" speed="0.2" loop="false">
-      <rect x="400" y="486"/>
-      <rect x="480" y="486"/>
-      <rect x="560" y="486"/>
-      <!-- Last Frame is while still going down-->
+    <animation name="fall" offset_x="0" offset_y="0" speed="0.2" loop="false">
+      <rect x="0" y="0"/>
     </animation>
   </animations>
 </sprites>
