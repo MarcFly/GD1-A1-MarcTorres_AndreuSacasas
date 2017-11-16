@@ -304,7 +304,7 @@ Entity* EntityManager::FindByColl(const Collider* c)
 
 	while (item != NULL)
 	{
-		if (c == item->data->collision_box)
+		if (item != nullptr && c == item->data->collision_box)
 			return item->data;
 
 		item = item->next;

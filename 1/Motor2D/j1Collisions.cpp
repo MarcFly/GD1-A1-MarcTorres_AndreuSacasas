@@ -17,11 +17,14 @@ j1Collision::j1Collision() : j1Module()
 	matrix[COLLIDER_PLAYER][COLLIDER_CRAWLER]		= true;
 	matrix[COLLIDER_PLAYER][COLLIDER_DIE]			= true;
 	matrix[COLLIDER_PLAYER][COLLIDER_END]			= true;
+	matrix[COLLIDER_PLAYER][COLLIDER_FLYER]			= true;
 
 	matrix[COLLIDER_CRAWLER][COLLIDER_GROUND]		= true;
 	matrix[COLLIDER_CRAWLER][COLLIDER_PLAYER]		= true;
 	matrix[COLLIDER_CRAWLER][COLLIDER_DIE]			= true;
 	matrix[COLLIDER_CRAWLER][COLLIDER_CRAWL_NAV]	= true;
+
+	matrix[COLLIDER_FLYER][COLLIDER_PLAYER]			= true;
 
 	matrix[COLLIDER_GROUND][COLLIDER_PLAYER]		= true;
 	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER]		= true;
