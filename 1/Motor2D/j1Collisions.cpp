@@ -128,9 +128,11 @@ bool j1Collision::LookColl(Entity* entity, float dt) {
 
 	for (uint k = 0; k < colliders.count(); ++k)
 	{
-		if (c1->to_delete != true && colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && abs(c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect) {
+		c2 = colliders[k];
+
+		if (c1->to_delete != true && colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && (c2->type == COLLIDER_DIE || ((c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect))) {
 			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
-			c2 = colliders[k];
+			
 
 			if (c1 != c2) {
 				SDL_Rect check;
@@ -176,6 +178,7 @@ void j1Collision::DebugDraw()
 			App->render->DrawQuad(colliders[i]->rect, 204, 0, 204, alpha);
 			break;
 		case COLLIDER_DIE:
+			App->render->DrawQuad(colliders[i]->rect, 204, 0, 204, alpha);
 			break;
 		case COLLIDER_END:
 			break;

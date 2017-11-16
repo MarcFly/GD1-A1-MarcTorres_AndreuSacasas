@@ -154,8 +154,10 @@ void j1Scene::GodMode(float dt)
 		App->render->camera.x += 12 * dt;
 
 	// Extra inputs for assignment
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
 		App->map->debug_draw = !App->map->debug_draw;
+		App->collisions->debug = !App->collisions->debug;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		App->ChangeFPSLimit();
