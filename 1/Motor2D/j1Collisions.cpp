@@ -260,6 +260,8 @@ bool j1Collision::EraseCollider(Collider* collider)
 
 int Collider::CheckCollision(const SDL_Rect& r, SDL_Rect& res_rect) const
 {
-	SDL_IntersectRect(&this->rect, &r, &res_rect);
+	if(this != nullptr)
+		SDL_IntersectRect(&this->rect, &r, &res_rect);
+
 	return (res_rect.w * res_rect.h);
 }
