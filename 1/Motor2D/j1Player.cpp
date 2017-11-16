@@ -14,6 +14,7 @@ bool j1Player::Start()
 	state = idle;
 	HIT_TIMER.Start();
 	player_life = App->tex->Load(test.GetString());
+	this->stats.hp = 4;
 	return ret;
 }
 
@@ -61,8 +62,8 @@ void j1Player::Draw(float dt)
 			0.0,
 			render_scale,
 			flip);
-
-		App->render->Blit(player_life, position.x + 600, 200, &health_rects[0], 1.0f, 0.0, 1);
+		
+		App->render->Blit(player_life, position.x + 600, 200, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
 	}
 }
 
@@ -90,7 +91,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed *= { 1.1f, -1.2f };
 		}
 		else if(HIT_TIMER.ReadSec() >= 5){
-			this->stats.hp -= 1;
+			if (this->stats.hp > 0)
+				this->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			this->stats.speed *= { -2.0f, -1.0f };
 			this->HIT_TIMER.Start();
@@ -104,7 +106,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed *= { 1.1f, -1.2f };
 		}
 		else if (HIT_TIMER.ReadSec() >= 5) {
-			this->stats.hp -= 1;
+			if (this->stats.hp > 0)
+				this->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			this->stats.speed *= { -2.0f, -1.0f };
 			this->HIT_TIMER.Start();

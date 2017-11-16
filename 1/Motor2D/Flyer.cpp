@@ -69,7 +69,8 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			collision_box->active = false;
 		}
 		else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
-			App->entities->FindByColl(c2)->stats.hp -= 1;
+			if (App->entities->FindByColl(c2)->stats.hp > 0)
+				App->entities->FindByColl(c2)->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			App->entities->FindByColl(c2)->HIT_TIMER.Start();
 			this->stats.speed *= { -1.0f, 1.0f };
