@@ -183,4 +183,18 @@
       <rect x="0" y="0"/>
     </animation>
   </animations>
+  
+<!--///////////////////////////////////////////////////////////////////-->
+<!--                           UI Sprites                              -->
+
+  <ui>
+    <health w="92" h="88" source="textures/PlayerHealth.png">
+      <rect x="0" y="0"/>
+      <rect x="93" y="0"/>
+      <rect x="186" y="0"/>
+      <rect x="279" y="0"/>
+      <rect x="372" y="0"/>
+    </health>
+  </ui>
+  
 </sprites>

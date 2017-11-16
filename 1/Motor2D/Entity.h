@@ -117,7 +117,7 @@ public:
 	virtual void Movement() {};
 
 public: // Functions that stay the same
-	void Draw(float dt);
+	virtual void Draw(float dt);
 
 	void UpdateState();
 
@@ -134,6 +134,11 @@ public:
 	move_state			last_state = error;
 	p2List<Animation*>	animations;
 	int					current_anim_size = 0;
+
+	SDL_Texture*		player_life = nullptr;
+	p2SString test;
+	p2DynArray<SDL_Rect> health_rects;
+	
 
 	Collider*		collision_box;
 

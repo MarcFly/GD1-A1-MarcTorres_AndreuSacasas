@@ -76,6 +76,27 @@ bool Entity::LoadSprites(const pugi::xml_node& sprite_node) {
 		animation = animation.next_sibling("animation");
 	}
 
+	// While no UI module
+
+	pugi::xml_node health = sprite_node.parent().child("ui").child("health");
+	pugi::xml_node rect = health.child("rect");
+
+	
+	for (int i = 0; rect.attribute("x").as_string() != ""; i++)
+	{
+		health_rects.PushBack({
+			rect.attribute("x").as_int(),
+			rect.attribute("y").as_int(),
+			health.attribute("w").as_int(),
+			health.attribute("h").as_int(),
+		});
+
+		rect = rect.next_sibling("rect");
+	}
+
+	test.create(health.attribute("source").as_string());
+	
+
 	return ret;
 }
 

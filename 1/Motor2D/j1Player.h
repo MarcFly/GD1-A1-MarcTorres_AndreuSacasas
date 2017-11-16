@@ -20,6 +20,8 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
+	virtual void Draw(float dt);
+
 	// OnCollision reaction
 	void OnCollision(Collider* c1, Collider* c2, SDL_Rect& check);
 	void CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check);

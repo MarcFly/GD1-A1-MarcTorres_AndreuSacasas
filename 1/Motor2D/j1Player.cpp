@@ -13,6 +13,7 @@ bool j1Player::Start()
 	current_animation = FindAnimByName(idle);
 	state = idle;
 	HIT_TIMER.Start();
+	player_life = App->tex->Load(test.GetString());
 	return ret;
 }
 
@@ -45,6 +46,24 @@ bool j1Player::Update(float dt)
 	
 
 	return ret;
+}
+
+void j1Player::Draw(float dt)
+{
+	if (this != nullptr) {
+		current_animation = FindAnimByName(state);
+
+		App->render->Blit(*graphics,
+			position.x - current_animation->offset_x,
+			position.y - current_animation->offset_y,
+			&current_animation->frames[current_animation->GetAnimationFrame(dt, current_animation->frames.Count())],
+			current_animation->speed,
+			0.0,
+			render_scale,
+			flip);
+
+		App->render->Blit(player_life, position.x + 600, 200, &health_rects[0], 1.0f, 0.0, 1);
+	}
 }
 
 void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
@@ -125,10 +144,6 @@ void j1Player::Movement(float dt) {
 
 		
 	}
-
-		
-	
-	// Draw everything --------------------------------------
 
 }
 
