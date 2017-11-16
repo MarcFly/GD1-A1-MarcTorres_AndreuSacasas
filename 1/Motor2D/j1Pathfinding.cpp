@@ -53,13 +53,13 @@ int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 		open.nodes.add(PathNode(0,origin.DistanceTo(dest),origin,NULL));
 
 		while (open.nodes.count() != 0) {
-			PathNode* curr = new PathNode(open.GetNodeLowestScore()->data);
+			closed.nodes.add(open.GetNodeLowestScore()->data);
 			open.nodes.del(open.GetNodeLowestScore());
-			closed.nodes.add(*curr);
+			
 
-			if (curr->pos != dest) {
+			if (closed.nodes.end->data.pos != dest) {
 				PathList neighbours;
-				curr->FindWalkableAdjacents(neighbours);
+				closed.nodes.end->data.FindWalkableAdjacents(neighbours);
 
 				for (int i = 0; i < neighbours.nodes.count(); i++) {
 					if (closed.Find(neighbours.nodes.At(i)->data.pos) == NULL) {
@@ -73,17 +73,19 @@ int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 							open.nodes.add(neighbours.nodes[i]);
 					}
 				}
+
+				neighbours.nodes.clear();
 				
 			}
 			else
 				break;
-			
-			curr = nullptr;
 
 		}
 
 		p2List_item<PathNode>* item = closed.nodes.end;
 
+		for (int i = 0; i < last_path.Count(); i++)
+			delete last_path.At(i);
 		last_path.Clear();
 
 		while (item->data.pos != origin)
