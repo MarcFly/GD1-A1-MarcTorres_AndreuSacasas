@@ -80,6 +80,8 @@ public:
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
 
+	bool CheckColl(Collider* c1, Collider* c2);
+
 	bool debug = false;
 	p2List<TypeRect*> rect_list;
 

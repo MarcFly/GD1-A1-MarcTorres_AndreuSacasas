@@ -138,8 +138,8 @@ bool EntityManager::Update(float dt)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != nullptr && item != NULL && ret == true) {
-		if(item->data != NULL && item->data != nullptr)
+	while (item != NULL && ret == true) {
+		if(item != nullptr && item->data != nullptr && item->data != NULL)
 			ret = item->data->Update(dt);
 		item = item->next;
 	}
@@ -304,7 +304,7 @@ Entity* EntityManager::FindByColl(const Collider* c)
 
 	while (item != NULL)
 	{
-		if (item != nullptr && c == item->data->collision_box)
+		if (item->data != nullptr && c == item->data->collision_box)
 			return item->data;
 
 		item = item->next;

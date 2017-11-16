@@ -30,7 +30,7 @@ public:
 
 public:
 
-	float vec_v = rand()%20;
+	float vec_v = rand()%3 + 2; 
 
 };
 

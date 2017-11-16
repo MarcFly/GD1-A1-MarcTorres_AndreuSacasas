@@ -55,7 +55,7 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	if (c2->type == COLLIDER_GROUND)
 	{
 		CorrectCollision(c1, c2, check);
-		c2->CheckCollision(c1->rect, check);
+		
 	}
 	else if (c2->type == COLLIDER_DIE)
 	{
@@ -76,12 +76,8 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 		}
 	}
 
-
-
 	collision_box->rect.x = position.x;
 	collision_box->rect.y = position.y;
-
-	
 
 }
 
@@ -89,14 +85,14 @@ void Flyer::Movement(float dt) {
 
 	// On enemies this will be used for fly and probably later on with Flyer and Flyer properly falling
 	if(position.DistanceTo(App->entities->GetEntity(0)->position) < 1000)
-		App->pathfinding->CreateFPath(App->map->WorldToMap(position.x, position.y), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
+		App->pathfinding->CreateFPath(App->map->WorldToMap(position.x + collision_box->rect.w / 2, position.y + collision_box->rect.h / 2), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
 
 	if (App->pathfinding->GetLastPath()->At(0) != nullptr && App->entities->GetEntity(0)->HIT_TIMER.ReadSec() >= 5)
 	{
 
 		iPoint next = *App->pathfinding->GetLastPath()->At(0);
-		iPoint present = App->map->WorldToMap(position.x, position.y);
-		iPoint multiplier = next - App->map->WorldToMap(position.x, position.y);
+		iPoint present = App->map->WorldToMap(position.x + collision_box->rect.w / 2, position.y + collision_box->rect.h / 2);
+		iPoint multiplier = next - App->map->WorldToMap(position.x + collision_box->rect.w / 2, position.y + collision_box->rect.h / 2);
 
 		stats.speed.x = vec_v * multiplier.x;
 		stats.speed.y = vec_v * multiplier.y;
@@ -123,5 +119,10 @@ void Flyer::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed.y = 0;
 		}
 	}
-
+	else if ((float)check.w / (float)c1->rect.w <= (float)check.h / (float)c1->rect.h && HIT_TIMER.ReadSec() >= 2)
+	{
+		this->stats.speed.x *= -1;
+		this->vec_v *= -1;
+		HIT_TIMER.Start();
+	}
 }

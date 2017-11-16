@@ -50,9 +50,9 @@ void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	if (c2->type == COLLIDER_GROUND)
 	{
 		CorrectCollision(c1, c2, check);
-		c2->CheckCollision(c1->rect, check);
+	
 	}
-	if (c2->type == COLLIDER_CRAWL_NAV && HIT_TIMER.ReadSec() >= 1)
+	else if (c2->type == COLLIDER_CRAWL_NAV && HIT_TIMER.ReadSec() >= 1)
 	{
 		this->stats.speed.x *= -1;
 		this->stats.max_speed.x *= -1;
@@ -106,5 +106,6 @@ void Crawler::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed.y = 0;
 		}
 	}
+	
 	
 }

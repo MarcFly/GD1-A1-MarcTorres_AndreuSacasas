@@ -25,9 +25,11 @@ j1Collision::j1Collision() : j1Module()
 	matrix[COLLIDER_CRAWLER][COLLIDER_CRAWL_NAV]	= true;
 
 	matrix[COLLIDER_FLYER][COLLIDER_PLAYER]			= true;
+	matrix[COLLIDER_FLYER][COLLIDER_FLYER]			= true;
 
 	matrix[COLLIDER_GROUND][COLLIDER_PLAYER]		= true;
 	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER]		= true;
+	matrix[COLLIDER_GROUND][COLLIDER_FLYER]			= true;
 
 	matrix[COLLIDER_DIE][COLLIDER_PLAYER]			= true;
 	matrix[COLLIDER_DIE][COLLIDER_CRAWLER]			= true;
@@ -130,9 +132,7 @@ bool j1Collision::LookColl(Entity* entity, float dt) {
 	{
 		c2 = colliders[k];
 
-		if (c1->to_delete != true && colliders[k] != nullptr && matrix[c1->type][colliders[k]->type] && (c2->type == COLLIDER_DIE || ((c1->rect.x - colliders[k]->rect.x) < coll_detect && abs(c1->rect.y - colliders[k]->rect.y) < coll_detect))) {
-			// skip empty colliders, colliders that don't interact with active one, colldiers not in range to be a problem (subjective range for now)
-			
+		if (CheckColl(c1,c2)) {
 
 			if (c1 != c2) {
 				SDL_Rect check;
@@ -189,6 +189,28 @@ void j1Collision::DebugDraw()
 
 		}
 	}
+}
+
+bool j1Collision::CheckColl(Collider * c1, Collider * c2)
+{
+	bool ret = c1->to_delete;
+
+	if (!ret && c2 != nullptr) {
+
+		if (ret) ret = matrix[c1->type][c2->type];
+
+		if (ret) ret = (c2->type == COLLIDER_DIE);
+
+		if (ret == false && c2)
+		{
+			if (!ret) ret = (abs(c1->rect.x - c2->rect.x + c2->rect.w) < coll_detect);
+			if (!ret) ret = (abs(c1->rect.y - c2->rect.y + c2->rect.h) < coll_detect);
+			if (!ret) ret = (abs(c1->rect.x + c1->rect.w - c2->rect.x) < coll_detect);
+			if (!ret) ret = (abs(c1->rect.y + c1->rect.h - c2->rect.h) < coll_detect);
+		}
+	}
+
+	return ret;
 }
 
 bool j1Collision::CleanUp()
