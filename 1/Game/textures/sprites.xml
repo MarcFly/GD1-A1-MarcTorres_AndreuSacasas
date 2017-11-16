@@ -20,11 +20,11 @@
   </entity>
   <entity type="1">
         <position x="704" y="700"/>
-        <max_speed x="3" y="1"/>
+        <max_speed x="2" y="1"/>
         <acceleration x="0" y="0.5"/>
         <jump_force value="-12"/>
-        <collision_box offset_x="" offset_y="" h="30" w="60"/>
-        <render_scale value="1.0"/>
+        <collision_box offset_x="" offset_y="" h="30" w="30"/>
+        <render_scale value="2.0"/>
         <state value="0"/>
         <speed x="0" y="0"/>
         <flip value="false"/>
@@ -138,40 +138,26 @@
     </animation>
   </animations>
   
-  <animations type="1" source="Player.png" w="79" h="80">
-    <animation name="idle" offset_x="18" offset_y="16" speed="0.5" loop="true">
-      <rect x="0" y="405"/>
-      <rect x="80" y="405"/>
-      <rect x="160" y="405"/>
-      <rect x="240" y="405"/>
-      <rect x="320" y="405"/>
-      <rect x="400" y="405"/>
-      <rect x="480" y="405"/>
-    </animation>
-    <animation name="move" offset_x="18" offset_y="12" speed="0.6" loop="true">
+  <animations type="1" source="Snake.png" w="22" h="21">
+    <animation name="idle" offset_x="18" offset_y="12" speed="0.6" loop="true">
       <rect x="0" y="0"/>
-      <rect x="80" y="0"/>
-      <rect x="160" y="0"/>
-      <rect x="240" y="0"/>
-      <rect x="320" y="0"/>
-      <rect x="400" y="0"/>
-      <rect x="480" y="0"/>
-      <rect x="560" y="0"/>
-      <rect x="640" y="0"/>
     </animation>
-    <animation name="jump" offset_x="18" offset_y ="16" speed="0.2" loop="false" >
-      <rect x="0" y="486"/>
-      <rect x="80" y="486"/>
-      <rect x="160" y="486"/>
-      <rect x="240" y="486"/>
-      <rect x="320" y="486"/>
-      <!-- Last Frame is while still going up-->
-    </animation >
-    <animation name="fall" offset_x="18" offset_y="16" speed="0.2" loop="false">
-      <rect x="400" y="486"/>
-      <rect x="480" y="486"/>
-      <rect x="560" y="486"/>
-      <!-- Last Frame is while still going down-->
+    <animation name="move" offset_x="0" offset_y="0" speed="0.3" loop="true">
+      <rect x="0" y="0"/>
+      <rect x="23" y="0"/>
+      <rect x="46" y="0"/>
+      <rect x="69" y="0"/>
+      <rect x="92" y="0"/>
+      <rect x="115" y="0"/>
+      <rect x="138" y="0"/>
+      <rect x="161" y="0"/>
+      <rect x="184" y="0"/>
+    </animation>
+    <animation name="jump" offset_x="18" offset_y="12" speed="0.6" loop="true">
+      <rect x="0" y="0"/>
+    </animation>
+    <animation name="fall" offset_x="18" offset_y="12" speed="0.6" loop="true">
+      <rect x="0" y="0"/>
     </animation>
   </animations>
 
