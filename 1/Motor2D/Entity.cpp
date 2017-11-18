@@ -2,6 +2,7 @@
 #include "EntityManager.h"
 #include "j1App.h"
 #include "j1Map.h"
+#include "j1Collisions.h"
 
 void Entity::Draw(float dt) {
 	if (this != nullptr) {
@@ -139,6 +140,55 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 		App->entities);
 
 	return ret;
+}
+
+iPoint Entity::GetMapTile()
+{
+	iPoint ret[4] = {
+		App->map->WorldToMap(position.x,position.y),
+		App->map->WorldToMap(position.x + collision_box->rect.w, position.y),
+		App->map->WorldToMap(position.x, position.y + collision_box->rect.h),
+		App->map->WorldToMap(position.x + collision_box->rect.w, position.y + collision_box->rect.h)
+	};
+
+	iPoint in_map[4] = {
+		App->map->MapToWorld(ret[0].x, ret[0].y),
+		App->map->MapToWorld(ret[1].x, ret[1].y),
+		App->map->MapToWorld(ret[2].x, ret[2].y),
+		App->map->MapToWorld(ret[3].x, ret[3].y)
+	};
+
+	SDL_Rect rects[4] =
+	{
+		{ in_map[0].x, in_map[0].y, App->map->Maps->tilewidth, App->map->Maps->tileheight },
+		{ in_map[1].x, in_map[1].y, App->map->Maps->tilewidth, App->map->Maps->tileheight },
+		{ in_map[2].x, in_map[2].y, App->map->Maps->tilewidth, App->map->Maps->tileheight },
+		{ in_map[3].x, in_map[3].y, App->map->Maps->tilewidth, App->map->Maps->tileheight }
+	};
+
+	SDL_Rect res_rect[4];
+
+	int test[4][3] {
+		{ in_map[0].x, in_map[0].y, collision_box->CheckCollision(rects[0], res_rect[0]) },
+		{ in_map[1].x, in_map[1].y, collision_box->CheckCollision(rects[1], res_rect[1]) },
+		{ in_map[2].x, in_map[2].y, collision_box->CheckCollision(rects[2], res_rect[2]) },
+		{ in_map[3].x, in_map[3].y, collision_box->CheckCollision(rects[3], res_rect[3]) }
+	};
+
+	iPoint final_ret;
+	int pre_high = 0;
+
+	for (int i = 0; i < 4; i++) {
+		if (final_ret.x == test[i][0] && final_ret.y == test[i][1] && res_rect[i].w > 0 && res_rect[i].h > 0)
+			pre_high += test[i][2];
+
+		if (test[i][2] > pre_high && res_rect[i].w > 0 && res_rect[i].h > 0) {
+			final_ret = { test[i][0],test[i][1] };
+			pre_high = test[i][2];
+		}
+	}
+
+	return final_ret;
 }
 
 bool Entity::Load(const pugi::xml_node& savegame)

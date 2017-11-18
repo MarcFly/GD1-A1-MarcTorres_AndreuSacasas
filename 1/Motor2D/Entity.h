@@ -125,6 +125,8 @@ public: // Functions that stay the same
 
 	bool LoadProperties(const pugi::xml_node& property_node);
 
+	iPoint GetMapTile();
+
 public:
 	p2SString name;
 

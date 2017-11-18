@@ -21,7 +21,7 @@ bool j1Pathfinding::Awake(const pugi::xml_node& config) {
 bool j1Pathfinding::CleanUp() {
 	LOG("Freeing pathfinding");
 
-	last_path.Clear();
+	ResetNav();
 	RELEASE_ARRAY(map);
 
 	// Hacked Shite------------------------
@@ -32,7 +32,6 @@ bool j1Pathfinding::CleanUp() {
 }
 
 void j1Pathfinding::SetMap(uint width, uint height, uint* data) {
-	this_list = new PathList;
 	this->width = width;
 	this->height = height;
 
@@ -44,6 +43,7 @@ void j1Pathfinding::SetMap(uint width, uint height, uint* data) {
 
 int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 	int ret = -1;
+	ResetNav();
 	if (IsWalkable(origin.x, origin.y) && IsWalkable(dest.x, dest.y)) {
 		ret = 0;
 
@@ -53,13 +53,13 @@ int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 		open.nodes.add(PathNode(0,origin.DistanceTo(dest),origin,NULL));
 
 		while (open.nodes.count() != 0) {
-			PathNode* curr = new PathNode(open.GetNodeLowestScore()->data);
+			closed.nodes.add(open.GetNodeLowestScore()->data);
 			open.nodes.del(open.GetNodeLowestScore());
-			closed.nodes.add(*curr);
+			
 
-			if (curr->pos != dest) {
+			if (closed.nodes.end->data.pos != dest) {
 				PathList neighbours;
-				curr->FindWalkableAdjacents(neighbours);
+				closed.nodes.end->data.FindWalkableAdjacents(neighbours);
 
 				for (int i = 0; i < neighbours.nodes.count(); i++) {
 					if (closed.Find(neighbours.nodes.At(i)->data.pos) == NULL) {
@@ -73,13 +73,21 @@ int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 							open.nodes.add(neighbours.nodes[i]);
 					}
 				}
+
+				neighbours.nodes.clear();
+				
 			}
-			else break;
+			else
+				break;
 
 		}
 
 		p2List_item<PathNode>* item = closed.nodes.end;
+
+		for (int i = 0; i < last_path.Count(); i++)
+			delete last_path.At(i);
 		last_path.Clear();
+
 		while (item->data.pos != origin)
 		{
 			last_path.PushBack(item->data.pos);
@@ -90,13 +98,23 @@ int j1Pathfinding::CreateFPath(const iPoint& origin, const iPoint& dest) {
 
 		// Closed Test is to show what has A* done to find the path
 		item = closed.nodes.start;
+
+		for (int i = 0; i < closed_test.Count(); i++)
+			delete closed_test.At(i);
 		closed_test.Clear();
-		while(item != nullptr)
+
+		while (item != nullptr)
 		{
 			closed_test.PushBack(item->data.pos);
 			item = item->next;
 		}
+
+		open.nodes.clear();
+		closed.nodes.clear();
 	}
+
+	
+
 	return ret;
 	
 }
@@ -170,8 +188,9 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const {
 // Settings makers
 void j1Pathfinding::ResetNav() {
 	last_path.Clear();
-	closed_test.Clear();
 
+	closed_test.Clear();
+	
 	for (int i = 0; i < COST_MAP; i++)
 		for (int j = 0; j < COST_MAP; j++)
 			cost_so_far[i][j] = 0;

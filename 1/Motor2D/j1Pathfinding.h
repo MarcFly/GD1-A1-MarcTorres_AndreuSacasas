@@ -31,6 +31,8 @@ struct PathNode {
 	PathNode(const PathNode& node) 
 	{ step_cost = node.step_cost; dist_cost = node.dist_cost; pos = node.pos; parent = node.parent;}
 	
+	~PathNode() { parent = nullptr; }
+
 	int	Score() const {
 		return step_cost + dist_cost;
 	}
@@ -59,7 +61,7 @@ struct PathList {
 	p2List<PathNode>		nodes;
 
 	// What?
-	
+	~PathList() { nodes.clear(); }
 	p2List_item<PathNode>* Find(const iPoint& point) {
 		p2List_item<PathNode>* item = nodes.start;
 
@@ -134,7 +136,6 @@ public:
 	
 
 	//Pathfinding Proper Bullshit
-	PathList*	this_list;
 	uint	width;
 	uint	height;
 	uint*	map;

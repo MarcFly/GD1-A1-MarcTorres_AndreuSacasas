@@ -26,12 +26,13 @@ public:
 
 	void Movement(float dt);
 
+	bool TryPath();
 	// void Dive(float dt);
 
 public:
 
 	float vec_v = rand()%3 + 2; 
-
+	bool check_try;
 };
 
 
