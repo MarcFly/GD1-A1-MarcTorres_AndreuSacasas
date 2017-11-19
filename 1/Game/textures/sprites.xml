@@ -8,7 +8,7 @@
   <!--                        ENTITY PROPERTIES                          -->
 <map value="0">
   <entity type="0">
-    <position x="516" y="569"/>
+    <position x="516" y="540"/>
     <max_speed x="8" y="16"/>
     <acceleration x="1" y="0.8"/>
     <jump_force value="-18"/>
