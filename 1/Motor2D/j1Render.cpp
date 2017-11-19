@@ -46,6 +46,8 @@ bool j1Render::Awake(const pugi::xml_node& config)
 		camera.y = config.child("camera").attribute("y").as_int();
 	}
 
+	offset_camera = 0;
+
 	return ret;
 }
 
