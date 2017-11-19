@@ -5,6 +5,7 @@
 #include "j1Scene.h"
 #include "Crawler.h"
 #include "Flyer.h"
+#include "Brofiler\Brofiler.h"
 
 EntityManager::EntityManager()
 {
@@ -139,8 +140,12 @@ bool EntityManager::Update(float dt)
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL && ret == true) {
-		if(item != nullptr && item->data != nullptr && item->data != NULL)
+		
+		if (item != nullptr && item->data != nullptr && item->data != NULL) {
+			p2SString brof("Entity Type %i ID %i", item->data->type, item->data->entity_id);
+			BROFILER_CATEGORY(brof.GetString(), Profiler::Color::Aqua);
 			ret = item->data->Update(dt);
+		}
 		item = item->next;
 	}
 
@@ -163,6 +168,8 @@ bool EntityManager::PostUpdate(float dt) // // Only for movement collisions
 bool EntityManager::Load(const pugi::xml_node& savegame)
 {
 	bool ret = true;
+	p2SString brof("Load Entities from savefile");
+	BROFILER_CATEGORY(brof.GetString(), Profiler::Color::Bisque);
 
 	CleanEntities();
 	
@@ -276,6 +283,9 @@ bool EntityManager::DestroyEntity(const int& at) {
 bool EntityManager::LoadEntities()
 {
 	bool ret = true;
+
+	p2SString brof("Load Entities from base xml");
+	BROFILER_CATEGORY(brof.GetString(), Profiler::Color::Crimson);
 
 	pugi::xml_node root = sprites_doc.child("sprites");
 
