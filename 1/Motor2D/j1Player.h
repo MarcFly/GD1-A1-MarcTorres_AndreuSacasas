@@ -39,6 +39,9 @@ public:
 		bool ret = App->tex->UnLoad(player_life);
 		health_source.Clear();
 		health_rects.Clear();
+
+		App->tex->UnLoad(god_mode_tex);
+		god_mode_source.Clear();
 		
 		return ret;
 	}
