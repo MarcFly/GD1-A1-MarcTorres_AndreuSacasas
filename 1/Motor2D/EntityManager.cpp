@@ -292,6 +292,7 @@ bool EntityManager::LoadEntities()
 			temp_sprites = temp_sprites.next_sibling();
 
 		ret = item->data->Awake(temp_sprites, temp_properties);
+		ret = item->data->Start();
 		item = item->next;
 		temp_properties = temp_properties.next_sibling("entity");
 	}
