@@ -14,6 +14,7 @@ bool j1Player::Start()
 	state = idle;
 	HIT_TIMER.Start();
 	player_life = App->tex->Load(health_source.GetString());
+	god_mode_tex = App->tex->Load(god_mode_source.GetString());
 	return ret;
 }
 
@@ -64,6 +65,9 @@ void j1Player::Draw(float dt)
 			flip);
 
 		App->render->Blit(player_life, -App->render->camera.x + 900, -App->render->camera.y + 30, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
+
+		if (App->scene->god_mode)
+			App->render->Blit(god_mode_tex, -App->render->camera.x + 50, -App->render->camera.y + 30, &god_mode_rect, 1.0f, 0.0f, 0.8f);
 	}
 }
 
@@ -215,6 +219,13 @@ bool j1Player::LoadSpecificSprites(const pugi::xml_node & sprite_node)
 	}
 
 	health_source.create(health.attribute("source").as_string());
+
+	god_mode_rect = { sprite_node.child("ui").child("god_mode").attribute("x").as_int(),
+		sprite_node.child("ui").child("god_mode").attribute("y").as_int(),
+		sprite_node.child("ui").child("god_mode").attribute("w").as_int(),
+		sprite_node.child("ui").child("god_mode").attribute("h").as_int() };
+	
+	god_mode_source.create(sprite_node.child("ui").child("god_mode").attribute("source").as_string());
 
 	return ret;
 }
