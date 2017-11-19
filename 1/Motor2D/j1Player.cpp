@@ -82,6 +82,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	{
 		position.x = App->map->Maps->start_pos.x;
 		position.y = App->map->Maps->start_pos.y;
+		if (this->stats.hp > 0)
+			this->stats.hp -= 1;
 	}
 	else if (c2->type == COLLIDER_CRAWLER)
 	{

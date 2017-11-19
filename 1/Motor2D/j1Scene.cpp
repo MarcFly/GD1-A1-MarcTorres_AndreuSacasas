@@ -178,7 +178,7 @@ void j1Scene::NotGodMode(float dt)
 {
 	// TODO 2.5: Call load / save methods when pressing l/s
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || App->entities->GetPlayer()->stats.hp == 0)
 		App->Trigger_Load();
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
