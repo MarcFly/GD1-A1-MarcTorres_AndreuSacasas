@@ -64,9 +64,9 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	else if (c2->type == COLLIDER_PLAYER)
 	{
 		if (c2->rect.y + c2->rect.h < c1->rect.y + 3) {
-			App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
 			App->entities->FindByColl(c2)->stats.speed *= { 1.1f, -1.2f };
 			collision_box->active = false;
+			App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
 		}
 		else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
 			if (App->entities->FindByColl(c2)->stats.hp > 0)

@@ -13,7 +13,7 @@ bool j1Player::Start()
 	current_animation = FindAnimByName(idle);
 	state = idle;
 	HIT_TIMER.Start();
-	player_life = App->tex->Load(test.GetString());
+	player_life = App->tex->Load(health_source.GetString());
 	this->stats.hp = 4;
 	return ret;
 }
@@ -191,6 +191,30 @@ void j1Player::NoMove(float dt) {
 		else
 			stats.speed.x -= stats.accel.x * 2 * dt;
 	}
+}
+
+bool j1Player::LoadSpecificSprites(const pugi::xml_node & sprite_node)
+{
+	bool ret = true;
+	// While no UI module
+
+	pugi::xml_node health = sprite_node.child("ui").child("health");
+	pugi::xml_node rect = health.child("rect");
+	for (int i = 0; rect.attribute("x").as_string() != ""; i++)
+	{
+		health_rects.PushBack({
+			rect.attribute("x").as_int(),
+			rect.attribute("y").as_int(),
+			health.attribute("w").as_int(),
+			health.attribute("h").as_int(),
+		});
+
+		rect = rect.next_sibling("rect");
+	}
+
+	health_source.create(health.attribute("source").as_string());
+
+	return ret;
 }
 
 void j1Player::DoJump(float dt) {

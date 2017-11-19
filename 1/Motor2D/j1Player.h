@@ -33,11 +33,15 @@ public:
 	void DoJump(float dt);
 	void NoMove(float dt);
 
+	bool LoadSpecificSprites(const pugi::xml_node& sprite_node);
 public:
 
 	bool can_jump = true;
 	bool is_jumping = false;
 
+	SDL_Texture*		player_life = nullptr;
+	p2SString			health_source;
+	p2DynArray<SDL_Rect> health_rects;
 };
 
 
