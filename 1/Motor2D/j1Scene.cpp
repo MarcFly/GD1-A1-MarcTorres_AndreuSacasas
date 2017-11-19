@@ -163,15 +163,6 @@ void j1Scene::GodMode(float dt)
 		App->render->camera.x += 12 * dt;
 
 	// Extra inputs for assignment
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
-		App->map->debug_draw = !App->map->debug_draw;
-		App->collisions->debug = !App->collisions->debug;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
-		App->ChangeFPSLimit();
-		App->CapFps(App->GetFpsCap());
-	}
 }
 
 void j1Scene::NotGodMode(float dt) 
@@ -198,5 +189,14 @@ void j1Scene::NotGodMode(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN || change_map == true) {
 		change_map = false;
 		LoadNextMap();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
+		App->map->debug_draw = !App->map->debug_draw;
+		App->collisions->debug = !App->collisions->debug;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		App->ChangeFPSLimit();
+		App->CapFps(App->GetFpsCap());
 	}
 }
