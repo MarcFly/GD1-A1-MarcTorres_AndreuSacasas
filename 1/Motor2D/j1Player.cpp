@@ -13,6 +13,7 @@ bool j1Player::Start()
 	current_animation = FindAnimByName(idle);
 	state = idle;
 	HIT_TIMER.Start();
+	blink.Start();
 	player_life = App->tex->Load(health_source.GetString());
 	god_mode_tex = App->tex->Load(god_mode_source.GetString());
 	return ret;
@@ -55,14 +56,18 @@ void j1Player::Draw(float dt)
 	if (this != nullptr) {
 		current_animation = FindAnimByName(state);
 
-		App->render->Blit(*graphics,
-			position.x - current_animation->offset_x,
-			position.y - current_animation->offset_y,
-			&current_animation->frames[current_animation->GetAnimationFrame(dt, current_animation->frames.Count())],
-			current_animation->speed,
-			0.0,
-			render_scale,
-			flip);
+		if (HIT_TIMER.ReadSec() < 1 && blink.ReadSec() > 0.3)
+			blink.Start();
+
+		if (HIT_TIMER.ReadSec() > 1 || blink.ReadSec() < 0.2)
+			App->render->Blit(*graphics,
+				position.x - current_animation->offset_x,
+				position.y - current_animation->offset_y,
+				&current_animation->frames[current_animation->GetAnimationFrame(dt, current_animation->frames.Count())],
+				current_animation->speed,
+				0.0,
+				render_scale,
+				flip);
 
 		App->render->Blit(player_life, -App->render->camera.x + 900, -App->render->camera.y + 30, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
 
