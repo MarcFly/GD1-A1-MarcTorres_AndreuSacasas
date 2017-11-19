@@ -151,16 +151,16 @@ void j1Scene::GodMode(float dt)
 	// TODO 10.6: Make the camera movement independent of framerate
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 12 * dt;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		App->render->camera.y += 12 * dt;
 
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		App->render->camera.y -= 12 * dt;
+
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 12 * dt;
+		App->render->camera.x += 12 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 12 * dt;
+		App->render->camera.x -= 12 * dt;
 
 	// Extra inputs for assignment
 }

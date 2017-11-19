@@ -62,7 +62,8 @@ void j1Player::Draw(float dt)
 			render_scale,
 			flip);
 		
-		App->render->Blit(player_life, position.x + 600, 200, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
+		//App->render->Blit(player_life, position.x + 600, 200, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
+		App->render->Blit(player_life, -App->render->camera.x + 900, -App->render->camera.y + 30, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
 	}
 }
 
@@ -81,7 +82,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	{
 		position.x = App->map->Maps->start_pos.x;
 		position.y = App->map->Maps->start_pos.y;
-		if (this->stats.hp > 0)
+		if (this->stats.hp > 0 && App->scene->god_mode == false)
 			this->stats.hp -= 1;
 	}
 	else if (c2->type == COLLIDER_CRAWLER)
@@ -92,7 +93,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed *= { 1.1f, -1.2f };
 		}
 		else if(HIT_TIMER.ReadSec() >= 1){
-			if (this->stats.hp > 0)
+			if (this->stats.hp > 0 && App->scene->god_mode == false)
 				this->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			this->stats.speed *= { -2.0f, -1.0f };
@@ -106,8 +107,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			c2->active = false;
 			this->stats.speed *= { 1.1f, -1.2f };
 		}
-		else if (HIT_TIMER.ReadSec() >= 5) {
-			if (this->stats.hp > 0)
+		else if (HIT_TIMER.ReadSec() >= 1) {
+			if (this->stats.hp > 0 && App->scene->god_mode == false)
 				this->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
 			this->stats.speed *= { -2.0f, -1.0f };
