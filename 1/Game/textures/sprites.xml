@@ -119,6 +119,7 @@
     <state value="0"/>
     <speed x="0" y="0"/>
     <flip value="false"/>
+    <life value="4" />
   </entity>
   <entity type="1">
     <position x="355" y="750"/>
