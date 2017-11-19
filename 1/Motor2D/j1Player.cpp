@@ -14,7 +14,6 @@ bool j1Player::Start()
 	state = idle;
 	HIT_TIMER.Start();
 	player_life = App->tex->Load(health_source.GetString());
-	this->stats.hp = 4;
 	return ret;
 }
 
@@ -92,7 +91,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			c2->active = false;
 			this->stats.speed *= { 1.1f, -1.2f };
 		}
-		else if(HIT_TIMER.ReadSec() >= 5){
+		else if(HIT_TIMER.ReadSec() >= 1){
 			if (this->stats.hp > 0)
 				this->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};

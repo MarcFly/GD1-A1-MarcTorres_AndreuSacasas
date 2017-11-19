@@ -99,15 +99,18 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 	state = (move_state)property_node.child("state").attribute("value").as_int();
 	render_scale = property_node.child("render_scale").attribute("value").as_float();
 
-	if(type == 0)
+	if (type == 0)
+	{
 		collision_box = App->collisions->AddCollider({
 				position.x,
 				position.y,
 				property_node.child("collision_box").attribute("w").as_int(),
-				property_node.child("collision_box").attribute("h").as_int()},
-			COLLIDER_PLAYER,
-			App->entities);
+				property_node.child("collision_box").attribute("h").as_int() },
+				COLLIDER_PLAYER,
+				App->entities);
 
+		this->stats.hp = property_node.child("life").attribute("value").as_int();
+	}
 	else if(type == 1)
 		collision_box = App->collisions->AddCollider({
 				position.x,
@@ -190,6 +193,8 @@ bool Entity::Load(const pugi::xml_node& savegame)
 
 	LoadSprites(temp_sprite);
 
+	Start();
+
 	return ret;
 }
 
@@ -226,6 +231,9 @@ bool Entity::Save(pugi::xml_node& savegame)
 	temp_node.child("max_speed").append_attribute("y") = stats.max_speed.y;
 
 	temp_node.append_child("render_scale").append_attribute("value") = render_scale;
+
+	if (type == 0)
+		temp_node.append_child("life").append_attribute("value") = App->entities->GetPlayer()->stats.hp;
 
 	return ret;
 }
