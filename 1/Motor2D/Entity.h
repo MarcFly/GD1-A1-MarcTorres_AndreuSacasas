@@ -104,6 +104,9 @@ public:
 		graphics = nullptr;
 
 		App->collisions->EraseCollider(collision_box);
+
+		SpecificCleanUp();
+
 		return true; 
 	};
 
@@ -128,6 +131,8 @@ public: // Functions that stay the same
 	bool LoadProperties(const pugi::xml_node& property_node);
 
 	iPoint GetMapTile();
+
+	virtual bool SpecificCleanUp() { return true; }
 
 public:
 	SDL_Texture**		graphics = nullptr;

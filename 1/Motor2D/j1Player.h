@@ -34,6 +34,15 @@ public:
 	void NoMove(float dt);
 
 	bool LoadSpecificSprites(const pugi::xml_node& sprite_node);
+
+	bool SpecificCleanUp() {
+		bool ret = App->tex->UnLoad(player_life);
+		health_source.Clear();
+		health_rects.Clear();
+		
+		return ret;
+	}
+
 public:
 
 	bool can_jump = true;

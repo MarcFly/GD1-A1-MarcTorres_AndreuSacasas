@@ -164,7 +164,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 {
 	bool ret = true;
 
-	entities.clear();
+	CleanEntities();
 	
 	p2List_item<Entity*>* item;
 
@@ -251,8 +251,10 @@ bool EntityManager::CleanEntities() {
 
 	while (item != NULL)
 	{
-		if(item->data != nullptr)
+		if (item->data != nullptr) {
 			ret = item->data->CleanUp();
+			//ret = item->data->SpecificCleanUp();
+		}
 		item = item->next;
 	}
 
