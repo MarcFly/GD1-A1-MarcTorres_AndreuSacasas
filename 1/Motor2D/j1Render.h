@@ -53,6 +53,8 @@ public:
 	SDL_Rect		camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+
+	int				offset_camera;
 };
 
 #endif // __j1RENDER_H__

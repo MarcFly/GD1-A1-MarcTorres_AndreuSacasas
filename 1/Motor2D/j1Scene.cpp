@@ -70,7 +70,10 @@ bool j1Scene::Update(float dt)
 		NotGodMode(dt);
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
 		god_mode = !god_mode;
+		App->render->offset_camera = 0;
+	}
 	
 	//Check world position with the mouse
 
@@ -157,10 +160,10 @@ void j1Scene::GodMode(float dt)
 		App->render->camera.y -= 12 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 12 * dt;
+		App->render->offset_camera += 12 * dt;
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 12 * dt;
+		App->render->offset_camera -= 12 * dt;
 
 	// Extra inputs for assignment
 }

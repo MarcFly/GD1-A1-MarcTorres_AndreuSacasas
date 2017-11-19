@@ -41,9 +41,10 @@ bool j1Player::Update(float dt)
 	App->collisions->LookColl(this, dt);
 	UpdateState();
 
-	if(!App->scene->god_mode)
-		App->render->camera.x = - position.x + 300;
-	
+	if (!App->scene->god_mode)
+		App->render->camera.x = -position.x + 300;
+	else
+		App->render->camera.x = -position.x + 300 + App->render->offset_camera;
 
 	return ret;
 }
@@ -61,8 +62,7 @@ void j1Player::Draw(float dt)
 			0.0,
 			render_scale,
 			flip);
-		
-		//App->render->Blit(player_life, position.x + 600, 200, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
+
 		App->render->Blit(player_life, -App->render->camera.x + 900, -App->render->camera.y + 30, &health_rects[this->stats.hp], 1.0f, 0.0, 1);
 	}
 }
