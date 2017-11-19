@@ -34,7 +34,7 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 	}
 	else {
 		
-		LoadEntities();
+		LoadEntities(true);
 	}
 	
 	return ret;
@@ -280,7 +280,7 @@ bool EntityManager::DestroyEntity(const int& at) {
 	return ret;
 }
 
-bool EntityManager::LoadEntities()
+bool EntityManager::LoadEntities(bool start)
 {
 	bool ret = true;
 
@@ -304,7 +304,8 @@ bool EntityManager::LoadEntities()
 			temp_sprites = temp_sprites.next_sibling();
 
 		ret = item->data->Awake(temp_sprites, temp_properties);
-		ret = item->data->Start();
+		if(!start)
+			ret = item->data->Start();
 		item = item->next;
 		temp_properties = temp_properties.next_sibling("entity");
 	}

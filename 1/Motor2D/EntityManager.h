@@ -72,7 +72,7 @@ public:
 
 	bool DestroyEntity(const int & at);
 
-	bool LoadEntities();
+	bool LoadEntities(bool start = false);
 
 	Entity* FindByColl(const Collider* c);
 
