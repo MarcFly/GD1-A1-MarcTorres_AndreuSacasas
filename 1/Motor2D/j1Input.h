@@ -57,6 +57,7 @@ public:
 
 	// Get mouse / axis position
 	void GetMousePosition(int &x, int &y);
+	void GetMouseWorldPosition(int & x, int & y);
 	void GetMouseMotion(int& x, int& y);
 
 	// Check key states (includes mouse and joy buttons)

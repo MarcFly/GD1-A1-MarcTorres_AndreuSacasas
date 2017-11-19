@@ -72,6 +72,15 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		god_mode = !god_mode;
 	
+	//Check world position with the mouse
+
+	//if ((GetKeyState(VK_LBUTTON) & 0x100) != 0)
+	//{
+	//	int x = 0;
+	//	int y = 0;
+	//	App->input->GetMouseWorldPosition(x, y);
+	//	x = x + y;
+	//}
 
 	// Draw all
 	App->map->Draw();

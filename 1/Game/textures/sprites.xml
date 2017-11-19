@@ -8,7 +8,7 @@
   <!--                        ENTITY PROPERTIES                          -->
 <map value="0">
   <entity type="0">
-      <position x="704" y="180"/>
+      <position x="516" y="569"/>
       <max_speed x="8" y="16"/>
       <acceleration x="1" y="0.8"/>
       <jump_force value="-18"/>
@@ -19,7 +19,7 @@
       <flip value="false"/>
   </entity>
   <entity type="1">
-        <position x="704" y="700"/>
+        <position x="670" y="797"/>
         <max_speed x="2" y="1"/>
         <acceleration x="0" y="0.5"/>
         <jump_force value="-12"/>
@@ -29,6 +29,39 @@
         <speed x="0" y="0"/>
         <flip value="false"/>
     </entity>
+  <entity type="1">
+    <position x="1940" y="630"/>
+    <max_speed x="2" y="1"/>
+    <acceleration x="0" y="0.5"/>
+    <jump_force value="-12"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+  <entity type="1">
+    <position x="3159" y="630"/>
+    <max_speed x="2" y="1"/>
+    <acceleration x="0" y="0.5"/>
+    <jump_force value="-12"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+  <entity type="1">
+    <position x="4900" y="438"/>
+    <max_speed x="2" y="1"/>
+    <acceleration x="0" y="0.5"/>
+    <jump_force value="-12"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
   <entity type="3">
     <position x="1500" y="180"/>
     <max_speed x="1" y="1"/>
@@ -51,10 +84,32 @@
     <speed x="0" y="0"/>
     <flip value="false"/>
   </entity>
-  </map>
+  <entity type="3">
+    <position x="4153" y="719"/>
+    <max_speed x="1" y="1"/>
+    <acceleration x="0" y="0"/>
+    <jump_force value="0"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+  <entity type="3">
+    <position x="4583" y="470"/>
+    <max_speed x="1" y="1"/>
+    <acceleration x="0" y="0"/>
+    <jump_force value="0"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+</map>
 <map value="1">
   <entity type="0">
-    <position x="704" y="180"/>
+    <position x="206" y="684"/>
     <max_speed x="8" y="16"/>
     <acceleration x="1" y="0.8"/>
     <jump_force value="-18"/>
@@ -65,11 +120,44 @@
     <flip value="false"/>
   </entity>
   <entity type="1">
-    <position x="704" y="700"/>
-    <max_speed x="3" y="1"/>
+    <position x="355" y="750"/>
+    <max_speed x="2" y="1"/>
     <acceleration x="0" y="0.5"/>
     <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="60"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+  <entity type="1">
+    <position x="2905" y="560"/>
+    <max_speed x="2" y="1"/>
+    <acceleration x="0" y="0.5"/>
+    <jump_force value="-12"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+  <entity type="1">
+    <position x="2905" y="760"/>
+    <max_speed x="2" y="1"/>
+    <acceleration x="0" y="0.5"/>
+    <jump_force value="-12"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
+    <render_scale value="2.0"/>
+    <state value="0"/>
+    <speed x="0" y="0"/>
+    <flip value="false"/>
+  </entity>
+  <entity type="1">
+    <position x="4775" y="366"/>
+    <max_speed x="2" y="1"/>
+    <acceleration x="0" y="0.5"/>
+    <jump_force value="-12"/>
+    <collision_box offset_x="" offset_y="" h="30" w="30"/>
     <render_scale value="2.0"/>
     <state value="0"/>
     <speed x="0" y="0"/>
