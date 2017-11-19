@@ -108,5 +108,10 @@ void Crawler::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 		}
 	}
 	
-	
+	else if ((float)check.w / (float)c1->rect.w <= (float)check.h / (float)c1->rect.h && HIT_TIMER.ReadSec() >= 1 && check.h > 5)
+	{
+		this->stats.speed.x *= -1;
+		this->stats.max_speed.x *= -1;
+		HIT_TIMER.Start();
+	}
 }
