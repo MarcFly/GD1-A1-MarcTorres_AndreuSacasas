@@ -34,6 +34,8 @@ public:
 
 	void LoadNextMap();
 
+	void LoadMap(const int& at);
+
 	int curr_map;
 	p2List<p2SString*> Map_list;
 

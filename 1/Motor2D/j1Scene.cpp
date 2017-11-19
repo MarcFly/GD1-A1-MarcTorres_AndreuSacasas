@@ -148,6 +148,21 @@ void j1Scene::LoadNextMap()
 	App->entities->LoadEntities();
 }
 
+void j1Scene::LoadMap(const int& at)
+{
+	App->map->EraseMap();
+	App->entities->CleanEntities();
+	App->pathfinding->ResetNav();
+	App->collisions->CleanColliders();
+
+	if (Map_list.At(at) != NULL) {
+		App->map->LoadMap(Map_list[at]->GetString());
+		App->map->first_loop = true;
+	}
+
+	App->entities->LoadEntities();
+}
+
 void j1Scene::GodMode(float dt)
 {
 	// Camera movement Inputs
@@ -171,6 +186,11 @@ void j1Scene::GodMode(float dt)
 void j1Scene::NotGodMode(float dt) 
 {
 	// TODO 2.5: Call load / save methods when pressing l/s
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		LoadMap(0);
+
+		LoadMap(curr_map);
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || App->entities->GetPlayer()->stats.hp == 0)
 		App->Trigger_Load();
