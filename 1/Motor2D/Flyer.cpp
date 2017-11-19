@@ -136,7 +136,7 @@ void Flyer::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			this->stats.speed.y = 0;
 		}
 	}
-	else if ((float)check.w / (float)c1->rect.w <= (float)check.h / (float)c1->rect.h && HIT_TIMER.ReadSec() >= 2)
+	else if ((float)check.w / (float)c1->rect.w <= (float)check.h / (float)c1->rect.h && HIT_TIMER.ReadSec() >= 0.5f)
 	{
 		this->stats.speed.x *= -1;
 		this->vec_v *= -1;
