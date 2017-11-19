@@ -103,6 +103,9 @@ bool j1Scene::PostUpdate(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+	if (load_next)
+		LoadNextMap();
+
 	return ret;
 }
 
@@ -116,6 +119,7 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadNextMap()
 {
+	TriggerLoadNext();
 	App->map->EraseMap();
 	App->entities->CleanEntities();
 	App->pathfinding->ResetNav();
@@ -187,7 +191,7 @@ void j1Scene::NotGodMode(float dt)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
-		LoadNextMap();
+		TriggerLoadNext();
 		// Si no solucionem problema de carga, posar un timer a poder cargar mapes constantmen
 	}
 }

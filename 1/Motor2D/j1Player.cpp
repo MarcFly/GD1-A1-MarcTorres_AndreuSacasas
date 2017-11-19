@@ -76,7 +76,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	}
 	else if (c2->type == COLLIDER_END)
 	{
-		App->scene->LoadNextMap();
+		App->scene->TriggerLoadNext();
 	}
 	else if (c2->type == COLLIDER_DIE)
 	{

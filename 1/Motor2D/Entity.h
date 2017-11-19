@@ -137,9 +137,6 @@ public:
 	p2List<Animation*>	animations;
 	int					current_anim_size = 0;
 
-	
-	
-
 	Collider*		collision_box;
 
 	entity_stats	stats;

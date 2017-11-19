@@ -85,15 +85,14 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 void Flyer::Movement(float dt) {
 
 	// On enemies this will be used for fly and probably later on with Flyer and Flyer properly falling
-	if(position.DistanceTo(App->entities->GetEntity(0)->position) < 1000)
-		App->pathfinding->CreateFPath(App->map->WorldToMap(position.x + collision_box->rect.w / 2, position.y + collision_box->rect.h / 2), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
+	
+		App->pathfinding->CreateFPath(App->map->WorldToMap(position.x + collision_box->rect.w / 2, position.y + collision_box->rect.h / 2), App->map->WorldToMap(App->entities->GetPlayer()->position.x, App->entities->GetPlayer()->position.y));
 
 	check_try = TryPath();
 }
 
 bool Flyer::TryPath()
 {
-	if (App->pathfinding->GetLastPath()->At(0) != nullptr && App->entities->GetEntity(0)->HIT_TIMER.ReadSec() >= 5)
 	{
 
 		iPoint next = *App->pathfinding->GetLastPath()->At(0);

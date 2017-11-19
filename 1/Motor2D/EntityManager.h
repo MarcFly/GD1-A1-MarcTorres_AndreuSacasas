@@ -92,6 +92,18 @@ public:
 		return entities.At(at)->data;
 	}
 
+	Entity* GetPlayer() {
+		p2List_item<Entity*>* item = entities.start;
+
+		for (int i = 0; i < entities.count(); i++) {
+			if (item != nullptr && item->data != nullptr && item->data != NULL)
+				if(item->data->type == player)
+					return item->data;
+
+			item = item->next;
+		}
+	}
+
 private:
 	p2List<Entity*>			entities;
 	

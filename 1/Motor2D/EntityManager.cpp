@@ -108,9 +108,9 @@ bool EntityManager::PreUpdate(float dt) // Only for movement collisions
 	bool ret = true;
 
 	p2List_item<Entity*>* item = entities.start;
-
-	while (item != NULL && ret == true && item->data != nullptr) {
-		ret = item->data->PreUpdate(dt);
+	for (int i = 0; i < entities.count() && ret == true; i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
+			ret = item->data->PreUpdate(dt);
 
 		item = item->next;
 	}
@@ -124,8 +124,9 @@ bool EntityManager::UpdateTick(float dt)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true && item->data != nullptr) {
-		ret = item->data->UpdateTick(dt);
+	for (int i = 0; i < entities.count() && ret == true; i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
+			ret = item->data->UpdateTick(dt);
 		item = item->next;
 	}
 
@@ -138,8 +139,8 @@ bool EntityManager::Update(float dt)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
-		if(item != nullptr && item->data != nullptr && item->data != NULL)
+	for (int i = 0; i < entities.count(); i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
 			ret = item->data->Update(dt);
 		item = item->next;
 	}
@@ -152,8 +153,9 @@ bool EntityManager::PostUpdate(float dt) // // Only for movement collisions
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true && item->data != nullptr) {
-		ret = item->data->PostUpdate(dt);
+	for (int i = 0; i < entities.count() && ret == true; i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
+			ret = item->data->PostUpdate(dt);
 		item = item->next;
 	}
 
@@ -193,8 +195,8 @@ bool EntityManager::Save(pugi::xml_node& savegame)
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL && ret == true) {
-		if(item->data != nullptr)
+	for (int i = 0; i < entities.count() && ret == true; i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
 			ret = item->data->Save(savegame);
 		item = item->next;
 	}
@@ -206,8 +208,8 @@ void EntityManager::Draw(float dt) {
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL) {
-		if(item != nullptr && item->data != nullptr)
+	for (int i = 0; i < entities.count(); i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
 			item->data->Draw(dt);
 		item = item->next;
 	}
@@ -222,8 +224,7 @@ int EntityManager::FindEntities(const uint& type, const uint& eid) {
 	{
 		p2List_item<Entity*>* item = entities.start;
 
-		while (item != NULL)
-		{
+		for (int i = 0; i < entities.count() && ret == true; i++) {
 			if (item->data->type == type)
 				ret++;
 
@@ -249,9 +250,8 @@ bool EntityManager::CleanEntities() {
 
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL)
-	{
-		if(item->data != nullptr)
+	for (int i = 0; i < entities.count() && ret == true; i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL)
 			ret = item->data->CleanUp();
 		item = item->next;
 	}
@@ -264,7 +264,7 @@ bool EntityManager::CleanEntities() {
 bool EntityManager::DestroyEntity(const int& at) {
 	bool ret = true;
 	
-	if(entities.At(at)->data != nullptr)
+	if (entities.At(at)->data != nullptr && entities.At(at)->data->type != player)
 		ret = entities.At(at)->data->CleanUp();
 	entities.At(at)->data = nullptr;
 
@@ -303,9 +303,8 @@ Entity* EntityManager::FindByColl(const Collider* c)
 {
 	p2List_item<Entity*>* item = entities.start;
 
-	while (item != NULL)
-	{
-		if (item->data != nullptr && c == item->data->collision_box)
+	for (int i = 0; i < entities.count(); i++) {
+		if (item != nullptr && item->data != nullptr && item->data != NULL && c == item->data->collision_box)
 			return item->data;
 
 		item = item->next;

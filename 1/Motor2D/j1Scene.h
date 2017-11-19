@@ -41,8 +41,11 @@ public:
 
 	void NotGodMode(float dt);
 
+	void TriggerLoadNext() { load_next = !load_next; }
+
 private:
 	SDL_Texture* img;
+	bool load_next = false;
 
 public:
 	bool god_mode = false;

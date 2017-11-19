@@ -116,7 +116,7 @@ public:
 	// Distances ---------------------------------------------
 	TYPE DistanceTo(const p2Point& v) const
 	{
-		TYPE fx = x - v.x;
+ 		TYPE fx = x - v.x;
 		TYPE fy = y - v.y;
 
 		return sqrtf((fx*fx) + (fy*fy));
