@@ -46,6 +46,7 @@ private:
 
 public:
 	bool god_mode = false;
+	bool change_map = false;
 	
 };
 

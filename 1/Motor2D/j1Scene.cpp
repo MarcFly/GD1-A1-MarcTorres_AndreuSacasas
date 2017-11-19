@@ -195,8 +195,8 @@ void j1Scene::NotGodMode(float dt)
 		App->audio->Decrease_Master();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN || change_map == true) {
+		change_map = false;
 		LoadNextMap();
-		// Si no solucionem problema de carga, posar un timer a poder cargar mapes constantmen
 	}
 }
