@@ -89,7 +89,6 @@ bool j1App::Awake()
 
 	fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
 
-	ChangeFPSLimit();
 	CapFps(fps_cap);
 	
 	p2List_item<j1Module*>* item;
@@ -391,10 +390,20 @@ float j1App::GetDT() const
 {
 	return dt;
 }
+
+void j1App::ChangeCap() {
+	if (fps_cap != 0)
+		fps_cap = 0;
+	else
+		fps_cap = root_node.child("app").child("fps").attribute("value").as_uint();
+}
+
 void j1App::CapFps(float fps)
 {
-	if(fps > 0)
+	if (fps > 0)
 		capped_ms = (1000 / fps);
+	else
+		capped_ms = 0;
 }
 
 // ---------------------------------------

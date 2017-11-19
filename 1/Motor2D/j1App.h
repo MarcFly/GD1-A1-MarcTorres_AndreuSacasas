@@ -63,6 +63,7 @@ public:
 
 	float GetDT() const;
 	int GetFpsCap() const { return fps_cap; }
+	void ChangeCap();
 	void CapFps(float fps);
 	void FrameRateCalculations();
 

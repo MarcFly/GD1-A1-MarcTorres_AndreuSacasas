@@ -110,7 +110,7 @@ bool j1Scene::Update(float dt)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
-		App->ChangeFPSLimit();
+		App->ChangeCap();
 		App->CapFps(App->GetFpsCap());
 	}
 
