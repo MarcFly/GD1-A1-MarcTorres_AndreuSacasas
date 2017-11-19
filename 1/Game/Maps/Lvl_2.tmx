@@ -4535,6 +4535,7 @@
  </layer>
  <layer name="Crawl Nav" width="100" height="15">
   <properties>
+   <property name="draw_mode" type="int" value="1"/>
    <property name="parallax_speed" type="float" value="0"/>
   </properties>
   <data>
