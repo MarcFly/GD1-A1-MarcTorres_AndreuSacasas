@@ -52,34 +52,36 @@ bool Flyer::Update(float dt)
 
 void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 {
-	if (c2->type == COLLIDER_GROUND)
+	if (c2 != nullptr && c1 != nullptr)
 	{
-		CorrectCollision(c1, c2, check);
-		
-	}
-	else if (c2->type == COLLIDER_DIE)
-	{
-		App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
-	}
-	else if (c2->type == COLLIDER_PLAYER)
-	{
-		if (c2->rect.y + c2->rect.h < c1->rect.y + 3) {
-			App->entities->FindByColl(c2)->stats.speed *= { 1.1f, -1.2f };
-			collision_box->active = false;
+		if (c2->type == COLLIDER_GROUND)
+		{
+			CorrectCollision(c1, c2, check);
+
+		}
+		else if (c2->type == COLLIDER_DIE)
+		{
 			App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
 		}
-		else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
-			if (App->entities->FindByColl(c2)->stats.hp > 0)
-				App->entities->FindByColl(c2)->stats.hp -= 1;
-			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
-			App->entities->FindByColl(c2)->HIT_TIMER.Start();
-			this->stats.speed *= { -1.0f, 1.0f };
+		else if (c2->type == COLLIDER_PLAYER)
+		{
+			if (c2->rect.y + c2->rect.h < c1->rect.y + 3) {
+				App->entities->FindByColl(c2)->stats.speed *= { 1.1f, -1.2f };
+				collision_box->active = false;
+				App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
+			}
+			else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
+				if (App->entities->FindByColl(c2)->stats.hp > 0)
+					App->entities->FindByColl(c2)->stats.hp -= 1;
+				App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
+				App->entities->FindByColl(c2)->HIT_TIMER.Start();
+				this->stats.speed *= { -1.0f, 1.0f };
+			}
 		}
+
+		collision_box->rect.x = position.x;
+		collision_box->rect.y = position.y;
 	}
-
-	collision_box->rect.x = position.x;
-	collision_box->rect.y = position.y;
-
 }
 
 void Flyer::Movement(float dt) {
