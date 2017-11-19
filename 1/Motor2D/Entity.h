@@ -123,13 +123,13 @@ public: // Functions that stay the same
 
 	bool LoadSprites(const pugi::xml_node& sprite_node);
 
+	virtual bool LoadSpecificSprites(const pugi::xml_node& sprite_node) { return true; }
+
 	bool LoadProperties(const pugi::xml_node& property_node);
 
 	iPoint GetMapTile();
 
 public:
-	p2SString name;
-
 	SDL_Texture**		graphics = nullptr;
 	Animation*			current_animation = nullptr;
 	move_state			state = error;
@@ -137,9 +137,7 @@ public:
 	p2List<Animation*>	animations;
 	int					current_anim_size = 0;
 
-	SDL_Texture*		player_life = nullptr;
-	p2SString test;
-	p2DynArray<SDL_Rect> health_rects;
+	
 	
 
 	Collider*		collision_box;

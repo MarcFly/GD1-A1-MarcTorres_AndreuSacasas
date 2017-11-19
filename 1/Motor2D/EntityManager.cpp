@@ -207,7 +207,8 @@ void EntityManager::Draw(float dt) {
 	p2List_item<Entity*>* item = entities.start;
 
 	while (item != NULL) {
-		item->data->Draw(dt);
+		if(item != nullptr && item->data != nullptr)
+			item->data->Draw(dt);
 		item = item->next;
 	}
 
