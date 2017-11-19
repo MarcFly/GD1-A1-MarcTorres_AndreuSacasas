@@ -31,7 +31,7 @@
     <flip value="false"/>
   </entity>
   <entity type="1">
-    <position x="1940" y="630"/>
+    <position x="1940" y="620"/>
     <max_speed x="2" y="1"/>
     <acceleration x="0" y="0.5"/>
     <jump_force value="-12"/>
@@ -42,7 +42,7 @@
     <flip value="false"/>
   </entity>
   <entity type="1">
-    <position x="3159" y="630"/>
+    <position x="3159" y="620"/>
     <max_speed x="2" y="1"/>
     <acceleration x="0" y="0.5"/>
     <jump_force value="-12"/>
@@ -53,7 +53,7 @@
     <flip value="false"/>
   </entity>
   <entity type="1">
-    <position x="4900" y="438"/>
+    <position x="4900" y="423"/>
     <max_speed x="2" y="1"/>
     <acceleration x="0" y="0.5"/>
     <jump_force value="-12"/>
