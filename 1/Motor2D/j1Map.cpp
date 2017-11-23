@@ -181,6 +181,16 @@ bool j1Map::LoadMap(const char* file_name)
 		}
 	}
 
+	if (ret == true) {
+		pugi::xml_node group_node = check_doc.child("map").child("objectgroup");
+		while (group_node.attribute("name").as_string() != "") {
+			object_group* item_group = new object_group;
+			ret = LoadObjectLayer(group_node, *item_group);
+			group_node = group_node.next_sibling("objectgroup");
+			Maps->groups.add(item_group);
+		}
+	}
+
 	if (ret == true)
 	{
 		// TODO 3.5: LOG all the data loaded
@@ -341,6 +351,32 @@ bool j1Map::LoadLayerData(const pugi::xml_node& layer_node, layer_info& item_lay
 		App->pathfinding->SetMap(item_layer.width, item_layer.height, item_layer.data);
 
 	return true;
+}
+
+bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & item_group)
+{
+	bool ret = true;
+
+	item_group.group_type = group_node.attribute("type").as_int();
+
+	pugi::xml_node object_node = group_node.child("object");
+	while (object_node.attribute("type").as_string() != "") {
+
+		object* item_object = new object;
+		item_object->rect = {
+			object_node.attribute("x").as_int(),
+			object_node.attribute("y").as_int(),
+			object_node.attribute("widt").as_int(),
+			object_node.attribute("height").as_int()};
+
+		item_object->type = object_node.attribute("type").as_int();
+
+		item_group.objects.add(item_object);
+
+		object_node = object_node.next_sibling("object");
+	}
+
+	return ret;
 }
 
 

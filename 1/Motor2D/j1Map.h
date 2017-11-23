@@ -25,6 +25,25 @@ struct SDL_Color;
 	p2List<property*> porperty_list;
 
 };*/
+struct object {
+	SDL_Rect rect;
+	int type; // This will correspond to the type of entity or collider it corresponds to
+};
+struct object_group {
+	p2SString name;
+	int group_type; // 0 = collisions, 1 = entity
+	p2List<object*> objects;
+
+	~object_group() {
+		name.Clear();
+
+		for (int i = 0; i < objects.count(); i++)
+			delete objects[i];
+
+		objects.clear();
+
+	}
+};
 
 // TODO 4.1 Create a struct for map layer
 struct layer_info {
@@ -146,6 +165,7 @@ struct Map_info {
 
 	p2List<tileset_info*> tilesets;
 	p2List<layer_info*> layers; // TODO 4.2 Layers list
+	p2List<object_group*> groups;
 
 	~Map_info() {
 		for (int i = 0; i < tilesets.count(); i++)
@@ -155,6 +175,10 @@ struct Map_info {
 		for (int i = 0; i < layers.count(); i++)
 			delete layers[i];
 		layers.clear();
+
+		for (int i = 0; i < groups.count(); i++)
+			delete groups[i];
+		groups.clear();
 
 		this_map.Clear();
 	}
@@ -193,7 +217,6 @@ public:
 	iPoint WorldToMap(int rx, int ry) const;
 
 	void DrawNav();
-	void DrawPath();
 	void DrawNPath();
 
 	// Create Map Collisions
@@ -223,7 +246,7 @@ private:
 	
 	//void CreateCollider(layer_info& item_layer, tileset_info& item_tileset, int y, int x);
 
-	
+	bool LoadObjectLayer(const pugi::xml_node& group_node, object_group& item_group);
 
 public:
 
