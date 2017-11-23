@@ -264,7 +264,7 @@ int EntityManager::FindEntities(const uint& type, const uint& eid) {
 
 		while (item != NULL)
 		{
-			if (item->data->type == type)
+			if (item != nullptr && item->data != nullptr && item->data->type == type)
 				ret++;
 
 			item = item->next;

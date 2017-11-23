@@ -86,8 +86,8 @@ public:
 	p2SString	name;
 	bool		active;
 
-	bool		trigger_load;
-	bool		trigger_save;
+	bool		trigger_load = false;
+	bool		trigger_save = false;
 
 	uint		tick_cap = 0;
 	float		dt_sum = 0;

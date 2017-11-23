@@ -7,6 +7,8 @@
 #include "EntityManager.h"
 
 void j1Player::CopySpecifics(Entity* template_ent) {
+
+	stats.hp = 4;
 	j1Player* test = (j1Player*)template_ent;
 
 	health_source.create(test->health_source.GetString());
@@ -16,6 +18,9 @@ void j1Player::CopySpecifics(Entity* template_ent) {
 	{
 		health_rects.PushBack(test->health_rects[i]);
 	}
+
+	player_life = test->player_life;
+	god_mode_tex = test->god_mode_tex;
 
 	god_mode_rect = test->god_mode_rect;
 }
