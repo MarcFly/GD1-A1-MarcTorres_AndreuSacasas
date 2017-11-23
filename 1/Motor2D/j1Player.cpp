@@ -6,6 +6,20 @@
 #include "j1Scene.h"
 #include "EntityManager.h"
 
+void j1Player::CopySpecifics(Entity* template_ent) {
+	j1Player* test = (j1Player*)template_ent;
+
+	health_source.create(test->health_source.GetString());
+	god_mode_source.create(test->god_mode_source.GetString());
+
+	for (int i = 0; i < test->health_rects.Count(); i++)
+	{
+		health_rects.PushBack(test->health_rects[i]);
+	}
+
+	god_mode_rect = test->god_mode_rect;
+}
+
 bool j1Player::Start()
 {
 	bool ret = true;
@@ -16,6 +30,10 @@ bool j1Player::Start()
 	blink.Start();
 	player_life = App->tex->Load(health_source.GetString());
 	god_mode_tex = App->tex->Load(god_mode_source.GetString());
+
+	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
+	delete coll_rect;
+
 	return ret;
 }
 

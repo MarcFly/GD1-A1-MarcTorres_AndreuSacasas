@@ -17,6 +17,9 @@ bool Flyer::Start()
 
 	vec_v = sqrt(stats.max_speed.x * stats.max_speed.x + stats.max_speed.y * stats.max_speed.y);
 
+	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
+	delete coll_rect;
+
 	return ret;
 }
 

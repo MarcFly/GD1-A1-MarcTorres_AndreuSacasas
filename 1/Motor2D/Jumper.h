@@ -9,7 +9,9 @@ class Jumper : public Entity
 {
 public:
 
-	Jumper(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
+	Jumper(const uint& type, const uint& eid) { this->type = type; this->entity_id = eid; }
+
+	Jumper(const uint& eid, Jumper* template_jumper) { CopyFromTE(template_jumper); entity_id = eid;};
 
 	// Called before the first frame
 	bool Start();

@@ -33,26 +33,46 @@ bool EntityManager::Awake(const pugi::xml_node& config)
 		ret = false;
 	}
 	else {
-		
-		LoadEntities(true);
+		LoadTemplateEntities();
 	}
 	
 	return ret;
 }
 
-int EntityManager::AddEntity(const uint& name, const uint& eid)
+int EntityManager::AddTEntity(const uint& name)
 {
-	if (name == (uint)player) {
-		entities.add(new j1Player(name, eid));
+ 	if (name == (uint)player) {
+		template_entities.add(new j1Player(name, (uint)NULL));
 		return (int)player;
 	}
 	else if (name == (uint)crawler)
 	{
-		entities.add(new Crawler(name, eid));
+		template_entities.add(new Crawler(name, (uint)NULL));
 		return (int)crawler;
 	}
 	else if (name == (uint)flyer) {
-		entities.add(new Flyer(name, eid));
+		template_entities.add(new Flyer(name, (uint)NULL));
+		return (int)flyer;
+	}
+
+	return none;
+}
+int EntityManager::AddEntity(const uint& name, const uint& eid, Entity* template_ent)
+{
+	if (name == (uint)player) {
+		entities.add(new j1Player(eid, (j1Player*)template_ent));
+		entities.end->data->Start();
+		return (int)player;
+	}
+	else if (name == (uint)crawler)
+	{
+		entities.add(new Crawler(eid, (Crawler*)template_ent));
+		entities.end->data->Start();
+		return (int)crawler;
+	}
+	else if (name == (uint)flyer) {
+		entities.add(new Flyer(eid, (Flyer*)template_ent));
+		entities.end->data->Start();
 		return (int)flyer;
 	}
 	
@@ -88,7 +108,7 @@ bool EntityManager::Start()
 bool EntityManager::CleanUp()
 {
 	bool ret = true;
-
+	CleanTEntities();
 	CleanEntities();
 	
 	p2List_item<tex>* item = texs.start;
@@ -179,7 +199,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 
 	while (temp != NULL && ret == true) {
 		
-		AddEntity(temp.attribute("type").as_uint(), FindEntities(temp.attribute("type").as_uint()));
+		AddEntity(temp.attribute("type").as_uint(), FindEntities(temp.attribute("type").as_uint()), GetTEntity(FindTEntity(temp.attribute("type").as_uint(), NULL)));
 
 		item = entities.end;
 		
@@ -221,10 +241,23 @@ void EntityManager::Draw(float dt) {
 
 }
 
+int EntityManager::FindTEntity(const uint& type, const uint& eid) {
+	int ret = NULL;
+
+	for (int i = 0; i < template_entities.count(); i++)
+	{
+		if (template_entities.At(i)->data != nullptr && template_entities.At(i)->data->type == type) {
+			ret = i;
+			break;
+		}
+	}
+
+	return ret;
+}
 int EntityManager::FindEntities(const uint& type, const uint& eid) {
 
+	int ret = NULL;
 
-	int ret = 0;
 	if (eid == INT_MAX)
 	{
 		p2List_item<Entity*>* item = entities.start;
@@ -247,6 +280,25 @@ int EntityManager::FindEntities(const uint& type, const uint& eid) {
 			}
 		}
 	}
+
+	return ret;
+}
+
+bool EntityManager::CleanTEntities() {
+	bool ret = true;
+
+	p2List_item<Entity*>* item = template_entities.start;
+
+	while (item != NULL)
+	{
+		if (item->data != nullptr) {
+			ret = item->data->CleanUp();
+			//ret = item->data->SpecificCleanUp();
+		}
+		item = item->next;
+	}
+
+	template_entities.clear();
 
 	return ret;
 }
@@ -280,7 +332,7 @@ bool EntityManager::DestroyEntity(const int& at) {
 	return ret;
 }
 
-bool EntityManager::LoadEntities(bool start)
+bool EntityManager::LoadTemplateEntities()
 {
 	bool ret = true;
 
@@ -295,19 +347,42 @@ bool EntityManager::LoadEntities(bool start)
 	pugi::xml_node temp_properties = root.find_child_by_attribute("value", curr_map.GetString()).child("entity");
 
 	while (temp_properties.attribute("type").as_string() != "" && ret == true) {
-		AddEntity(temp_properties.attribute("type").as_uint(), FindEntities(temp_properties.attribute("type").as_uint()));
+		AddTEntity(temp_properties.attribute("type").as_uint());
 
-		item = entities.end;
+		item = template_entities.end;
 
 		pugi::xml_node temp_sprites = root.child("animations");
 		while (temp_sprites.attribute("type").as_int() != item->data->type)
 			temp_sprites = temp_sprites.next_sibling();
 
 		ret = item->data->Awake(temp_sprites, temp_properties);
-		if(!start)
-			ret = item->data->Start();
+		/*if (!start)
+			ret = item->data->Start();*/
 		item = item->next;
 		temp_properties = temp_properties.next_sibling("entity");
+	}
+
+	return ret;
+}
+bool EntityManager::LoadEntities()
+{
+	bool ret = true;
+
+	p2List_item<object_group*>* item_group = App->map->Maps->groups.start;
+
+	while (item_group != NULL) {
+		if (item_group->data->group_type == 1 && item_group->data->loaded != true)
+		{
+			p2List_item<object*>* item = item_group->data->objects.start;
+			while (item != NULL) {
+				AddEntity(item->data->type, FindEntities(item->data->type), GetTEntity(FindTEntity(item->data->type, NULL)));
+				
+				entities.end->data->position = { item->data->rect.x, item->data->rect.y };
+				item = item->next;
+			}
+		}
+
+		item_group = item_group->next;
 	}
 
 	return ret;

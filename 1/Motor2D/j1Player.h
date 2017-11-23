@@ -9,7 +9,11 @@ class j1Player : public Entity
 {
 public:
 
-	j1Player(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
+	j1Player(const uint& type, const uint& eid) { this->type = type; this->entity_id = eid; }
+
+	j1Player(const uint& eid, j1Player* template_player) { CopyFromTE(template_player); entity_id = eid; };
+
+	void CopySpecifics(Entity* template_entity);
 
 	// Called before the first frame
 	bool Start();

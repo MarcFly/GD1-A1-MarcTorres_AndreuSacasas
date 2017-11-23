@@ -8,6 +8,7 @@
 #include <string>
 #include "j1Pathfinding.h"
 #include "j1Scene.h"
+#include "EntityManager.h"
 
 struct SDL_Texture;
 
@@ -187,8 +188,8 @@ bool j1Map::LoadMap(const char* file_name)
 	if (ret == true)
 	{
 		
-		App->collisions->CollStart();
-
+		ret = App->collisions->CollStart();
+		if (ret) ret = App->entities->LoadEntities();
 		// TODO 3.5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
 		//App->pathfinding->SetMap(Maps->width, Maps->height, Maps->layers.start->data->data);
@@ -353,7 +354,7 @@ bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & it
 {
 	bool ret = true;
 
-	item_group.group_type = group_node.attribute("type").as_int();
+	item_group.group_type = group_node.child("properties").child("property").attribute("value").as_int();
 	item_group.name.create(group_node.attribute("name").as_string());
 
 	pugi::xml_node object_node = group_node.child("object");

@@ -68,11 +68,13 @@ public:
 	bool CleanUp();
 
 	// Called to delete entities
+	bool CleanTEntities();
 	bool CleanEntities();
 
 	bool DestroyEntity(const int & at);
 
-	bool LoadEntities(bool start = false);
+	bool LoadTemplateEntities();
+	bool LoadEntities();
 
 	Entity* FindByColl(const Collider* c);
 
@@ -84,9 +86,15 @@ public:
 	void Draw(float dt);
 
 	// Add entity by config
-	int AddEntity(const uint& name, const uint& eid);
+	int AddTEntity(const uint& name);
+	int AddEntity(const uint& name, const uint& eid, Entity* template_ent);
 
+	int FindTEntity(const uint& type, const uint& eid = NULL);
 	int FindEntities(const uint& type, const uint& eid = INT_MAX);
+
+	Entity* GetTEntity(const int& at) {
+		return template_entities.At(at)->data;
+	}
 
 	Entity* GetEntity(const int& at) {
 		return entities.At(at)->data;
@@ -106,7 +114,7 @@ public:
 
 private:
 	p2List<Entity*>			entities;
-	
+	p2List<Entity*>			template_entities;
 
 public:
 	pugi::xml_document		sprites_doc;

@@ -206,6 +206,12 @@
     <Filter Include="Desenvolupament  ========\Modules\UI">
       <UniqueIdentifier>{a0720065-38d9-477c-b2c1-a0727e0c62cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI\Interactables">
+      <UniqueIdentifier>{414efa8f-7213-4f24-b0f3-a56b6a6af8ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI\Non-Interactables">
+      <UniqueIdentifier>{b4e918cb-abbc-4c68-a7e0-fbe280054572}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

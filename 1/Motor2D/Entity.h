@@ -27,12 +27,31 @@ struct entity_stats {
 	fPoint speed;
 	int jump_force;	
 	int hp;
+
+	entity_stats operator =(const entity_stats& e_s)
+	{
+		accel = e_s.accel;
+		max_speed = e_s.max_speed;
+		speed = e_s.speed;
+		jump_force = e_s.jump_force;
+		hp = e_s.hp;
+
+		return *this;
+	}
 };
 
 class Entity
 {
 public:
 	Entity() {};
+
+	Entity(Entity* template_ent) {
+		*this = *template_ent;
+		Start();
+	}
+	
+	void CopyFromTE(Entity* template_entity);
+	virtual void CopySpecifics(Entity* template_entity) {};
 
 	// Destructor
 	virtual ~Entity() {
@@ -46,8 +65,15 @@ public:
 		animations.clear();
 
 		graphics = nullptr;
+		
+		if (coll_rect != nullptr)
+			delete coll_rect;
+		coll_rect = nullptr;
 
-		delete collision_box;
+		if(collision_box != nullptr)
+			delete collision_box;
+		collision_box = nullptr;
+
 	};
 
 	// Called before render is available
@@ -60,9 +86,7 @@ public:
 	};
 
 	// Caller before starting loop iteration
-	virtual bool Start() { 
-		return true; 
-	};
+	virtual bool Start();
 
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt) { 
@@ -144,8 +168,8 @@ public:
 
 	
 	
-
-	Collider*		collision_box;
+	SDL_Rect*		coll_rect = nullptr;
+	Collider*		collision_box = nullptr;
 
 	entity_stats	stats;
 	float			render_scale;
