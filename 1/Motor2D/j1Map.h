@@ -32,6 +32,7 @@ struct object {
 struct object_group {
 	p2SString name;
 	int group_type; // 0 = collisions, 1 = entity
+	bool loaded = false;
 	p2List<object*> objects;
 
 	~object_group() {

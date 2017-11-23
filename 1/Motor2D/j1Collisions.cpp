@@ -47,19 +47,29 @@ bool j1Collision::Awake(const pugi::xml_node& config) {
 
 	coll_detect = config.child("settings").attribute("coll_detect").as_uint();
 
-	pugi::xml_node local = config.child("collider");
-	while (local.attribute("type").as_string() != "") {
-		TypeRect* item = new TypeRect;
-		item->type = (COLLIDER_TYPE)local.attribute("type").as_int();
-		item->rect = {
-			local.attribute("x").as_int(),
-			local.attribute("y").as_int(),
-			local.attribute("w").as_int(),
-			local.attribute("h").as_int()
-		};
+	return ret;
+}
 
-		rect_list.add(item);
-		local = local.next_sibling("collider");
+bool j1Collision::CollStart() {
+	bool ret = true;
+
+	p2List_item<object_group*>* item_group = App->map->Maps->groups.start;
+	while (item_group != NULL) {
+		if (item_group->data->group_type == 0 && item_group->data->loaded != true) 
+		{
+		
+			p2List_item<object*>* item = item_group->data->objects.start;
+			while (item != NULL) {
+
+				AddCollider(item->data->rect, (COLLIDER_TYPE)item->data->type);
+
+				item = item->next;
+			}
+			
+			item_group->data->loaded = true;
+		}
+
+		item_group = item_group->next;
 	}
 
 	return ret;
@@ -219,8 +229,6 @@ bool j1Collision::CleanUp()
 
 	CleanColliders();
 
-	rect_list.clear();
-
 	return true;
 }
 
@@ -253,8 +261,8 @@ Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module*
 
 bool j1Collision::EraseCollider(Collider* collider)
 {
-	if(colliders.count() != 0)
-		colliders[colliders.find(collider)]->to_delete = true;
+	if(colliders.count() != 0 && collider != nullptr)
+		collider->to_delete = true;
 	
 	return false;
 }

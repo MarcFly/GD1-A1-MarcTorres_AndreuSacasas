@@ -57,15 +57,8 @@ void j1Map::Draw()
 			if(debug_draw != true && item_layer->data->draw_mode == 1 && !first_loop)
 				item_layer = item_layer->next;
 
-			else if (first_loop && item_layer->data->draw_mode == 1)
-			{
-				CreateMapColl(item_layer, p);
-			}
-
 			else {
 				item_tileset = GetTilesetFromTileId(*item_layer->data->data);
-
-				
 
 				for (int i = 0; i < item_layer->data->height; i++) {
 					for (int j = 0; j < item_layer->data->width; j++) {
@@ -193,6 +186,9 @@ bool j1Map::LoadMap(const char* file_name)
 
 	if (ret == true)
 	{
+		
+		App->collisions->CollStart();
+
 		// TODO 3.5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
 		//App->pathfinding->SetMap(Maps->width, Maps->height, Maps->layers.start->data->data);
@@ -358,6 +354,7 @@ bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & it
 	bool ret = true;
 
 	item_group.group_type = group_node.attribute("type").as_int();
+	item_group.name.create(group_node.attribute("name").as_string());
 
 	pugi::xml_node object_node = group_node.child("object");
 	while (object_node.attribute("type").as_string() != "") {
@@ -366,7 +363,7 @@ bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & it
 		item_object->rect = {
 			object_node.attribute("x").as_int(),
 			object_node.attribute("y").as_int(),
-			object_node.attribute("widt").as_int(),
+			object_node.attribute("width").as_int(),
 			object_node.attribute("height").as_int()};
 
 		item_object->type = object_node.attribute("type").as_int();

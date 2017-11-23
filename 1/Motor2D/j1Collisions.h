@@ -2,7 +2,7 @@
 #define __j1Collisions_H__
 
 
-#define FARLANDS iPoint({5000, 5000})
+#define FARLANDS iPoint({INT_MAX, INT_MAX})
 
 #include "j1Module.h"
 #include "p2Defs.h"
@@ -68,6 +68,9 @@ public:
 	~j1Collision();
 
 	bool Awake(const pugi::xml_node& config);
+
+	bool CollStart();
+
 	bool PreUpdate(float dt);
 	bool Update(float dt);
 	bool CleanUp();
@@ -83,7 +86,6 @@ public:
 	bool CheckColl(Collider* c1, Collider* c2);
 
 	bool debug = false;
-	p2List<TypeRect*> rect_list;
 
 	p2List<Collider*> colliders;
 	uint coll_detect;

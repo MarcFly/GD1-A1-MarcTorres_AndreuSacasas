@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="64" tileheight="64" nextobjectid="9">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="64" tileheight="64" nextobjectid="92">
  <properties>
   <property name="scale" type="float" value="1"/>
   <property name="start_x" type="int" value="516"/>
   <property name="start_y" type="int" value="569"/>
  </properties>
- <tileset firstgid="1" name="dirttiles" tilewidth="64" tileheight="64" tilecount="72" columns="8">
+ <tileset firstgid="1" name="dirttiles" tilewidth="64" tileheight="64" tilecount="0" columns="8">
   <image source="textures/dirttiles.png" width="512" height="576"/>
  </tileset>
  <layer name="Background" width="150" height="15">
@@ -2266,8 +2266,63 @@
    <tile gid="10"/>
   </data>
  </layer>
- <objectgroup name="Collisions">
-  <object id="6" type="66" x="5.68434e-14" y="3.0303" width="490.909" height="942.424"/>
+ <objectgroup color="#55ffff" name="Ground Collision">
+  <object id="27" type="66" x="2176" y="768" width="64" height="192"/>
+  <object id="28" type="66" x="2368" y="640" width="64" height="64"/>
+  <object id="29" type="66" x="2432" y="704" width="64" height="128"/>
+  <object id="30" type="66" x="2496" y="768" width="64" height="64"/>
+  <object id="31" type="66" x="2560" y="832" width="64" height="128"/>
+  <object id="32" type="66" x="2368" y="832" width="64" height="128"/>
+  <object id="34" type="66" x="448" y="0" width="64" height="256"/>
+  <object id="35" type="66" x="512" y="0" width="64" height="64"/>
+  <object id="36" type="66" x="448" y="448" width="64" height="256"/>
+  <object id="37" type="66" x="512" y="640" width="64" height="128"/>
+  <object id="38" type="66" x="576" y="704" width="64" height="192"/>
+  <object id="39" type="66" x="640" y="832" width="256" height="64"/>
+  <object id="42" type="66" x="896" y="832" width="64" height="128"/>
+  <object id="44" type="66" x="832" y="640" width="128" height="64"/>
+  <object id="45" type="66" x="1088" y="512" width="128" height="64"/>
+  <object id="46" type="66" x="1152" y="768" width="192" height="64"/>
+  <object id="47" type="66" x="1216" y="832" width="64" height="128"/>
+  <object id="50" type="66" x="1472" y="448" width="64" height="320"/>
+  <object id="51" type="66" x="1536" y="576" width="64" height="384"/>
+  <object id="52" type="66" x="1408" y="704" width="64" height="256"/>
+  <object id="53" type="66" x="1408" y="512" width="64" height="128"/>
+  <object id="54" type="66" x="1728" y="640" width="384" height="64"/>
+  <object id="55" type="66" x="1792" y="704" width="64" height="256"/>
+  <object id="56" type="66" x="1984" y="704" width="64" height="256"/>
+  <object id="57" type="66" x="3008" y="640" width="448" height="64"/>
+  <object id="58" type="66" x="2944" y="704" width="128" height="64"/>
+  <object id="59" type="66" x="2880" y="768" width="128" height="64"/>
+  <object id="61" type="66" x="2816" y="832" width="128" height="64"/>
+  <object id="62" type="66" x="2816" y="896" width="640" height="64"/>
+  <object id="63" type="66" x="3392" y="704" width="64" height="192"/>
+  <object id="64" type="66" x="3648" y="832" width="128" height="128"/>
+  <object id="65" type="66" x="3008" y="256" width="384" height="64"/>
+  <object id="66" type="66" x="3072" y="192" width="256" height="64"/>
+  <object id="67" type="66" x="3136" y="128" width="128" height="64"/>
+  <object id="68" type="66" x="4032" y="832" width="128" height="128"/>
+  <object id="69" type="66" x="4288" y="832" width="192" height="128"/>
+  <object id="71" type="66" x="4416" y="576" width="192" height="64"/>
+  <object id="72" type="66" x="4608" y="768" width="192" height="64"/>
+  <object id="73" type="66" x="4672" y="832" width="320" height="128"/>
+  <object id="75" type="66" x="4800" y="448" width="256" height="64"/>
+  <object id="76" type="66" x="4864" y="512" width="128" height="320"/>
+  <object id="77" type="66" x="4736" y="704" width="64" height="64"/>
+  <object id="78" type="66" x="5312" y="448" width="320" height="64"/>
+  <object id="79" type="66" x="5440" y="512" width="64" height="448"/>
+  <object id="80" type="66" x="5888" y="704" width="64" height="256"/>
+  <object id="81" type="66" x="5888" y="640" width="128" height="64"/>
+  <object id="82" type="66" x="5952" y="576" width="128" height="64"/>
+  <object id="83" type="66" x="6016" y="512" width="128" height="64"/>
+  <object id="84" type="66" x="6080" y="448" width="320" height="64"/>
+  <object id="86" type="66" x="6336" y="512" width="64" height="448"/>
+  <object id="87" type="66" x="5952" y="896" width="384" height="64"/>
+  <object id="88" type="66" x="0" y="0" width="448" height="448"/>
+ </objectgroup>
+ <objectgroup color="#00007f" name="Trigger Collision">
+  <object id="90" type="68" x="6336" y="0" width="64" height="448"/>
+  <object id="91" type="67" x="0" y="1024" width="6400" height="64"/>
  </objectgroup>
  <layer name="Level" width="150" height="15" visible="0">
   <properties>
@@ -4527,7 +4582,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Collisions" width="150" height="15" visible="0">
+ <layer name="NAVIGATION" width="150" height="15">
   <properties>
    <property name="die" type="int" value="20"/>
    <property name="draw_mode" type="int" value="1"/>
@@ -5508,21 +5563,21 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="65"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5534,6 +5589,7 @@
    <tile gid="0"/>
    <tile gid="68"/>
    <tile gid="68"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5590,11 +5646,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5603,9 +5655,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="0"/>
@@ -5759,6 +5814,7 @@
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5801,15 +5857,14 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="0"/>
@@ -5892,36 +5947,37 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="66"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5937,6 +5993,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -5951,8 +6008,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="66"/>
@@ -5975,8 +6030,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="0"/>
@@ -6194,18 +6249,18 @@
    <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="69"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="66"/>
@@ -6217,11 +6272,11 @@
    <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -6255,9 +6310,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="0"/>
    <tile gid="66"/>
@@ -6344,12 +6399,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
@@ -6375,10 +6430,10 @@
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="0"/>
@@ -6388,24 +6443,24 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
+   <tile gid="65"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="65"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="66"/>
@@ -6679,15 +6734,15 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
    <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -6702,16 +6757,16 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="66"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -6727,12 +6782,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="66"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
+   <tile gid="66"/>
    <tile gid="66"/>
    <tile gid="0"/>
    <tile gid="0"/>

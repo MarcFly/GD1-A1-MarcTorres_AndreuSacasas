@@ -255,7 +255,7 @@ void j1Player::CorrectCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 {
 	if ((float)check.w / (float)c1->rect.w > (float)check.h / (float)c1->rect.h)
 	{
-		if (c1->rect.y < c2->rect.y)
+		if (c1->rect.y < c2->rect.y && stats.speed.y > 0)
 		{
 			this->position.y = c2->rect.y - c1->rect.h;
 			this->stats.speed.y = 0;
