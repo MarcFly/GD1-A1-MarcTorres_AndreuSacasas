@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Sprite config, contains stats and entity types -->
+<sprites>
+<!-- TYPE player = 0, walker = 1, flyer = 2 -->
+  <entity type="0">
+    <stats>
+        <texture source="Player.png"/>
+        <speed x="80" y="160"/>
+        <acceleration x="50" y="100"/>
+        <jump_force value="-150"/>
+        <collision_box offset_x="" offset_y="" h="60" w="40"/>
+        <render_scale value="1.0"/>
+    </stats>
+    <animations w="79" h="80">
+      <animation name="idle" offset_x="18" offset_y="16" speed="0.5" loop="true">
+        <rect x="0" y="405"/>
+        <rect x="80" y="405"/>
+        <rect x="160" y="405"/>
+        <rect x="240" y="405"/>
+        <rect x="320" y="405"/>
+        <rect x="400" y="405"/>
+        <rect x="480" y="405"/>
+      </animation>
+      <animation name="move" offset_x="18" offset_y="12" speed="0.6" loop="true">
+        <rect x="0" y="0"/>
+        <rect x="80" y="0"/>
+        <rect x="160" y="0"/>
+        <rect x="240" y="0"/>
+        <rect x="320" y="0"/>
+        <rect x="400" y="0"/>
+        <rect x="480" y="0"/>
+        <rect x="560" y="0"/>
+        <rect x="640" y="0"/>
+      </animation>
+      <animation name="jump" offset_x="18" offset_y ="16" speed="0.2" loop="false" >
+        <rect x="0" y="486"/>
+        <rect x="80" y="486"/>
+        <rect x="160" y="486"/>
+        <rect x="240" y="486"/>
+        <rect x="320" y="486"/>
+        <!-- Last Frame is while still going up-->
+      </animation >
+      <animation name="fall" offset_x="18" offset_y="16" speed="0.2" loop="false">
+        <rect x="400" y="486"/>
+        <rect x="480" y="486"/>
+        <rect x="560" y="486"/>
+        <!-- Last Frame is while still going down-->
+      </animation>
+     </animations>
+  </entity>
+</sprites>
