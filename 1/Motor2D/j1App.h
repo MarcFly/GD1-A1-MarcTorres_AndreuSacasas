@@ -25,6 +25,8 @@ class j1Render;
 class j1Textures;
 class j1Audio;
 class j1Scene;
+class j1Fonts;
+class j1Gui;
 class j1Map;
 class EntityManager;
 class j1Pathfinding;
@@ -123,6 +125,8 @@ public:
 	j1Textures*			tex;
 	j1Audio*			audio;
 	j1Scene*			scene;
+	j1Fonts*			font;
+	j1Gui*				gui;
 	j1Map*				map;
 	EntityManager*		entities;
 	j1Pathfinding*		pathfinding;

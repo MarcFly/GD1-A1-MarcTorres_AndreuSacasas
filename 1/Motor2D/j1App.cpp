@@ -10,6 +10,8 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "j1Scene.h"
+#include "j1Fonts.h"
+#include "j1Gui.h"
 #include "j1Map.h"
 #include "j1Collisions.h"
 #include "EntityManager.h"
@@ -32,6 +34,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
+	font = new j1Fonts();
+	gui = new j1Gui();
 	map = new j1Map();
 	entities = new EntityManager();
 	pathfinding = new j1Pathfinding();
@@ -43,6 +47,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(font);
+	AddModule(gui);
 	AddModule(map);
 	AddModule(pathfinding);
 	AddModule(collisions);

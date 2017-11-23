@@ -64,6 +64,12 @@
     <ClCompile Include="j1Player.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Players</Filter>
     </ClCompile>
+    <ClCompile Include="j1Fonts.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -159,6 +165,12 @@
     <ClInclude Include="j1Player.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Players</Filter>
     </ClInclude>
+    <ClInclude Include="j1Fonts.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -190,6 +202,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities\Players">
       <UniqueIdentifier>{43256e0b-f84f-468d-8e74-a83a31a7cdb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI">
+      <UniqueIdentifier>{a0720065-38d9-477c-b2c1-a0727e0c62cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
