@@ -55,8 +55,8 @@ public:
 
 	// Destructor
 	virtual ~Entity() {
-		delete current_animation;
-		
+		current_animation = nullptr;
+
 		p2List_item<Animation*>* item = animations.start;
 		while (item != NULL) {
 			delete item;
@@ -116,7 +116,7 @@ public:
 
 	// Called before quitting
 	virtual bool CleanUp() { 
-		delete current_animation;
+		current_animation = nullptr;
 
 		p2List_item<Animation*>* item = animations.start;
 		while (item != NULL) {

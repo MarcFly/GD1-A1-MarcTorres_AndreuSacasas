@@ -114,22 +114,22 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	{
 		position.x = App->map->Maps->start_pos.x;
 		position.y = App->map->Maps->start_pos.y;
-		if (this->stats.hp > 0 && App->scene->god_mode == false)
-			this->stats.hp -= 1;
+		if (stats.hp > 0 && App->scene->god_mode == false)
+			stats.hp -= 1;
 	}
 	else if (c2->type == COLLIDER_CRAWLER)
 	{
 		if (c1->rect.y + c1->rect.h < c2->rect.y + 3) {
 			App->entities->DestroyEntity(App->entities->FindEntities(App->entities->FindByColl(c2)->type, App->entities->FindByColl(c2)->entity_id));
 			c2->active = false;
-			this->stats.speed *= { 1.1f, -1.2f };
+			stats.speed *= { 1.1f, -1.2f };
 		}
 		else if(HIT_TIMER.ReadSec() >= 1){
-			if (this->stats.hp > 0 && App->scene->god_mode == false)
-				this->stats.hp -= 1;
+			if (stats.hp > 0 && App->scene->god_mode == false)
+				stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
-			this->stats.speed *= { -2.0f, -1.0f };
-			this->HIT_TIMER.Start();
+			stats.speed *= { -2.0f, -1.0f };
+			HIT_TIMER.Start();
 		}
 	}
 	else if (c2->type == COLLIDER_FLYER)
@@ -137,14 +137,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 		if (c1->rect.y + c1->rect.h < c2->rect.y + 3) {
 			App->entities->DestroyEntity(App->entities->FindEntities(App->entities->FindByColl(c2)->type, App->entities->FindByColl(c2)->entity_id));
 			c2->active = false;
-			this->stats.speed *= { 1.1f, -1.2f };
+			stats.speed *= { 1.1f, -1.2f };
 		}
 		else if (HIT_TIMER.ReadSec() >= 1) {
-			if (this->stats.hp > 0 && App->scene->god_mode == false)
-				this->stats.hp -= 1;
+			if (stats.hp > 0 && App->scene->god_mode == false)
+				stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
-			this->stats.speed *= { -2.0f, -1.0f };
-			this->HIT_TIMER.Start();
+			stats.speed *= { -2.0f, -1.0f };
+			HIT_TIMER.Start();
 		}
 	}
 	

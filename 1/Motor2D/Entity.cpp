@@ -206,7 +206,7 @@ bool Entity::Load(const pugi::xml_node& savegame)
 
 	LoadSprites(temp_sprite);
 
-	Start();
+	this->Start();
 
 	return ret;
 }
