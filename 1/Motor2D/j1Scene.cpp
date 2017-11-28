@@ -205,7 +205,7 @@ void j1Scene::NotGodMode(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		LoadMap(curr_map);
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || App->entities->GetPlayer()->stats.hp == 0)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || (App->entities->GetPlayer() != nullptr && App->entities->GetPlayer()->stats.hp == 0))
 		App->Trigger_Load();
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)

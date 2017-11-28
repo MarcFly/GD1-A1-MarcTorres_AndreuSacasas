@@ -142,7 +142,7 @@ bool j1Collision::LookColl(Entity* entity, float dt) {
 	{
 		c2 = colliders[k];
 
-		if (CheckColl(c1,c2)) {
+		if (CheckColl(c1,c2) && c2 != nullptr && c2->rect.x != FARLANDS.x && c2->rect.y != FARLANDS.y) {
 
 			if (c1 != c2) {
 				SDL_Rect check;
