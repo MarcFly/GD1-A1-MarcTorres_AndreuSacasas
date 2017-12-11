@@ -131,7 +131,8 @@ bool j1Pathfinding::IsWalkable(int x, int y) const {
 		while (item->data->draw_mode != 1)
 			item = item->next;
 
-		ret = (item->data->data[y * App->map->Maps->width + x] == 0);
+		int test = item->data->data[y * App->map->Maps->width + x];
+		ret = (test != 69 && test != 70 && test != 66 && test != 67);
 	}
 
 	return ret;
