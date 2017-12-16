@@ -200,7 +200,7 @@ void j1Scene::NotGodMode(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		curr_map = 0;
-		LoadMap(0);
+		LoadMap(curr_map);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 		LoadMap(curr_map);

@@ -261,7 +261,7 @@ Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module*
 
 bool j1Collision::EraseCollider(Collider* collider)
 {
-	if(colliders.count() != 0 && collider != nullptr)
+	if(colliders.count() != 0 && colliders.find(collider) != -1 && collider != nullptr)
 		collider->to_delete = true;
 	
 	return false;

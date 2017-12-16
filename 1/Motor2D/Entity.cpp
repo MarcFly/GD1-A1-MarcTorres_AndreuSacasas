@@ -199,6 +199,8 @@ bool Entity::Load(const pugi::xml_node& savegame)
 
 	LoadProperties(savegame);
 
+	position = { savegame.child("position").attribute("x").as_int(), savegame.child("position").attribute("y").as_int() };
+
 	pugi::xml_node temp_sprite = App->entities->sprites_doc.child("sprites").child("animations");
 
 	while (temp_sprite.attribute("type").as_int() != type)
