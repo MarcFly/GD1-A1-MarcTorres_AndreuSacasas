@@ -2,6 +2,7 @@
 #define __j1INPUT_H__
 
 #include "j1Module.h"
+#include "SDL\include\SDL.h"
 
 #define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
@@ -72,6 +73,21 @@ public:
 	}
 
 
+
+	const char* GetTextBuffer()
+	{
+		return text_buffer.GetString();
+	}
+
+	void ClearTextBuffer()
+	{
+		text_buffer.Clear();
+	}
+
+	void StartBuffer() { SDL_StartTextInput(); }
+	void StopBuffer() { SDL_StopTextInput(); }
+
+
 private:
 	void CleanKeys();
 
@@ -83,6 +99,8 @@ private:
 	int			mouse_motion_y;
 	int			mouse_x;
 	int			mouse_y;
+
+	p2SString	text_buffer;
 };
 
 #endif // __j1INPUT_H__

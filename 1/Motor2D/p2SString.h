@@ -330,6 +330,19 @@ public:
 		return ret;
 	}
 
+	void EraseBack()
+	{
+		// cut right --
+		char* end = str + size - 2;
+		*end = '\0';
+
+		char* start = str;
+		uint s = strlen(start);
+
+		for (uint i = 0; i < s + 1; ++i)
+			str[i] = start[i];
+	}
+
 private:
 
 	void Alloc(unsigned int requiered_memory)

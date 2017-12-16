@@ -106,6 +106,11 @@ bool j1Input::PreUpdate(float dt)
 			}
 			break;
 
+		case SDL_TEXTINPUT:
+			text_buffer.Clear();
+			text_buffer = event.text.text;
+			break;
+
 		case SDL_MOUSEBUTTONDOWN:
 			mouse_buttons[event.button.button - 1] = KEY_DOWN;
 			//LOG("Mouse button %d down", event.button.button-1);

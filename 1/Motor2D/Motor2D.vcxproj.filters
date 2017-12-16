@@ -171,6 +171,27 @@
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Elements.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="HyperLink.h">
+      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactables.h">
+      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Desenvolupament  ========\Modules\UI\Non-Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Desenvolupament  ========\Modules\UI\Non-Interactables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">

@@ -104,10 +104,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Crawler.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Flyer.h" />
+    <ClInclude Include="HyperLink.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="Interactables.h" />
     <ClInclude Include="j1Collisions.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
@@ -118,6 +122,7 @@
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Timer.h" />
     <ClInclude Include="Jumper.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="p2DynArray.h" />
     <ClInclude Include="j1Audio.h" />
     <ClInclude Include="j1Input.h" />
@@ -136,6 +141,8 @@
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="p2Vec3.h" />
+    <ClInclude Include="TextBox.h" />
+    <ClInclude Include="UI_Elements.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">
