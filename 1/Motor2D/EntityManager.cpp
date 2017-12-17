@@ -7,6 +7,7 @@
 #include "Flyer.h"
 #include "Brofiler\Brofiler.h"
 #include "j1Gui.h"
+#include "Coin.h"
 
 EntityManager::EntityManager()
 {
@@ -55,6 +56,10 @@ int EntityManager::AddTEntity(const uint& name)
 		template_entities.add(new Flyer(name, (uint)NULL));
 		return (int)flyer;
 	}
+	else if (name == (uint)coin) {
+		template_entities.add(new Coin(name, (uint)NULL));
+		return (int)coin;
+	}
 
 	return none;
 }
@@ -75,6 +80,11 @@ int EntityManager::AddEntity(const uint& name, const uint& eid, Entity* template
 		entities.add(new Flyer(eid, (Flyer*)template_ent));
 		entities.end->data->Start();
 		return (int)flyer;
+	}
+	else if (name == (uint)coin) {
+		entities.add(new Coin(eid, (Coin*)template_ent));
+		entities.end->data->Start();
+		return (int)coin;
 	}
 	
 	return none;

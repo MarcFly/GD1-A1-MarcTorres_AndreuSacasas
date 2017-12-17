@@ -14,6 +14,7 @@ enum entity_type {
 	crawler,
 	jumper,
 	flyer,
+	coin,
 	max_
 };
 
