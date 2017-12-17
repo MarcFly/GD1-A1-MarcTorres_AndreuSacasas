@@ -108,14 +108,16 @@ bool j1Scene::Update(float dt)
 	
 	//App->win->SetTitle(title.GetString());
 	
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
-		App->map->debug_draw = !App->map->debug_draw;
-		App->collisions->debug = !App->collisions->debug;
-	}
+	if (App->gui->Get_ActiveSet() == (int)ingame) {
+		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
+			App->map->debug_draw = !App->map->debug_draw;
+			App->collisions->debug = !App->collisions->debug;
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
-		App->ChangeCap();
-		App->CapFps(App->GetFpsCap());
+		if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+			App->ChangeCap();
+			App->CapFps(App->GetFpsCap());
+		}
 	}
 
 	return true;
@@ -221,26 +223,31 @@ void j1Scene::GodMode(float dt)
 void j1Scene::NotGodMode(float dt) 
 {
 	// TODO 2.5: Call load / save methods when pressing l/s
+	if (App->gui->Get_ActiveSet() == (int)ingame) {
+		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		{
+			curr_map = 0;
+			LoadMap(curr_map);
+			App->gui->Set_ActiveSet((int)ingame);
+		}
+		if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+			LoadMap(curr_map);
+			App->gui->Set_ActiveSet((int)ingame);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-	{
-		curr_map = 0;
-		LoadMap(curr_map);
-		App->gui->Set_ActiveSet((int)ingame);
+		if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+			App->Trigger_Save();
+
+		if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || (App->entities->GetPlayer() != nullptr && App->entities->GetPlayer()->stats.hp == 0)) {
+			App->Trigger_Load();
+			App->gui->Set_ActiveSet((int)ingame);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN || change_map == true) {
+			change_map = false;
+			LoadNextMap();
+		}
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		LoadMap(curr_map);
-		App->gui->Set_ActiveSet((int)ingame);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || (App->entities->GetPlayer() != nullptr && App->entities->GetPlayer()->stats.hp == 0)) {
-		App->Trigger_Load();
-		App->gui->Set_ActiveSet((int)ingame);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->Trigger_Save();
-
 
 
 	// TODO 2.Homework Allow for change in volume
@@ -252,8 +259,4 @@ void j1Scene::NotGodMode(float dt)
 		App->audio->Decrease_Master();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN || change_map == true) {
-		change_map = false;
-		LoadNextMap();
-	}
 }
