@@ -24,6 +24,8 @@ public:
 bool Image::Awake(const pugi::xml_node& config)
 {
 	group = (ui_set)config.attribute("group").as_int();
+	position.x = config.attribute("posx").as_int();
+	position.y = config.attribute("posy").as_int();
 
 	return true;
 }

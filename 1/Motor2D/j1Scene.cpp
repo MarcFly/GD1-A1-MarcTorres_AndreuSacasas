@@ -126,10 +126,13 @@ bool j1Scene::PostUpdate(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		if ((ui_set)App->gui->Get_ActiveSet() != ui_set::menu)
 		{
-			App->map->EraseMap();
-			App->entities->CleanEntities();
-			App->pathfinding->ResetNav();
-			App->collisions->CleanColliders();
+			if ((ui_set)App->gui->Get_ActiveSet() == ui_set::ingame)
+			{
+				App->map->EraseMap();
+				App->entities->CleanEntities();
+				App->pathfinding->ResetNav();
+				App->collisions->CleanColliders();
+			}
 			App->gui->Set_ActiveSet((int)menu);
 			App->render->camera.x = 0;
 			App->render->camera.y = -180;
