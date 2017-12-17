@@ -1,9 +1,13 @@
+**VIDEO**
+
 **Spelunker** is a game designed by Andreu Sacasas and Marc Torres as a project for Videogame Development, a subject from UPC university.
 
 It was made with the objective of fullfill 3 basic requisites from the subject:  
 **1 -** Creating two different levels for a platformer with different layers in tiled.  
 **2 -** Having enemies in game that use pathfinding to reach the player or to interact with the map.  
 **3 -** Having a user interface functional, with buttons, main menu and everithing necessary to make the game look good.  
+
+![enter image description here](FOTO DE GRUP)
 
 As for the work of each member:
 
@@ -27,6 +31,15 @@ As for the work of each member:
 -Delta time for animations/physics  
 -Load infromation from tiled to the game  
 
+**Innovation:**
+ - Collision Optimization through active object checking:
+> Only object with need of collision management will actively detect collisions. This allows for:
+> - More collision search and have better position of these objects.
+> - Less iterations for collision detection.
+  
+   
+    
+  
 >**Instructions:**
 
 > - A - Move left
@@ -45,13 +58,17 @@ if you are going up from the previous jump, if you are falling you cannot use it
 > - F10 - God Mode:
 >  >  >  -The player is able to move the camera with the arrows.  
 >  >  > 	-The player won't be able to pass the level while in this mode, neither using the special keys nor finishing the level.  
->  >  > 	-Enemies cannot damage the player, but they will knockback him/her anyways.
->  >  >  -Using WASD in god mode allows it to fly around the map.
+>  >  > 	-Enemies cannot damage the player, but they will knockback him/her anyways.  
+>  >  >  -Using WASD in god mode allows it to fly around the map but the jump ability is disabled.  
 > - F11 - Enable/Disable Fps cap to 30
 > - "+" to increase volume
 > - "-" to decrease volume
   
+   
+[**Link to Repo**][1]  
+[**Latest Release**][2]  
   
+    
 >MIT License
 >Copyright (c) 2017 Andreu Sacasas - Marc Torres
 >  
@@ -76,3 +93,6 @@ SOFTWARE.
 **Credits**
 
 Most of the sprites used are from "Spelunky", a game created by Derek Yu launched on 2008.
+
+[1]:https://github.com/MarcFly/Spelunker
+[2]:https://github.com/MarcFly/Spelunker/releases/tag/0.1
