@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Config file for the game -->
+<config>
+
+  <app>
+  
+  </app>
+  
+  <input>
+    <num_keys value="352"/>
+    <num_mouse_buttons value="5"/>
+    <last_keys_pressed_buffer value="50"/>
+  </input>
+
+  <window>
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+    <width value="1024"/>
+    <height value="768"/>
+    <scale value="1"/>
+    <name value="Game Dev 1 Config"/>
+  </window>
+
+  <renderer>
+    <camera x="0" y="0"/>
+  </renderer>
+
+  <textures>
+    
+  </textures>
+
+  <audio>
+    <master_volume value="64"/>"
+    <music_volume value="1"/>
+    <fx_volume value="1"/>
+    <fade_time value="2"/>
+    <repeat value="0"/>
+  </audio>
+
+  <scene>
+    
+  </scene>
+</config>
