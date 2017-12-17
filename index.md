@@ -95,4 +95,4 @@ SOFTWARE.
 Most of the sprites used are from "Spelunky", a game created by Derek Yu launched on 2008.
 
 [1]:https://github.com/MarcFly/Spelunker
-[2]:https://github.com/MarcFly/Spelunker/releases/tag/0.1
+[2]:https://github.com/MarcFly/Spelunker/releases/tag/0.15
