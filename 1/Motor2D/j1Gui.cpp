@@ -87,7 +87,8 @@ bool j1Gui::PreUpdate(float dt)
 	p2List_item<UI_Element*>* item = objects.start;
 
 	for (int i = 0; i < objects.count(); i++){
-		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all))
+		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all) ||
+			((int)item->data->group == ui_set::inmenus && active_set != ui_set::ingame))
 			ret = item->data->PreUpdate();
 		item = item->next;
 	}
@@ -103,7 +104,8 @@ bool j1Gui::PostUpdate(float dt)
 	p2List_item<UI_Element*>* item = objects.start;
 
 	for (int i = 0; i < objects.count(); i++) {
-		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all))
+		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all) ||
+			((int)item->data->group == ui_set::inmenus && active_set != ui_set::ingame))
 			ret = item->data->PostUpdate();
 		item = item->next;
 	}
