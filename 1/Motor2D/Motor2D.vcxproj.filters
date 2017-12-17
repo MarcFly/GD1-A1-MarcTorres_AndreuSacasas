@@ -213,6 +213,9 @@
     <ClInclude Include="Start_b.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
