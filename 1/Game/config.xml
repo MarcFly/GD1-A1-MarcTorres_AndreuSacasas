@@ -57,8 +57,8 @@
       <obj x="1026" y="1" w="118" h="65" size="1" type="8" posx="500" posy="600" group="0" content="CREDITS" offx="22" offy="20"/>
       <obj x="1027" y="70" w="631" h="375" size="1" type="2" posx="200" posy="300" group="2"/>
       <obj x="1026" y="1" w="118" h="65" size="1" type="9" posx="350" posy="600" group="0" content="EXIT" offx="22" offy="20"/>
+      <obj x="30" y="30" w="200" h="200" max_time="120" size="1" type="14" posx="600" posy="200"/>
     </objects>
-
   </gui>
         
   <map>
