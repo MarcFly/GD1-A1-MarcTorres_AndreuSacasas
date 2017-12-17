@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<savegame>
+	<input />
+	<window />
+	<textures />
+	<audio>
+		<master_volume value="64" />
+	</audio>
+	<scene />
+	<renderer>
+		<camera x="370" y="160" />
+	</renderer>
+</savegame>
