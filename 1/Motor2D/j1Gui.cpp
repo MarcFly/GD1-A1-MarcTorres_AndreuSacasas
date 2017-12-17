@@ -14,7 +14,7 @@
 #include "Exit.h"
 #include "Settings.h"
 #include "Start_b.h"
-
+#include "Timer.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -172,6 +172,8 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 		return (new Settings(rect, size));
 	case (int)start_b:
 		return (new Start_b(rect, size));
+	case (int)timer:
+		return (new Timer(rect, size));
 	default:
 		return nullptr;
 	}

@@ -18,6 +18,8 @@ class Exit;
 class Settings;
 class Start_b;
 
+class Timer;
+
 #define CURSOR_WIDTH 2
 
 // TODO 1: Create your structure of classes
@@ -35,6 +37,8 @@ enum element_type {
 	exit_b,
 	settings_b,
 	start_b,
+
+	timer,
 
 	element_max = INT_MAX
 
