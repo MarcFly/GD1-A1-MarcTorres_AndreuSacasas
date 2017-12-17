@@ -85,6 +85,14 @@ public:
 		active_set = set;
 	}
 
+	int Get_ActiveSet()
+	{
+		return active_set;
+	}
+
+public:
+	bool not_end = true;
+
 private:
 
 	SDL_Texture* atlas;

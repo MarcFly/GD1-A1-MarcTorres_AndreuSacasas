@@ -100,6 +100,8 @@ bool j1Gui::PostUpdate()
 		item = item->next;
 	}
 
+	ret = not_end;
+
 	return ret;
 }
 
