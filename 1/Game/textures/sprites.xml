@@ -8,7 +8,6 @@
   <!--                        ENTITY PROPERTIES                          -->
 <map value="0">
   <entity type="0">
-    <position x="516" y="540"/>
     <max_speed x="8" y="16"/>
     <acceleration x="1" y="0.8"/>
     <jump_force value="-18"/>
@@ -20,40 +19,6 @@
     <life value="4" />
   </entity>
   <entity type="1">
-    <position x="670" y="797"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="1">
-    <position x="1940" y="620"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="1">
-    <position x="3159" y="620"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="1">
-    <position x="4900" y="423"/>
     <max_speed x="2" y="1"/>
     <acceleration x="0" y="0.5"/>
     <jump_force value="-12"/>
@@ -64,7 +29,6 @@
     <flip value="false"/>
   </entity>
   <entity type="3">
-    <position x="1500" y="180"/>
     <max_speed x="1" y="1"/>
     <acceleration x="0" y="0"/>
     <jump_force value="0"/>
@@ -74,120 +38,7 @@
     <speed x="0" y="0"/>
     <flip value="false"/>
   </entity>
-  <entity type="3">
-    <position x="1000" y="180"/>
-    <max_speed x="1" y="1"/>
-    <acceleration x="0" y="0"/>
-    <jump_force value="0"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="3">
-    <position x="4153" y="719"/>
-    <max_speed x="1" y="1"/>
-    <acceleration x="0" y="0"/>
-    <jump_force value="0"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="3">
-    <position x="4583" y="470"/>
-    <max_speed x="1" y="1"/>
-    <acceleration x="0" y="0"/>
-    <jump_force value="0"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-</map>
-<map value="1">
-  <entity type="0">
-    <position x="206" y="684"/>
-    <max_speed x="8" y="16"/>
-    <acceleration x="1" y="0.8"/>
-    <jump_force value="-18"/>
-    <collision_box offset_x="" offset_y="" h="60" w="40"/>
-    <render_scale value="1.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-    <life value="4" />
-  </entity>
-  <entity type="1">
-    <position x="355" y="750"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="1">
-    <position x="2905" y="560"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="1">
-    <position x="2905" y="760"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="1">
-    <position x="4775" y="366"/>
-    <max_speed x="2" y="1"/>
-    <acceleration x="0" y="0.5"/>
-    <jump_force value="-12"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="3">
-    <position x="1500" y="180"/>
-    <max_speed x="1" y="1"/>
-    <acceleration x="0" y="0"/>
-    <jump_force value="0"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-  <entity type="3">
-    <position x="1000" y="180"/>
-    <max_speed x="1" y="1"/>
-    <acceleration x="0" y="0"/>
-    <jump_force value="0"/>
-    <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
-    <state value="0"/>
-    <speed x="0" y="0"/>
-    <flip value="false"/>
-  </entity>
-</map>
+ </map>
   <!--///////////////////////////////////////////////////////////////////-->
   <!--                       ENTITY ANIMATIONS                           -->
 

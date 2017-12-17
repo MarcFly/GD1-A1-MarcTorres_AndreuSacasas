@@ -44,6 +44,14 @@
     <repeat value="0"/>
   </audio>
 
+  <gui>
+    <atlas file="gui/atlas.png"/>
+    <objects>
+      <obj x="485" y="829" w="328" h="103" size="1" type="11" posx="0" posy="0" group="0" content="START GAME"/>
+      <obj x="0" y="0" w="10" h="10" content="It's Alive!" size="1" type="1" posx="400" posy="400"/>
+      <obj x="30" y="30" w="200" h="200" content="Test" size="1" type="3" posx="600" posy="200"/>     </objects>
+  </gui>
+        
   <map>
 	  <folder>Maps/</folder>
   </map>

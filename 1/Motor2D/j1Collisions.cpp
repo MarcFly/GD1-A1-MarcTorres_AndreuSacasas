@@ -142,7 +142,7 @@ bool j1Collision::LookColl(Entity* entity, float dt) {
 	{
 		c2 = colliders[k];
 
-		if (CheckColl(c1,c2)) {
+		if (CheckColl(c1,c2) && c2 != nullptr && c2->rect.x != FARLANDS.x && c2->rect.y != FARLANDS.y) {
 
 			if (c1 != c2) {
 				SDL_Rect check;
@@ -238,8 +238,9 @@ bool j1Collision::CleanColliders(){
 	while (item != NULL)
 	{
 		if(item->data != nullptr)
-			delete item->data;
-		item->data = nullptr;
+			/*delete item->data;
+		item->data = nullptr;*/
+			item->data->to_delete == true;
 		item = item->next;
 	}
 
@@ -261,7 +262,7 @@ Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type_, j1Module*
 
 bool j1Collision::EraseCollider(Collider* collider)
 {
-	if(colliders.count() != 0 && collider != nullptr)
+	if(colliders.count() != 0 && colliders.find(collider) != -1 && collider != nullptr)
 		collider->to_delete = true;
 	
 	return false;

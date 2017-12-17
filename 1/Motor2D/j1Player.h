@@ -9,7 +9,11 @@ class j1Player : public Entity
 {
 public:
 
-	j1Player(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
+	j1Player(const uint& type, const uint& eid) { this->type = type; this->entity_id = eid; }
+
+	j1Player(const uint& eid, j1Player* template_player) { CopyFromTE(template_player); entity_id = eid; };
+
+	void CopySpecifics(Entity* template_entity);
 
 	// Called before the first frame
 	bool Start();
@@ -36,7 +40,11 @@ public:
 	bool LoadSpecificSprites(const pugi::xml_node& sprite_node);
 
 	bool SpecificCleanUp() {
-		bool ret = App->tex->UnLoad(player_life);
+		bool ret = true;
+		if(player_life != nullptr)
+			App->tex->UnLoad(player_life);
+		player_life = nullptr;
+
 		health_source.Clear();
 		health_rects.Clear();
 

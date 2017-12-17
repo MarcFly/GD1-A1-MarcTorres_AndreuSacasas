@@ -18,7 +18,7 @@ j1Fonts::~j1Fonts()
 {}
 
 // Called before render is available
-bool j1Fonts::Awake(pugi::xml_node& conf)
+bool j1Fonts::Awake(const pugi::xml_node& conf)
 {
 	LOG("Init True Type Font library");
 	bool ret = true;

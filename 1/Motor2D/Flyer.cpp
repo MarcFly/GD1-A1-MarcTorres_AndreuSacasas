@@ -17,6 +17,9 @@ bool Flyer::Start()
 
 	vec_v = sqrt(stats.max_speed.x * stats.max_speed.x + stats.max_speed.y * stats.max_speed.y);
 
+	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
+	delete coll_rect;
+
 	return ret;
 }
 
@@ -87,7 +90,7 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 void Flyer::Movement(float dt) {
 
 	// On enemies this will be used for fly and probably later on with Flyer and Flyer properly falling
-	if(position.DistanceTo(App->entities->GetEntity(0)->position) < 1000)
+	if(position.DistanceTo(App->entities->GetPlayer()->position) < 1000)
 		App->pathfinding->CreateFPath(App->map->WorldToMap(position.x + collision_box->rect.w / 2, position.y + collision_box->rect.h / 2), App->map->WorldToMap(App->entities->GetEntity(0)->position.x, App->entities->GetEntity(0)->position.y));
 
 	check_try = TryPath();

@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "SDL\include\SDL_pixels.h"
+#include "p2List.h"
 
 #define DEFAULT_FONT "fonts/open_sans/OpenSans-Regular.ttf"
 #define DEFAULT_FONT_SIZE 12
@@ -20,7 +21,7 @@ public:
 	virtual ~j1Fonts();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(const pugi::xml_node&);
 
 	// Called before quitting
 	bool CleanUp();

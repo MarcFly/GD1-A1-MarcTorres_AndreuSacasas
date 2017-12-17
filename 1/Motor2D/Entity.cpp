@@ -1,8 +1,43 @@
 #include "Entity.h"
-#include "EntityManager.h"
 #include "j1App.h"
 #include "j1Map.h"
 #include "j1Collisions.h"
+#include "EntityManager.h"
+
+bool Entity::Start() {
+	
+	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
+	delete coll_rect;
+	coll_rect = nullptr;
+
+	return true;
+	
+}
+
+void Entity::CopyFromTE(Entity* template_ent)
+{
+	graphics = template_ent->graphics;
+	current_animation = template_ent->current_animation;
+	
+	p2List_item<Animation*>* item = template_ent->animations.start;
+	while (item != NULL)
+	{
+		animations.add(item->data);
+		item = item->next;
+	}
+
+	coll_rect = new SDL_Rect(*template_ent->coll_rect);
+
+	stats = template_ent->stats;
+	render_scale = template_ent->render_scale;
+	position = template_ent->position;
+	flip = template_ent->flip;
+	type = template_ent->type;
+	entity_id = template_ent->entity_id;
+
+	CopySpecifics(template_ent);
+
+}
 
 void Entity::Draw(float dt) {
 	if (this != nullptr) {
@@ -90,7 +125,7 @@ bool Entity::LoadSprites(const pugi::xml_node& sprite_node) {
 bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 	bool ret = true;
 
-	position = {property_node.child("position").attribute("x").as_int(), property_node.child("position").attribute("y").as_int()};
+	position = FARLANDS;
 	stats.max_speed = { property_node.child("max_speed").attribute("x").as_int(), property_node.child("max_speed").attribute("y").as_int() };
 	stats.accel = { property_node.child("acceleration").attribute("x").as_float(),property_node.child("acceleration").attribute("y").as_float() };
 	stats.jump_force = property_node.child("jump_force").attribute("value").as_int();
@@ -99,34 +134,12 @@ bool Entity::LoadProperties(const pugi::xml_node& property_node) {
 	state = (move_state)property_node.child("state").attribute("value").as_int();
 	render_scale = property_node.child("render_scale").attribute("value").as_float();
 
-	if (type == 0)
-	{
-		collision_box = App->collisions->AddCollider({
-				position.x,
-				position.y,
-				property_node.child("collision_box").attribute("w").as_int(),
-				property_node.child("collision_box").attribute("h").as_int() },
-				COLLIDER_PLAYER,
-				App->entities);
-
-		this->stats.hp = property_node.child("life").attribute("value").as_int();
-	}
-	else if(type == 1)
-		collision_box = App->collisions->AddCollider({
-				position.x,
-				position.y,
-				property_node.child("collision_box").attribute("w").as_int(),
-				property_node.child("collision_box").attribute("h").as_int() },
-			COLLIDER_CRAWLER,
-			App->entities);
-	else if (type == 3)
-		collision_box = App->collisions->AddCollider({
+	coll_rect = new SDL_Rect({
 		position.x,
 		position.y,
 		property_node.child("collision_box").attribute("w").as_int(),
-		property_node.child("collision_box").attribute("h").as_int() },
-		COLLIDER_FLYER,
-		App->entities);
+		property_node.child("collision_box").attribute("h").as_int()
+	});
 
 	return ret;
 }
@@ -186,6 +199,8 @@ bool Entity::Load(const pugi::xml_node& savegame)
 
 	LoadProperties(savegame);
 
+	position = { savegame.child("position").attribute("x").as_int(), savegame.child("position").attribute("y").as_int() };
+
 	pugi::xml_node temp_sprite = App->entities->sprites_doc.child("sprites").child("animations");
 
 	while (temp_sprite.attribute("type").as_int() != type)
@@ -193,7 +208,7 @@ bool Entity::Load(const pugi::xml_node& savegame)
 
 	LoadSprites(temp_sprite);
 
-	Start();
+	this->Start();
 
 	return ret;
 }

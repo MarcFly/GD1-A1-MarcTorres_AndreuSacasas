@@ -14,6 +14,9 @@ bool Crawler::Start()
 	state = idle;
 	HIT_TIMER.Start();
 
+	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
+	delete coll_rect;
+
 	return ret;
 }
 

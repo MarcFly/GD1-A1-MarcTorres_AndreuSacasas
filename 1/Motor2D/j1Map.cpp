@@ -8,6 +8,8 @@
 #include <string>
 #include "j1Pathfinding.h"
 #include "j1Scene.h"
+#include "EntityManager.h"
+#include "j1Gui.h"
 
 struct SDL_Texture;
 
@@ -44,7 +46,7 @@ void j1Map::Draw()
 
 	iPoint pos = { 0,0 };
 
-	if (Maps != nullptr) { //Check there is a FindRectmap
+	if (Maps != nullptr && App->gui->Get_ActiveSet() == (int)ingame) { //Check there is a FindRectmap
 		
 		tileset_info* item_tileset; //Start tileset list
 	
@@ -67,7 +69,7 @@ void j1Map::Draw()
 
 							App->render->Blit(
 								item_tileset->image.tex,
-								pos.x - item_tileset->tileoffset.x + item_layer->data->parallax * App->render->camera.x,
+								pos.x - item_tileset->tileoffset.x - item_layer->data->parallax * App->render->camera.x,
 								pos.y - item_tileset->tileoffset.y,
 								&item_tileset->GetRect(*p));
 						}
@@ -187,8 +189,8 @@ bool j1Map::LoadMap(const char* file_name)
 	if (ret == true)
 	{
 		
-		App->collisions->CollStart();
-
+		ret = App->collisions->CollStart();
+		if (ret) ret = App->entities->LoadEntities();
 		// TODO 3.5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
 		//App->pathfinding->SetMap(Maps->width, Maps->height, Maps->layers.start->data->data);
@@ -353,7 +355,7 @@ bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & it
 {
 	bool ret = true;
 
-	item_group.group_type = group_node.attribute("type").as_int();
+	item_group.group_type = group_node.child("properties").child("property").attribute("value").as_int();
 	item_group.name.create(group_node.attribute("name").as_string());
 
 	pugi::xml_node object_node = group_node.child("object");
@@ -370,7 +372,7 @@ bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & it
 
 		item_group.objects.add(item_object);
 
-		object_node = object_node.next_sibling("object");
+		object_node = object_node.next_sibling();
 	}
 
 	return ret;
@@ -466,7 +468,7 @@ bool j1Map::Load(const pugi::xml_node& savegame)
 {
 	bool ret = true;
 
-	if (Maps->this_map.GetString() != savegame.child("curr_map").attribute("source").as_string()){
+	if (App->gui->Get_ActiveSet() != (int)ingame || Maps == NULL || Maps->this_map.GetString() != savegame.child("curr_map").attribute("source").as_string()) {
 		App->map->EraseMap();
 		App->collisions->CleanColliders();
 		App->map->LoadMap(App->scene->Map_list[savegame.child("curr_map").attribute("source").as_int()]->GetString());

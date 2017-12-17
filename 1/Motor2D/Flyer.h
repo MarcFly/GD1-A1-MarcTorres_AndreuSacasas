@@ -9,7 +9,9 @@ class Flyer : public Entity
 {
 public:
 
-	Flyer(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
+	Flyer(const uint& type, const uint& eid) { this->type = type; this->entity_id = eid; }
+
+	Flyer(const uint& eid, Flyer* template_flyer) { CopyFromTE(template_flyer); entity_id = eid; };
 
 	// Called before the first frame
 	bool Start();

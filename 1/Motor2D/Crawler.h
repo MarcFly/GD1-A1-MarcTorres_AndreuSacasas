@@ -9,7 +9,9 @@ class Crawler : public Entity
 {
 public:
 
-	Crawler(const uint& type_, const uint& eid) { type = type_; entity_id = eid; };
+	Crawler(const uint& type, const uint& eid) { this->type = type; this->entity_id = eid; }
+
+	Crawler(const uint& eid, Crawler* template_crawler) { CopyFromTE(template_crawler); entity_id = eid; };
 
 	// Called before the first frame
 	bool Start();
