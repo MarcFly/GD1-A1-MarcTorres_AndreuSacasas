@@ -49,7 +49,7 @@ bool Image::SpecificPostUpdate()
 
 bool Image::Draw()
 {
-	App->render->Blit(point_atlas, position.x, position.x, &image_rect);
+	App->render->Blit(point_atlas, position.x, position.y, &image_rect);
 
 	return true;
 }
