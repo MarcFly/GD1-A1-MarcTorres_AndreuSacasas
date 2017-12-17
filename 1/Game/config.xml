@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- Config file for the game -->
+<config>
+
+  <app>
+  	<fps value="30"/>
+  </app>
+  
+  <input>
+    <num_keys value="352"/>
+    <num_mouse_buttons value="5"/>
+    <last_keys_pressed_buffer value="50"/>
+  </input>
+
+  <window>
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+    <width value="1024"/>
+    <height value="768"/>
+    <scale value="1"/>
+    <name value="Game Dev 1 Config"/>
+  </window>
+
+  <renderer>
+    <camera x="0" y="-180"/>
+  </renderer>
+
+  <textures>
+    
+  </textures>
+
+  <collisions>
+    <settings coll_detect="1000" />
+  </collisions>
+
+  <audio>
+    <master_volume value="0"/>"
+    <music_volume value="1"/>
+    <fx_volume value="0"/>
+    <fade_time value="2"/>
+    <repeat value="0"/>
+  </audio>
+
+  <gui>
+    <atlas file="gui/atlas.png"/>
+    <objects>
+      <obj x="0" y="0" w="1024" h="768" size="1" type="2" posx="0" posy="0" group="4"/>
+      <obj x="1026" y="1" w="118" h="65" size="1" type="11" posx="800" posy="600" group="0" content="START GAME" offx="22" offy="20"/>
+      <obj x="1026" y="1" w="118" h="65" size="1" type="7" posx="800" posy="520" group="0" content="CONTINUE" offx="22" offy="20"/>
+      <obj x="1026" y="1" w="118" h="65" size="1" type="10" posx="650" posy="600" group="0" content="SETTINGS" offx="22" offy="20"/>
+      <obj x="1660" y="0" w="236" h="159" size="1" type="2" posx="370" posy="320" group="1"/>
+      <obj x="1390" y="5" w="61" h="59" size="1" type="12" posx="400" posy="380" group="1" content="+" offx="27" offy="20"/>
+      <obj x="1390" y="5" w="61" h="59" size="1" type="13" posx="510" posy="380" group="1" content="-" offx="28" offy="20"/>
+      <obj x="1026" y="1" w="118" h="65" size="1" type="8" posx="500" posy="600" group="0" content="CREDITS" offx="22" offy="20"/>
+      <obj x="1027" y="70" w="631" h="375" size="1" type="2" posx="200" posy="300" group="2"/>
+      <obj x="1026" y="1" w="118" h="65" size="1" type="9" posx="350" posy="600" group="0" content="EXIT" offx="22" offy="20"/>
+    </objects>
+  </gui>
+        
+  <map>
+	  <folder>Maps/</folder>
+  </map>
+
+  <entities>
+	  <ticks value="60"/>
+    <folder source="textures/"/>
+	  <sprites source="sprites.xml"/>
+  </entities>
+
+  <scene>
+    <map source="Lvl_1.tmx"/>
+    <map source="Lvl_2.tmx"/>
+  </scene>
+</config>
