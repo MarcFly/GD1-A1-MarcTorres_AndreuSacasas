@@ -216,6 +216,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables</Filter>
     </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\Collectibles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -262,6 +265,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons">
       <UniqueIdentifier>{2102a1b9-aaf9-4276-8b26-5adc7769cebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\Collectibles">
+      <UniqueIdentifier>{513f04d9-1e8b-422e-beb9-06b503913197}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

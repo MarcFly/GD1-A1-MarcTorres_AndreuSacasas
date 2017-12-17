@@ -173,12 +173,22 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 	case (int)start_b:
 		return (new Start_b(rect, size));
 	case (int)timer:
-		return (new Timer(rect, size));
+		game_timer = new Timer(rect, size);
+		return game_timer;
 	default:
 		return nullptr;
 	}
 
 	return nullptr;
+}
+
+uint32 j1Gui::GetTime() {
+	return game_timer->timer.Read() - game_timer->timer.GetStartedAt();
+}
+
+void j1Gui::SetTimer(uint32 start_at) {
+	game_timer->timer.Start();
+	game_timer->timer.StartAt(start_at);
 }
 // class Gui ---------------------------------------------------
 

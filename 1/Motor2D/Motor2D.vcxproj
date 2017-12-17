@@ -106,6 +106,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BackToMenu.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Continue.h" />
     <ClInclude Include="Crawler.h" />
     <ClInclude Include="Credits.h" />

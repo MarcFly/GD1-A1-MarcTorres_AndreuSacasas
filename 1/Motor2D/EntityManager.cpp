@@ -6,6 +6,7 @@
 #include "Crawler.h"
 #include "Flyer.h"
 #include "Brofiler\Brofiler.h"
+#include "j1Gui.h"
 
 EntityManager::EntityManager()
 {
@@ -210,6 +211,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 		temp = temp.next_sibling("entity");
 	}
 
+	App->gui->SetTimer(savegame.attribute("time").as_uint());
 
 	return ret;
 }
@@ -225,6 +227,8 @@ bool EntityManager::Save(pugi::xml_node& savegame)
 			ret = item->data->Save(savegame);
 		item = item->next;
 	}
+
+	savegame.append_attribute("time") = App->gui->GetTime();
 
 	return ret;
 }

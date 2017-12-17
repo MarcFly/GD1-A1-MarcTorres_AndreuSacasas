@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "UI_Elements.h"
 
+
 class Label;
 class Image;
 class TextBox;
@@ -95,8 +96,13 @@ public:
 		return active_set;
 	}
 
+	uint32 GetTime();
+	void SetTimer(uint32 start_at);
+
 public:
 	bool not_end = true;
+	Timer* game_timer = nullptr;
+
 
 private:
 
