@@ -16,6 +16,7 @@
 #include "Start_b.h"
 #include "VolumeUp.h"
 #include "VolumeDown.h"
+#include "Timer.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -179,6 +180,8 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 		return (new VolumeUp(rect, size));
 	case (int)volume_down:
 		return (new VolumeDown(rect, size));
+	case (int)timer:
+		return (new Timer(rect, size));
 	default:
 		return nullptr;
 	}
