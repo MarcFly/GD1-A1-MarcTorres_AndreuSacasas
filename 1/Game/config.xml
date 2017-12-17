@@ -37,9 +37,9 @@
   </collisions>
 
   <audio>
-    <master_volume value="0"/>"
+    <master_volume value="1"/>"
     <music_volume value="1"/>
-    <fx_volume value="0"/>
+    <fx_volume value="1"/>
     <fade_time value="2"/>
     <repeat value="0"/>
   </audio>

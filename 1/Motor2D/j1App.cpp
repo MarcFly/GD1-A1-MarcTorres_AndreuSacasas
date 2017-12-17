@@ -198,8 +198,8 @@ void j1App::PrepareUpdate()
 	dt = frame_time.ReadMs() / 1000.0f;
 	frame_time.Start();
   
-	if(dt > 5.0f / (float)fps_cap)
-		dt = 5.0f / (float)fps_cap;
+	if(dt > 2.0f / (float)fps_cap)
+		dt = 2.0f / (float)fps_cap;
   
 	dt *= EXPECTED;
   

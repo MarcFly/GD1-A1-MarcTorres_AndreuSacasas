@@ -37,6 +37,7 @@ bool j1Scene::Awake(const pugi::xml_node& config)
 	}
 
 	click_id = App->audio->LoadFx("audio/fx/click.ogx");
+	
 
 	return ret;
 }
@@ -48,7 +49,8 @@ bool j1Scene::Start()
 	// LOAD MAPS AND MUSIC HERE
 	/*if (ret == true) ret = App->map->LoadMap(Map_list.start->data->GetString());
 	curr_map = 0;*/
-	if (ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
+
+	App->audio->PlayMusic("audio/music/menu_music.ogg");
 
 	return ret;
 }
@@ -137,6 +139,7 @@ bool j1Scene::PostUpdate(float dt)
 				App->entities->CleanEntities();
 				App->pathfinding->ResetNav();
 				App->collisions->CleanColliders();
+				App->audio->SetMenuMusic();
 			}
 			App->gui->Set_ActiveSet((int)menu);
 			App->render->camera.x = 0;

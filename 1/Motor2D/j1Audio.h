@@ -75,6 +75,9 @@ public:
 
 	}
 	void SetMaster(int volume) { master_volume = volume; }
+
+	void SetMenuMusic() { PlayMusic("audio/music/menu_music.ogg"); }
+	void SetPlayMusic() { PlayMusic("audio/music/music_sadpiano.ogg"); }
 };
 
 #endif // __j1AUDIO_H__

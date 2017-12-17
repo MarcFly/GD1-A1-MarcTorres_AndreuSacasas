@@ -3,6 +3,7 @@
 
 #include "Button.h"
 #include "j1Gui.h"
+#include "j1Audio.h"
 
 class Continue : public Button
 {
@@ -13,6 +14,7 @@ public:
 	{
 		App->Trigger_Load();
 		App->gui->Set_ActiveSet((int)ingame);
+		App->audio->SetPlayMusic();
 	}
 };
 

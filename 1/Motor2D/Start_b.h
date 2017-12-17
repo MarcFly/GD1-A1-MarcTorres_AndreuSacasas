@@ -5,6 +5,7 @@
 #include "j1Scene.h"
 #include "j1Gui.h"
 #include "Timer.h"
+#include "j1Audio.h"
 
 class Start_b : public Button
 {
@@ -17,6 +18,7 @@ public:
 		App->scene->LoadMap(App->scene->curr_map);
 		App->gui->Set_ActiveSet((int)ingame);
 		App->gui->game_timer->timer.Start();
+		App->audio->SetPlayMusic();
 	}
 
 };
