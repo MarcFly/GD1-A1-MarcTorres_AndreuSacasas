@@ -238,8 +238,9 @@ bool j1Collision::CleanColliders(){
 	while (item != NULL)
 	{
 		if(item->data != nullptr)
-			delete item->data;
-		item->data = nullptr;
+			/*delete item->data;
+		item->data = nullptr;*/
+			item->data->to_delete == true;
 		item = item->next;
 	}
 
