@@ -24,6 +24,8 @@ public:
 bool Image::Awake(const pugi::xml_node& config)
 {
 	group = (ui_set)config.attribute("group").as_int();
+	position.x = config.attribute("posx").as_int();
+	position.y = config.attribute("posy").as_int();
 
 	return true;
 }
@@ -49,7 +51,7 @@ bool Image::SpecificPostUpdate()
 
 bool Image::Draw()
 {
-	App->render->Blit(point_atlas, position.x, position.x, &image_rect);
+	App->render->Blit(point_atlas, position.x, position.y, &image_rect);
 
 	return true;
 }

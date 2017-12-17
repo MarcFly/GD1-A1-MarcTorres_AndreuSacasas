@@ -35,6 +35,8 @@ bool j1Scene::Awake(const pugi::xml_node& config)
 		node = node.next_sibling("map");
 	}
 
+	click_id = App->audio->LoadFx("audio/fx/click.ogx");
+
 	return ret;
 }
 
@@ -124,8 +126,20 @@ bool j1Scene::PostUpdate(float dt)
 	bool ret = true;
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
+		if ((ui_set)App->gui->Get_ActiveSet() != ui_set::menu)
+		{
+			if ((ui_set)App->gui->Get_ActiveSet() == ui_set::ingame)
+			{
+				App->map->EraseMap();
+				App->entities->CleanEntities();
+				App->pathfinding->ResetNav();
+				App->collisions->CleanColliders();
+			}
+			App->gui->Set_ActiveSet((int)menu);
+			App->render->camera.x = 0;
+			App->render->camera.y = -180;
+		}
+	
 	return ret;
 }
 

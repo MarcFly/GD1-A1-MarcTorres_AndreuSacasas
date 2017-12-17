@@ -49,6 +49,7 @@ private:
 public:
 	bool god_mode = false;
 	bool change_map = false;
+	unsigned int click_id;
 	
 };
 

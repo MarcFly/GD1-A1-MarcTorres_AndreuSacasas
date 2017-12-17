@@ -14,6 +14,8 @@
 #include "Exit.h"
 #include "Settings.h"
 #include "Start_b.h"
+#include "VolumeUp.h"
+#include "VolumeDown.h"
 #include "Timer.h"
 
 j1Gui::j1Gui() : j1Module()
@@ -87,7 +89,8 @@ bool j1Gui::PreUpdate(float dt)
 	p2List_item<UI_Element*>* item = objects.start;
 
 	for (int i = 0; i < objects.count(); i++){
-		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all))
+		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all) ||
+			((int)item->data->group == ui_set::inmenus && active_set != ui_set::ingame))
 			ret = item->data->PreUpdate();
 		item = item->next;
 	}
@@ -103,7 +106,8 @@ bool j1Gui::PostUpdate(float dt)
 	p2List_item<UI_Element*>* item = objects.start;
 
 	for (int i = 0; i < objects.count(); i++) {
-		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all))
+		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all) ||
+			((int)item->data->group == ui_set::inmenus && active_set != ui_set::ingame))
 			ret = item->data->PostUpdate();
 		item = item->next;
 	}
@@ -172,6 +176,10 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 		return (new Settings(rect, size));
 	case (int)start_b:
 		return (new Start_b(rect, size));
+	case (int)volume_up:
+		return (new VolumeUp(rect, size));
+	case (int)volume_down:
+		return (new VolumeDown(rect, size));
 	case (int)timer:
 		return (new Timer(rect, size));
 	default:

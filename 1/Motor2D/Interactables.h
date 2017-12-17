@@ -12,78 +12,23 @@ enum mouse_state {
 	mouse_max
 };
 
-class Interactable : public UI_Element {
+class Interactable : public UI_Element
+{
 public:
 
 	virtual bool SpecificPreUpdate() {return true;}
 
-	bool PreUpdate()
-	{
-		bool ret = true;
-
-		state = CheckHover();
-
-		is_click = CheckClick();
-
-		ret = SpecificPreUpdate();
-
-		return ret;
-	}
+	bool PreUpdate();
 
 	virtual bool SpecificPostUpdate() { return true; }
 
-	bool PostUpdate()
-	{
-		bool ret = true;
-
-		if (is_click && state == Stay)
-			OnClick();
-
-		if (!is_click && (state == Enter || state == Stay))
-			OnHover();
-
-		ret = SpecificPostUpdate();
-
-		return ret;
-	}
+	bool PostUpdate();
 
 public:
-	mouse_state CheckHover()
-	{		
-		SDL_Rect result;
-		SDL_Rect mouse = { 0,0,2,2 };
-		App->input->GetMousePosition(mouse.x, mouse.y);
 
-		mouse.x -= App->render->camera.x;
-		mouse.y -= App->render->camera.y;
+	mouse_state CheckHover();
 
-		SDL_IntersectRect( &mouse, &coll_rect, &result);
-
-		if ((result.w > 0 && result.h > 0) && (state == Leave || state == Out))
-			return Enter;
-
-		if ((result.w > 0 && result.h > 0) && (state == Enter || state == Stay))
-			return Stay;
-		
-		if ((result.w < 0 || result.h < 0) && (state == Enter || state == Stay))
-			return Leave;
-		
-		return Out;
-	};
-
-	bool CheckClick()
-	{
-		bool ret = false;
-		ret = (App->input->GetMouseButtonDown(1) == KEY_DOWN);
-		if (ret == true) {
-			if(state == Stay)
-				OnClick();
-
-			return ret;
-		}
-
-		return ret;
-	}
+	bool CheckClick();
 
 public:
 	virtual void OnClick() {};

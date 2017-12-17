@@ -70,6 +70,9 @@
     <ClCompile Include="j1Gui.cpp">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Interactables.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -212,7 +215,13 @@
     </ClInclude>
     <ClInclude Include="Start_b.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>    
+    <ClInclude Include="VolumeUp.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
+    <ClInclude Include="VolumeDown.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>  
     <ClInclude Include="Timer.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables</Filter>
     </ClInclude>
