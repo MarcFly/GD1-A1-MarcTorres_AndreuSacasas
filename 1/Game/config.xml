@@ -39,7 +39,7 @@
   <audio>
     <master_volume value="0"/>"
     <music_volume value="1"/>
-    <fx_volume value="1"/>
+    <fx_volume value="0"/>
     <fade_time value="2"/>
     <repeat value="0"/>
   </audio>

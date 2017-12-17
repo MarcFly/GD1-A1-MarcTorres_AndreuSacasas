@@ -35,6 +35,8 @@ bool j1Scene::Awake(const pugi::xml_node& config)
 		node = node.next_sibling("map");
 	}
 
+	click_id = App->audio->LoadFx("audio/fx/click.ogx");
+
 	return ret;
 }
 

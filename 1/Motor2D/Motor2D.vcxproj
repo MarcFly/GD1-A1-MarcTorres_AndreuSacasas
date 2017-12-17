@@ -82,6 +82,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Flyer.cpp" />
+    <ClCompile Include="Interactables.cpp" />
     <ClCompile Include="j1Collisions.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
