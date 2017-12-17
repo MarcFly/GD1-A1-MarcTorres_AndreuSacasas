@@ -43,7 +43,7 @@
     <acceleration x="0" y="0"/>
     <jump_force value="0"/>
     <collision_box offset_x="" offset_y="" h="30" w="30"/>
-    <render_scale value="2.0"/>
+    <render_scale value="0.5"/>
     <state value="0"/>
     <speed x="0" y="0"/>
     <flip value="false"/>
@@ -86,12 +86,6 @@
       <rect x="480" y="486"/>
       <rect x="560" y="486"/>
       <!-- Last Frame is while still going down-->
-    </animation>
-  </animations>
-  
-  <animations type="4" source="Snake.png" w="22" h="21">
-    <animation name="idle" offset_x="18" offset_y="12" speed="0.6" loop="true">
-      <rect x="0" y="0"/>
     </animation>
   </animations>
 
@@ -159,6 +153,26 @@
     <animation name="fall" offset_x="0" offset_y="0" speed="0.2" loop="false">
       <rect x="0" y="0"/>
     </animation>
+    
+  </animations>
+    <animations type="4" source="coins.png" w="96" h="96">
+      <animation name="idle" offset_x="32" offset_y="36" speed="0.1" loop="true">
+        <rect x="5" y="52"/>
+        <rect x="127" y="52"/>
+        <rect x="244" y="52"/>
+        <rect x="364" y="52"/>
+        <rect x="483" y="52"/>
+        <rect x="604" y="52"/>
+      </animation>
+      <animation name="move" offset_x="0" offset_y="0" speed="0.2" loop="true">
+        <rect x="0" y="0"/>
+      </animation>
+      <animation name="jump" offset_x="0" offset_y ="0" speed="0.2" loop="false" >
+        <rect x="0" y="0"/>
+      </animation >
+      <animation name="fall" offset_x="0" offset_y="0" speed="0.2" loop="false">
+        <rect x="0" y="0"/>
+      </animation>
   </animations>
   
 <!--///////////////////////////////////////////////////////////////////-->
