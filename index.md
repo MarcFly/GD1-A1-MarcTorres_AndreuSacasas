@@ -7,7 +7,7 @@ It was made with the objective of fullfill 3 basic requisites from the subject:
 **2 -** Having enemies in game that use pathfinding to reach the player or to interact with the map.  
 **3 -** Having a user interface functional, with buttons, main menu and everithing necessary to make the game look good.  
 
-![enter image description here](FOTO DE GRUP)
+![](https://i.imgur.com/WghaYK1.jpg)
 
 As for the work of each member:
 
