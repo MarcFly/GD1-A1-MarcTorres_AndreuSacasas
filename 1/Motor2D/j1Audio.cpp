@@ -54,7 +54,7 @@ bool j1Audio::Awake(const pugi::xml_node& config)
 
 	//Set Volume?
 	master_volume = config.child("master_volume").attribute("value").as_int();
-
+	fx_volume = config.child("fx_volume").attribute("value").as_int();
 
 	return ret;
 }

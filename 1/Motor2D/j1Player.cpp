@@ -162,6 +162,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 
 void j1Player::Movement(float dt) {
 
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		MoveLeft(dt);
 	}
@@ -175,17 +176,28 @@ void j1Player::Movement(float dt) {
 	}
 
 
+	if (!App->scene->god_mode)
+	{
+		if ((App->input->GetKey(SDL_SCANCODE_SPACE) == (KEY_REPEAT || KEY_DOWN) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && can_jump == true) {
+			DoJump(dt);
+		}
 
-	if ((App->input->GetKey(SDL_SCANCODE_SPACE) == (KEY_REPEAT || KEY_DOWN) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && can_jump == true) {
-		DoJump(dt);
+		else if (is_jumping == true)
+		{
+			can_jump = false;
+			is_jumping = false;
+		}
 	}
 
-	else if (is_jumping == true)
+	else
 	{
-		can_jump = false;
-		is_jumping = false;
-
-		
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			MoveDown(dt);
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			MoveUp(dt);
+		}
 	}
 
 }
@@ -200,6 +212,27 @@ void j1Player::MoveLeft(float dt){
 
 	if (state == move_state::move)
 		can_jump = true;
+}
+
+void j1Player::MoveUp(float dt)
+{
+	
+	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.y)
+		stats.speed.y += stats.accel.y * dt;
+	else if (stats.speed.x >= 0)
+		stats.speed.y += stats.accel.y * 2 * dt;
+	else
+		stats.speed.y = stats.max_speed.x;
+}
+
+void j1Player::MoveDown(float dt)
+{
+	if (abs(stats.speed.x) + stats.accel.x * dt <= stats.max_speed.y && stats.speed.y < 0)
+		stats.speed.y -= stats.accel.y * dt;
+	else if (stats.speed.x >= 0)
+		stats.speed.y -= stats.accel.y * 2 * dt;
+	else
+		stats.speed.y = -stats.max_speed.x;
 }
 
 void j1Player::MoveRight(float dt) {

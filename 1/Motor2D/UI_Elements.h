@@ -15,7 +15,8 @@ enum ui_set
 	settings,
 	credits,
 	ingame,
-	all, //for exit button that will be everywhere
+	inmenus,
+	all,
 	ui_set_max
 };
 

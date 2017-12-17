@@ -39,6 +39,8 @@ enum element_type {
 	exit_b,
 	settings_b,
 	start_b,
+	volume_up,
+	volume_down,
 
 	timer,
 	counter,

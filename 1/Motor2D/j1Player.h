@@ -34,6 +34,8 @@ public:
 
 	void MoveRight(float dt);
 	void MoveLeft(float dt);
+	void MoveUp(float dt);
+	void MoveDown(float dt);
 	void DoJump(float dt);
 	void NoMove(float dt);
 
