@@ -4608,8 +4608,8 @@
   <object id="13" type="1" x="2975" y="549"/>
   <object id="14" type="1" x="3076" y="791"/>
   <object id="15" type="3" x="4332" y="200"/>
-  <object id="72" type="4" x="1280" y="512"/>
-  <object id="73" type="4" x="2240" y="512"/>
-  <object id="74" type="4" x="4928" y="576"/>
+  <object id="72" type="4" x="1265" y="492"/>
+  <object id="73" type="4" x="2223" y="491"/>
+  <object id="74" type="4" x="4898" y="534"/>
  </objectgroup>
 </map>

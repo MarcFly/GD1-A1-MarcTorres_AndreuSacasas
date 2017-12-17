@@ -6888,9 +6888,6 @@
   <object id="101" type="3" x="5221.21" y="157.576"/>
   <object id="102" type="1" x="5478.79" y="378.788"/>
   <object id="103" type="1" x="4075.76" y="763.636"/>
-  <object id="104" type="4" x="896" y="576"/>
-  <object id="135" type="4" x="4832" y="766.667"/>
-  <object id="136" type="4" x="2396" y="800"/>
-  <object id="137" type="4" x="1440" y="673.333"/>
+  <object id="104" type="4" x="878" y="565"/>
  </objectgroup>
 </map>
