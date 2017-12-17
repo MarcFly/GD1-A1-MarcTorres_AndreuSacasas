@@ -48,10 +48,11 @@
     <atlas file="gui/atlas.png"/>
     <objects>
       <obj x="0" y="0" w="1024" h="768" size="1" type="2" posx="0" posy="0" group="0"/>
-      <obj x="1056" y="1" w="118" h="65" size="1" type="11" posx="350" posy="600" group="0" content="START GAME" offx="22" offy="20"/>
-      <obj x="1056" y="1" w="118" h="65" size="1" type="10" posx="500" posy="600" group="0" content="OPTIONS" offx="22" offy="20"/>
-      <obj x="1056" y="1" w="118" h="65" size="1" type="8" posx="650" posy="600" group="0" content="CREDITS" offx="22" offy="20"/>
-      <obj x="1056" y="1" w="118" h="65" size="1" type="9" posx="800" posy="600" group="0" content="EXIT" offx="22" offy="20"/>
+      <obj x="1056" y="1" w="118" h="65" size="1" type="11" posx="800" posy="600" group="0" content="START GAME" offx="22" offy="20"/>
+      <obj x="1056" y="1" w="118" h="65" size="1" type="7" posx="800" posy="520" group="0" content="CONTINUE" offx="22" offy="20"/>
+      <obj x="1056" y="1" w="118" h="65" size="1" type="10" posx="650" posy="600" group="0" content="SETTINGS" offx="22" offy="20"/>
+      <obj x="1056" y="1" w="118" h="65" size="1" type="8" posx="500" posy="600" group="0" content="CREDITS" offx="22" offy="20"/>
+      <obj x="1056" y="1" w="118" h="65" size="1" type="9" posx="350" posy="600" group="0" content="EXIT" offx="22" offy="20"/>
     </objects>
   </gui>
         
