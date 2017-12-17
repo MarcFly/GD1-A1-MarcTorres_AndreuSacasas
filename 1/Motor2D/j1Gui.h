@@ -36,7 +36,7 @@ enum element_type {
 	settings_b,
 	start_b,
 
-	element_max
+	element_max = INT_MAX
 
 };
 
