@@ -20,6 +20,7 @@ class Settings;
 class Start_b;
 
 class Timer;
+class Counter;
 
 #define CURSOR_WIDTH 2
 
@@ -40,6 +41,7 @@ enum element_type {
 	start_b,
 
 	timer,
+	counter,
 
 	element_max = INT_MAX
 
@@ -98,6 +100,8 @@ public:
 
 	uint32 GetTime();
 	void SetTimer(uint32 start_at);
+
+	void LinkCounter(int* count);
 
 public:
 	bool not_end = true;

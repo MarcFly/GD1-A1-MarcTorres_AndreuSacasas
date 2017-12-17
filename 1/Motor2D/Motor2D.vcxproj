@@ -109,6 +109,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Continue.h" />
+    <ClInclude Include="Counter.h" />
     <ClInclude Include="Crawler.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Entity.h" />

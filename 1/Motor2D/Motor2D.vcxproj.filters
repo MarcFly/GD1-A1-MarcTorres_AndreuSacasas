@@ -222,6 +222,9 @@
     <ClInclude Include="Coin.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Collectibles</Filter>
     </ClInclude>
+    <ClInclude Include="Counter.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">

@@ -42,7 +42,7 @@ public:
 	iPoint position = { 0,0 };
 
 	ui_set group;
-
+	int type;
 	SDL_Texture* point_atlas;
 };
 

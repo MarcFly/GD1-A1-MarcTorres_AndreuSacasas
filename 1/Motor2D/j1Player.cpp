@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "j1Scene.h"
 #include "EntityManager.h"
+#include "j1Gui.h"
 
 void j1Player::CopySpecifics(Entity* template_ent) {
 
@@ -38,6 +39,9 @@ bool j1Player::Start()
 
 	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
 	delete coll_rect;
+
+	App->gui->LinkCounter(&score);
+	App->gui->LinkCounter(&coins);
 
 	return ret;
 }

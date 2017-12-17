@@ -15,6 +15,7 @@
 #include "Settings.h"
 #include "Start_b.h"
 #include "Timer.h"
+#include "Counter.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -47,6 +48,8 @@ bool j1Gui::Awake(const pugi::xml_node& config)
 			img_rect,
 			object_node.attribute("size").as_float(),
 			object_node.attribute("type").as_int()));
+
+		objects.end->data->type = object_node.attribute("type").as_int();
 
 		objects.end->data->Awake(object_node);
 
@@ -175,6 +178,8 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 	case (int)timer:
 		game_timer = new Timer(rect, size);
 		return game_timer;
+	case (int)counter:
+		return (new Counter(rect, size));
 	default:
 		return nullptr;
 	}
@@ -189,6 +194,24 @@ uint32 j1Gui::GetTime() {
 void j1Gui::SetTimer(uint32 start_at) {
 	game_timer->timer.Start();
 	game_timer->timer.StartAt(start_at);
+}
+
+void j1Gui::LinkCounter(int* count)
+{
+	p2List_item<UI_Element*>* item = objects.start;
+	Counter* temp = (Counter*)item->data;
+
+	while (item != NULL)
+	{
+		if (item->data->type == (int)counter && temp->counter == nullptr) {
+			temp->counter = count;
+			break;
+		}
+
+		item = item->next;
+		temp = (Counter*)item->data;
+	}
+
 }
 // class Gui ---------------------------------------------------
 
