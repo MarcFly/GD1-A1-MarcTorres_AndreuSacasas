@@ -468,7 +468,7 @@ bool j1Map::Load(const pugi::xml_node& savegame)
 {
 	bool ret = true;
 
-	if (Maps->this_map.GetString() != savegame.child("curr_map").attribute("source").as_string()){
+	if (App->gui->Get_ActiveSet() != (int)ingame || Maps == NULL || Maps->this_map.GetString() != savegame.child("curr_map").attribute("source").as_string()) {
 		App->map->EraseMap();
 		App->collisions->CleanColliders();
 		App->map->LoadMap(App->scene->Map_list[savegame.child("curr_map").attribute("source").as_int()]->GetString());
