@@ -40,9 +40,6 @@ bool j1Player::Start()
 	collision_box = App->collisions->AddCollider(*coll_rect, (COLLIDER_TYPE)(type + COLLIDER_PLAYER), App->entities);
 	delete coll_rect;
 
-	App->gui->LinkCounter(&score);
-	App->gui->LinkCounter(&coins);
-
 	return ret;
 }
 
@@ -51,6 +48,9 @@ bool j1Player::UpdateTick(float dt)
 	bool ret = true;
 
 	App->test_ticks++;
+
+	App->gui->LinkCounter(&score);
+	App->gui->LinkCounter(&coins);
 
 	return ret;
 }

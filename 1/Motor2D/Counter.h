@@ -40,6 +40,8 @@ bool Counter::SpecificPostUpdate()
 
 	ret = Draw();
 
+	counter = nullptr;
+
 	return ret;
 }
 
