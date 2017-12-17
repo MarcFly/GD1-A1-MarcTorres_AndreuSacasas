@@ -28,12 +28,12 @@ enum element_type {
 	hyperlink,
 	slider,
 
-	backtomenu,
-	continue_b,
-	credits,
-	exit,
-	settings,
-	start,
+	//backtomenu,
+	//continue_b,
+	//credits,
+	//exit,
+	//settings,
+	//start,
 
 	element_max
 
