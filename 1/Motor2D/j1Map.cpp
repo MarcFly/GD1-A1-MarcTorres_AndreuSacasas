@@ -372,7 +372,7 @@ bool j1Map::LoadObjectLayer(const pugi::xml_node & group_node, object_group & it
 
 		item_group.objects.add(item_object);
 
-		object_node = object_node.next_sibling("object");
+		object_node = object_node.next_sibling();
 	}
 
 	return ret;

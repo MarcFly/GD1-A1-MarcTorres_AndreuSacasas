@@ -63,7 +63,8 @@
   </entities>
 
   <scene>
-    <map source="Lvl_1.tmx"/>
     <map source="Lvl_2.tmx"/>
+    <map source="Lvl_1.tmx"/>
+
   </scene>
 </config>
