@@ -128,6 +128,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 				App->entities->DestroyEntity(App->entities->FindEntities(App->entities->FindByColl(c2)->type, App->entities->FindByColl(c2)->entity_id));
 				c2->active = false;
 				stats.speed *= { 1.1f, -1.2f };
+				AddScore(100);
 			}
 		}
 		else if(HIT_TIMER.ReadSec() >= 1){
@@ -144,6 +145,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 			App->entities->DestroyEntity(App->entities->FindEntities(App->entities->FindByColl(c2)->type, App->entities->FindByColl(c2)->entity_id));
 			c2->active = false;
 			stats.speed *= { 1.1f, -1.2f };
+			AddScore(200);
 		}
 		else if (HIT_TIMER.ReadSec() >= 1) {
 			if (stats.hp > 0 && App->scene->god_mode == false)

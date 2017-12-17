@@ -53,7 +53,12 @@ bool Timer::Start()
 bool Timer::SpecificPreUpdate()
 {
 	content.content.Clear();
-	content.content.create("%i", max_time - (int)timer.ReadSec() / 1);
+
+	if ((max_time - (int)timer.ReadSec() / 1) > 0)
+		content.content.create("%i", max_time - (int)timer.ReadSec() / 1);
+	else
+		content.content.create("%i", 0);
+
 
 	position.x = -App->render->camera.x + image_rect.x;
 	position.y = -App->render->camera.y + image_rect.y;
@@ -65,13 +70,8 @@ bool Timer::SpecificPostUpdate()
 {
 	Draw();
 
-	if (max_time - (int)timer.ReadSec() / 1 <= 0 && App->entities->GetPlayer() != nullptr) {
-		App->entities->GetPlayer()->stats.hp = 0;
-		timer.Start();
-	}
-
 	if (App->entities->GetPlayer() != nullptr) {
-		if (App->entities->GetPlayer() <= 0)
+		if (App->entities->GetPlayer()->stats.hp <= 0)
 			timer.Start();
 	}
 

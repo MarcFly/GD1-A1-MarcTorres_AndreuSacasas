@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "EntityManager.h"
 #include "j1Pathfinding.h"
+#include "j1Player.h"
 
 bool Flyer::Start()
 {
@@ -72,6 +73,8 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 				App->entities->FindByColl(c2)->stats.speed *= { 1.1f, -1.2f };
 				collision_box->active = false;
 				App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
+				j1Player* temp = (j1Player*)App->entities->GetPlayer();
+				temp->AddScore(200);
 			}
 			else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5 && !App->scene->god_mode) {
 				if (App->entities->FindByColl(c2)->stats.hp > 0)

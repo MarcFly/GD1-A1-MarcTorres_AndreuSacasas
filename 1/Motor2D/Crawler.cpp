@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "j1Scene.h"
 #include "EntityManager.h"
+#include "j1Player.h"
 
 bool Crawler::Start()
 {
@@ -67,12 +68,16 @@ void Crawler::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 	}
 	else if (c2->type == COLLIDER_PLAYER)
 	{
-		if (c2->rect.y + c2->rect.h < c1->rect.y + 3) {
+		if (c2->rect.y + c2->rect.h < c1->rect.y + 3)
+		{
 			App->entities->FindByColl(c2)->stats.speed *= { 1.1f, -1.2f };
 			collision_box->active = false;
 			App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
+			j1Player* temp = (j1Player*)App->entities->GetPlayer();
+			temp->AddScore(100);
 		}
-		else if(App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5 && !App->scene->god_mode) {
+		else if(App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5 && !App->scene->god_mode)
+		{
 			if (App->entities->FindByColl(c2)->stats.hp > 0)
 				App->entities->FindByColl(c2)->stats.hp -= 1;
 			App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};

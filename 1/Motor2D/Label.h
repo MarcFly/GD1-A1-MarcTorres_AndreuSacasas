@@ -41,20 +41,20 @@ bool Label::Awake(const pugi::xml_node& config)
 
 bool Label::Start()
 {
-	position.x -= App->render->camera.x;
-	position.y -= App->render->camera.y;
+	position = { -App->render->camera.x + image_rect.x, -App->render->camera.y + image_rect.y };
 
 	return true;
 }
 
 bool Label::SpecificPreUpdate()
 {
-
+	
 	return true;
 }
 
 bool Label::SpecificPostUpdate()
 {
+	position = { -App->render->camera.x + image_rect.x, -App->render->camera.y + image_rect.y };
 	Draw(position);
 	return true;
 }

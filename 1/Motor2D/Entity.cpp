@@ -3,6 +3,7 @@
 #include "j1Map.h"
 #include "j1Collisions.h"
 #include "EntityManager.h"
+#include "j1Player.h"
 
 bool Entity::Start() {
 	
@@ -248,7 +249,12 @@ bool Entity::Save(pugi::xml_node& savegame)
 	temp_node.append_child("render_scale").append_attribute("value") = render_scale;
 
 	if (type == 0)
+	{
+		j1Player* temp = (j1Player*)App->entities->GetPlayer();
 		temp_node.append_child("life").append_attribute("value") = App->entities->GetPlayer()->stats.hp;
+		temp_node.append_child("score").append_attribute("value") = temp->score;
+		temp_node.append_child("coins").append_attribute("value") = temp->coins;
+	}
 
 	return ret;
 }
