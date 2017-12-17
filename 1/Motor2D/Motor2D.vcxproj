@@ -114,7 +114,7 @@
     <ClInclude Include="Exit.h" />
     <ClInclude Include="Flyer.h" />
     <ClInclude Include="Settings.h" />
-    <ClInclude Include="Start.h" />
+    <ClInclude Include="Start_b.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="HyperLink.h" />
     <ClInclude Include="Image.h" />

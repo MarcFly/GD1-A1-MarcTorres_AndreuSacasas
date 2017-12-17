@@ -10,12 +10,13 @@ class TextBox;
 class Button;
 class HyperLink;
 class Slider;
-class Continue;
-class Start;
+
 class BackToMenu;
+class Continue;
 class Credits;
 class Exit;
 class Settings;
+class Start_b;
 
 #define CURSOR_WIDTH 2
 
@@ -28,12 +29,12 @@ enum element_type {
 	hyperlink,
 	slider,
 
-	backtomenu,
+	backtomenu_b,
 	continue_b,
-	credits,
-	exit,
-	settings,
-	start,
+	credits_b,
+	exit_b,
+	settings_b,
+	start_b,
 
 	element_max
 
@@ -50,16 +51,16 @@ public:
 	virtual ~j1Gui();
 
 	// Called when before render is available
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 
 	// Call before first frame
 	bool Start();
 
 	// Called before all Updates
-	bool PreUpdate();
+	bool PreUpdate(float dt);
 
 	// Called after all Updates
-	bool PostUpdate();
+	bool PostUpdate(float dt);
 
 	// Called before quitting
 	bool CleanUp();
@@ -98,7 +99,7 @@ private:
 	SDL_Texture* atlas;
 	p2SString atlas_file_name;
 
-	int active_set;
+	int active_set = 0;
 	p2List<UI_Element*> objects;
 };
 

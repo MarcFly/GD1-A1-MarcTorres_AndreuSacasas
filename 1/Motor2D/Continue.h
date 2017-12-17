@@ -6,6 +6,9 @@
 
 class Continue : public Button
 {
+public:
+	Continue(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
+
 	void OnClick()
 	{
 		App->Trigger_Load();

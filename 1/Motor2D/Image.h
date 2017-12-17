@@ -10,7 +10,7 @@ public:
 
 	Image(SDL_Rect& rect, float size) { image_rect = rect; scale = size; }
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool Start();
 	bool SpecificPreUpdate();
 	bool SpecificPostUpdate();
@@ -21,7 +21,7 @@ public:
 	SDL_Texture* external_img = nullptr;
 };
 
-bool Image::Awake(pugi::xml_node& config)
+bool Image::Awake(const pugi::xml_node& config)
 {
 	group = (ui_set)config.attribute("group").as_int();
 
@@ -30,6 +30,9 @@ bool Image::Awake(pugi::xml_node& config)
 
 bool Image::Start()
 {
+	position.x -= App->render->camera.x;
+	position.y -= App->render->camera.y;
+
 	return true;
 }
 

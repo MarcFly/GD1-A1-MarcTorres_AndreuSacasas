@@ -15,7 +15,7 @@ public:
 	~Label() { content.Clear(); font = nullptr; }
 
 public:
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool Start();
 	bool SpecificPreUpdate();
 	bool SpecificPostUpdate();
@@ -28,7 +28,7 @@ public:
 	SDL_Texture* blit = nullptr;
 };
 
-bool Label::Awake(pugi::xml_node& config)
+bool Label::Awake(const pugi::xml_node& config)
 {
 	content.create(config.attribute("content").as_string());
 	font = App->font->default;
@@ -41,6 +41,9 @@ bool Label::Awake(pugi::xml_node& config)
 
 bool Label::Start()
 {
+	position.x -= App->render->camera.x;
+	position.y -= App->render->camera.y;
+
 	return true;
 }
 

@@ -54,6 +54,9 @@ public:
 		SDL_Rect mouse = { 0,0,2,2 };
 		App->input->GetMousePosition(mouse.x, mouse.y);
 
+		mouse.x -= App->render->camera.x;
+		mouse.y -= App->render->camera.y;
+
 		SDL_IntersectRect( &mouse, &coll_rect, &result);
 
 		if ((result.w > 0 && result.h > 0) && (state == Leave || state == Out))
@@ -71,8 +74,8 @@ public:
 	bool CheckClick()
 	{
 		bool ret = false;
-
-		if (App->input->GetMouseButtonDown(1) == KEY_DOWN) {
+		ret = (App->input->GetMouseButtonDown(1) == KEY_DOWN);
+		if (ret == true) {
 			if(state == Stay)
 				OnClick();
 

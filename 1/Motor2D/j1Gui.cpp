@@ -7,6 +7,14 @@
 #include "Button.h"
 #include "HyperLink.h"
 #include "TextBox.h"
+#include "Slider.h"
+#include "BackToMenu.h"
+#include "Continue.h"
+#include "Credits.h"
+#include "Exit.h"
+#include "Settings.h"
+#include "Start_b.h"
+
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -18,7 +26,7 @@ j1Gui::~j1Gui()
 {}
 
 // Called before render is available
-bool j1Gui::Awake(pugi::xml_node& config)
+bool j1Gui::Awake(const pugi::xml_node& config)
 {
 	LOG("Loading GUI atlas");
 	bool ret = true;
@@ -72,7 +80,7 @@ bool j1Gui::Start()
 }
 
 // Update all guis
-bool j1Gui::PreUpdate()
+bool j1Gui::PreUpdate(float dt)
 {
 	bool ret = true;
 
@@ -88,7 +96,7 @@ bool j1Gui::PreUpdate()
 }
 
 // Called after all Updates
-bool j1Gui::PostUpdate()
+bool j1Gui::PostUpdate(float dt)
 {
 	bool ret = true;
 
@@ -150,6 +158,20 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 		return (new TextBox(rect, size));
 	case (int)hyperlink:
 		return (new HyperLink(rect, size));
+	case (int)slider:
+		return (new Slider(rect, size));
+	case (int)backtomenu_b:
+		return (new BackToMenu(rect, size));
+	case (int)continue_b:
+		return (new Continue(rect, size));
+	case (int)credits_b:
+		return (new Credits(rect, size));
+	case (int)exit_b:
+		return (new Exit(rect, size));
+	case (int)settings_b:
+		return (new Settings(rect, size));
+	case (int)start_b:
+		return (new Start_b(rect, size));
 	default:
 		return nullptr;
 	}

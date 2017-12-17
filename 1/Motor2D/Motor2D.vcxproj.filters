@@ -198,9 +198,6 @@
     <ClInclude Include="Continue.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
-    <ClInclude Include="Start.h">
-      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
-    </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
@@ -211,6 +208,9 @@
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
     <ClInclude Include="BackToMenu.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Start_b.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
   </ItemGroup>

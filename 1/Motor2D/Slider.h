@@ -3,15 +3,13 @@
 
 #include "Interactables.h"
 
-
-
 class Slider : public Interactable {
 public:
 	Slider() {}
 
 	Slider(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool Start();
 	bool SpecificPreUpdate();
 	bool SpecificPostUpdate();
@@ -22,7 +20,7 @@ public:
 	int range[2];
 };
 
-bool Slider::Awake(pugi::xml_node& config)
+bool Slider::Awake(const pugi::xml_node& config)
 {
 
 	position = { config.attribute("posx").as_int(), config.attribute("posy").as_int() };
@@ -36,6 +34,9 @@ bool Slider::Awake(pugi::xml_node& config)
 
 bool Slider::Start()
 {
+	position.x -= App->render->camera.x;
+	position.y -= App->render->camera.y;
+
 	return true;
 }
 

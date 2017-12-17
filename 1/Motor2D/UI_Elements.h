@@ -23,7 +23,7 @@ class SDL_Rect;
 
 class UI_Element {
 public:
-	virtual bool Awake(pugi::xml_node& config) { group = (ui_set)config.attribute("group").as_int(); return true; }
+	virtual bool Awake(const pugi::xml_node& config) { group = (ui_set)config.attribute("group").as_int(); return true; }
 	virtual bool Start() { return true; }
 
 	virtual bool PreUpdate() { SpecificPreUpdate(); return true; }

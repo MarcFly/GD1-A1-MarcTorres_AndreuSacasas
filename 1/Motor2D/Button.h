@@ -14,7 +14,7 @@ public:
 
 	Button(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool Start();
 	bool SpecificPreUpdate();
 	bool SpecificPostUpdate();
@@ -26,13 +26,15 @@ public:
 	iPoint text_offset;
 };
 
-bool Button::Awake(pugi::xml_node& config)
+bool Button::Awake(const pugi::xml_node& config)
 {
-	text.content.create(config.attribute("label").as_string());
+	text.content.create(config.attribute("content").as_string());
 	text.font = App->font->default;
 
 	position = { config.attribute("posx").as_int(), config.attribute("posy").as_int() };
-	
+
+
+
 	text_offset = { config.attribute("offx").as_int(), config.attribute("offy").as_int() };
 
 	text.scale = scale;
@@ -44,11 +46,17 @@ bool Button::Awake(pugi::xml_node& config)
 
 bool Button::Start()
 {
+	position.x -= App->render->camera.x;
+	position.y -= App->render->camera.y;
+
 	return true;
 }
 
 bool Button::SpecificPreUpdate()
 {
+	coll_rect.x = position.x;
+	coll_rect.y = position.y;
+
 	return true;
 }
 

@@ -6,6 +6,9 @@
 
 class Exit : public Button
 {
+public:
+	Exit(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
+
 	void OnClick()
 	{
 		App->gui->not_end = false;

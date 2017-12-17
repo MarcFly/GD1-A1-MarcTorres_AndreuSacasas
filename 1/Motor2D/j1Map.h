@@ -83,7 +83,7 @@ struct terrain_info {
 // TODO 3.2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 // ----------------------------------------------------
-struct Image {
+struct tex_image {
 	SDL_Texture*	tex;
 	p2SString		image_source;
 	uint			image_width;
@@ -103,7 +103,7 @@ struct tileset_info {
 	uint tilecount;
 	uint columns;	// Amount of tiles (terrains) per row
 
-	Image image;
+	tex_image image;
 
 	p2List<terrain_info*> terrains;
 

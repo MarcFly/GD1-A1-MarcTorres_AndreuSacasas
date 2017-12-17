@@ -6,6 +6,9 @@
 
 class Settings : public Button
 {
+public:
+	Settings(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
+
 	void OnClick()
 	{
 		App->gui->Set_ActiveSet((int)settings);

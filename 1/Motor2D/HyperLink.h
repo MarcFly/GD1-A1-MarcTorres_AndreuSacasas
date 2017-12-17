@@ -9,7 +9,7 @@ public:
 	HyperLink() {}
 	HyperLink(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool Start();
 	bool SpecificPreUpdate();
 	bool SpecificPostUpdate();
@@ -23,7 +23,7 @@ public:
 
 };
 
-bool HyperLink::Awake(pugi::xml_node& config)
+bool HyperLink::Awake(const pugi::xml_node& config)
 {
 	group = (ui_set)config.attribute("group").as_int();
 
@@ -32,6 +32,9 @@ bool HyperLink::Awake(pugi::xml_node& config)
 
 bool HyperLink::Start()
 {
+	position.x -= App->render->camera.x;
+	position.y -= App->render->camera.y;
+
 	return true;
 }
 

@@ -9,6 +9,7 @@
 #include "j1Pathfinding.h"
 #include "j1Scene.h"
 #include "EntityManager.h"
+#include "j1Gui.h"
 
 struct SDL_Texture;
 
@@ -45,7 +46,7 @@ void j1Map::Draw()
 
 	iPoint pos = { 0,0 };
 
-	if (Maps != nullptr) { //Check there is a FindRectmap
+	if (Maps != nullptr && App->gui->Get_ActiveSet() == (int)ingame) { //Check there is a FindRectmap
 		
 		tileset_info* item_tileset; //Start tileset list
 	

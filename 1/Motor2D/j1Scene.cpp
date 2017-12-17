@@ -10,6 +10,7 @@
 #include "j1Pathfinding.h"
 #include "EntityManager.h"
 #include "j1Scene.h"
+#include "j1Gui.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -42,8 +43,8 @@ bool j1Scene::Start()
 {
 	bool ret = true;
 	// LOAD MAPS AND MUSIC HERE
-	if (ret == true) ret = App->map->LoadMap(Map_list.start->data->GetString());
-	curr_map = 0;
+	/*if (ret == true) ret = App->map->LoadMap(Map_list.start->data->GetString());
+	curr_map = 0;*/
 	if (ret == true) ret = App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 
 	return ret;
@@ -61,7 +62,7 @@ bool j1Scene::Update(float dt)
 	// Get Mouse Position
 	iPoint pos;
 	App->input->GetMousePosition(pos.x, pos.y);
-	pos = App->map->WorldToMap(pos.x - App->render->camera.x, pos.y - App->render->camera.y);
+	//pos = App->map->WorldToMap(pos.x - App->render->camera.x, pos.y - App->render->camera.y);
 	
 	
 	if (god_mode)
@@ -93,14 +94,14 @@ bool j1Scene::Update(float dt)
 	// TODO 3.7: Set the window title like
 	// "Map:%dx%d Tiles:%dx%d Tilesets:%d"
 	
-	p2SString title("MapSize:%dx%d TileSize:%dx%d Tilesets:%d Layers:%d Tiles:%d Position:%d %d",
+	/*p2SString title("MapSize:%dx%d TileSize:%dx%d Tilesets:%d Layers:%d Tiles:%d Position:%d %d",
 		App->map->Maps->width, App->map->Maps->height,
 		App->map->Maps->tilewidth, App->map->Maps->tileheight,
 		App->map->Maps->tilesets.count(),
 		App->map->Maps->layers.count(),
 		App->map->Maps->layers.start->data->size,
 		pos.x,pos.y
-		);
+		);*/
 	
 	//App->win->SetTitle(title.GetString());
 	
@@ -201,12 +202,17 @@ void j1Scene::NotGodMode(float dt)
 	{
 		curr_map = 0;
 		LoadMap(curr_map);
+		App->gui->Set_ActiveSet((int)ingame);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		LoadMap(curr_map);
+		App->gui->Set_ActiveSet((int)ingame);
+	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || (App->entities->GetPlayer() != nullptr && App->entities->GetPlayer()->stats.hp == 0))
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN || (App->entities->GetPlayer() != nullptr && App->entities->GetPlayer()->stats.hp == 0)) {
 		App->Trigger_Load();
+		App->gui->Set_ActiveSet((int)ingame);
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->Trigger_Save();

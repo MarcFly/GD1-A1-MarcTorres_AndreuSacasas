@@ -21,7 +21,7 @@ public:
 	virtual ~j1Fonts();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(const pugi::xml_node&);
 
 	// Called before quitting
 	bool CleanUp();

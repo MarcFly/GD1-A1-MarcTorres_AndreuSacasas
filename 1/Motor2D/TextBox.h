@@ -10,7 +10,7 @@ public:
 
 	TextBox(SDL_Rect& rect, float size) { coll_rect = image_rect = rect; scale = size; }
 
-	bool Awake(pugi::xml_node& config);
+	bool Awake(const pugi::xml_node& config);
 	bool Start();
 	bool SpecificPreUpdate();
 	bool SpecificPostUpdate();
@@ -32,7 +32,7 @@ public:
 	iPoint text_offset;
 };
 
-bool TextBox::Awake(pugi::xml_node& config)
+bool TextBox::Awake(const pugi::xml_node& config)
 {
 	text.Awake(config);
 
@@ -41,9 +41,6 @@ bool TextBox::Awake(pugi::xml_node& config)
 	text_offset = { config.attribute("offx").as_int(), config.attribute("offy").as_int() };
 
 	text.scale = scale;
-
-	coll_rect.x = position.x;
-	coll_rect.y = position.y;
 
 	group = (ui_set)config.attribute("group").as_int();
 
@@ -57,11 +54,18 @@ bool TextBox::Start()
 	
 	text.Start();
 
+	position.x -= App->render->camera.x;
+	position.y -= App->render->camera.y;
+
 	return true;
 }
 
 bool TextBox::SpecificPreUpdate()
 {	
+
+	coll_rect.x = position.x;
+	coll_rect.y = position.y;
+
 	if ((state == Leave || state == Out)) {
 		if (is_click) {
 			IsActive = false;
@@ -76,7 +80,7 @@ bool TextBox::SpecificPreUpdate()
 
 bool TextBox::SpecificPostUpdate()
 {
-	if (IsActive)
+	if (IsActive == true)
 	{
 
 		text.content.create("%s%s", text.content.GetString(), App->input->GetTextBuffer());
