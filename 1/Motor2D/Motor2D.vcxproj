@@ -104,11 +104,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="BackToMenu.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Continue.h" />
     <ClInclude Include="Crawler.h" />
+    <ClInclude Include="Credits.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Exit.h" />
     <ClInclude Include="Flyer.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Start.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="HyperLink.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Interactables.h" />

@@ -3,10 +3,9 @@
 
 #include "Interactables.h"
 
-enum Button_Type {
-	error__ = 0,
+enum button_type
+{
 
-	button_max
 };
 
 class Button : public Interactable {
@@ -37,6 +36,8 @@ bool Button::Awake(pugi::xml_node& config)
 	text_offset = { config.attribute("offx").as_int(), config.attribute("offy").as_int() };
 
 	text.scale = scale;
+
+	group = (ui_set)config.attribute("group").as_int();
 
 	return true;
 }

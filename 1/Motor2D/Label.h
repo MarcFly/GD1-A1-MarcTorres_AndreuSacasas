@@ -34,6 +34,8 @@ bool Label::Awake(pugi::xml_node& config)
 	font = App->font->default;
 	position = { config.attribute("posx").as_int(), config.attribute("posy").as_int() };
 
+	group = (ui_set)config.attribute("group").as_int();
+
 	return true;
 }
 

@@ -45,6 +45,7 @@ bool TextBox::Awake(pugi::xml_node& config)
 	coll_rect.x = position.x;
 	coll_rect.y = position.y;
 
+	group = (ui_set)config.attribute("group").as_int();
 
 	return true;
 

@@ -9,6 +9,13 @@ class Image;
 class TextBox;
 class Button;
 class HyperLink;
+class Slider;
+class Continue;
+class Start;
+class BackToMenu;
+class Credits;
+class Exit;
+class Settings;
 
 #define CURSOR_WIDTH 2
 
@@ -18,8 +25,15 @@ enum element_type {
 	label,
 	image,
 	textbox,
-	button,
 	hyperlink,
+	slider,
+
+	backtomenu,
+	continue_b,
+	credits,
+	exit,
+	settings,
+	start,
 
 	element_max
 
@@ -66,11 +80,17 @@ public:
 
 	const SDL_Texture* GetAtlas() const;
 
+	void Set_ActiveSet(int set)
+	{
+		active_set = set;
+	}
+
 private:
 
 	SDL_Texture* atlas;
 	p2SString atlas_file_name;
 
+	int active_set;
 	p2List<UI_Element*> objects;
 };
 

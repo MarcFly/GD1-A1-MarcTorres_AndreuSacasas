@@ -79,7 +79,7 @@ bool j1Gui::PreUpdate()
 	p2List_item<UI_Element*>* item = objects.start;
 
 	for (int i = 0; i < objects.count(); i++){
-		if (item->data != nullptr)
+		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all))
 			ret = item->data->PreUpdate();
 		item = item->next;
 	}
@@ -95,7 +95,7 @@ bool j1Gui::PostUpdate()
 	p2List_item<UI_Element*>* item = objects.start;
 
 	for (int i = 0; i < objects.count(); i++) {
-		if (item->data != nullptr)
+		if (item->data != nullptr && ((int)item->data->group == active_set || (int)item->data->group == all))
 			ret = item->data->PostUpdate();
 		item = item->next;
 	}
@@ -146,8 +146,6 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 		return (new Image(rect, size));
 	case (int)textbox:
 		return (new TextBox(rect, size));
-	case (int)button:
-		return (new Button(rect, size));
 	case (int)hyperlink:
 		return (new HyperLink(rect, size));
 	default:

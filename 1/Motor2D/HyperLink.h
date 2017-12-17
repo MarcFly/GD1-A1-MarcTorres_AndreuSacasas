@@ -25,6 +25,8 @@ public:
 
 bool HyperLink::Awake(pugi::xml_node& config)
 {
+	group = (ui_set)config.attribute("group").as_int();
+
 	return true;
 }
 

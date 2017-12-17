@@ -9,11 +9,21 @@
 #include "j1Textures.h"
 #include "j1Fonts.h"
 
+enum ui_set
+{
+	menu = 0,
+	settings,
+	credits,
+	ingame,
+	all, //for exit button that will be everywhere
+	ui_set_max
+};
+
 class SDL_Rect;
 
 class UI_Element {
 public:
-	virtual bool Awake(pugi::xml_node& config) { return true; }
+	virtual bool Awake(pugi::xml_node& config) { group = (ui_set)config.attribute("group").as_int(); return true; }
 	virtual bool Start() { return true; }
 
 	virtual bool PreUpdate() { SpecificPreUpdate(); return true; }
@@ -30,6 +40,8 @@ public:
 	SDL_Rect image_rect;
 	float scale;
 	iPoint position = { 0,0 };
+
+	ui_set group;
 
 	SDL_Texture* point_atlas;
 };

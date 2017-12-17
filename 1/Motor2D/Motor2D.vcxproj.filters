@@ -171,26 +171,47 @@
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Elements.h">
-      <Filter>Desenvolupament  ========\Modules\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables</Filter>
     </ClInclude>
     <ClInclude Include="HyperLink.h">
-      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables</Filter>
     </ClInclude>
     <ClInclude Include="Interactables.h">
-      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables</Filter>
     </ClInclude>
     <ClInclude Include="TextBox.h">
-      <Filter>Desenvolupament  ========\Modules\UI\Interactables</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables</Filter>
     </ClInclude>
     <ClInclude Include="Image.h">
-      <Filter>Desenvolupament  ========\Modules\UI\Non-Interactables</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
-      <Filter>Desenvolupament  ========\Modules\UI\Non-Interactables</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Elements.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Continue.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Start.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="BackToMenu.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,11 +248,17 @@
     <Filter Include="Desenvolupament  ========\Modules\UI">
       <UniqueIdentifier>{a0720065-38d9-477c-b2c1-a0727e0c62cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Modules\UI\Interactables">
+    <Filter Include="Desenvolupament  ========\Modules\UI\UI Elements">
+      <UniqueIdentifier>{064e1918-94c6-449f-9e38-b22c6c6effeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI\UI Elements\Interactables">
       <UniqueIdentifier>{414efa8f-7213-4f24-b0f3-a56b6a6af8ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Modules\UI\Non-Interactables">
+    <Filter Include="Desenvolupament  ========\Modules\UI\UI Elements\Non-Interactables">
       <UniqueIdentifier>{b4e918cb-abbc-4c68-a7e0-fbe280054572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons">
+      <UniqueIdentifier>{2102a1b9-aaf9-4276-8b26-5adc7769cebf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
