@@ -56,10 +56,16 @@ public:
 		return ret;
 	}
 
+	void AddScore(int plus) { score += plus; }
+	void AddCoin(int plus) { coins += plus; }
+
 public:
 
 	bool can_jump = true;
 	bool is_jumping = false;
+
+	int coins;
+	int score;
 
 private:
 	SDL_Texture*		player_life = nullptr;

@@ -13,30 +13,33 @@ j1Collision::j1Collision() : j1Module()
 		for (int j = 0; j < COLLIDER_MAX; j++)
 			matrix[i][j] = false;
 
-	matrix[COLLIDER_PLAYER][COLLIDER_GROUND]		= true;
-	matrix[COLLIDER_PLAYER][COLLIDER_CRAWLER]		= true;
-	matrix[COLLIDER_PLAYER][COLLIDER_DIE]			= true;
-	matrix[COLLIDER_PLAYER][COLLIDER_END]			= true;
-	matrix[COLLIDER_PLAYER][COLLIDER_FLYER]			= true;
+	matrix[COLLIDER_PLAYER][COLLIDER_GROUND] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_CRAWLER] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_DIE] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_END] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_FLYER] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
 
-	matrix[COLLIDER_CRAWLER][COLLIDER_GROUND]		= true;
-	matrix[COLLIDER_CRAWLER][COLLIDER_PLAYER]		= true;
-	matrix[COLLIDER_CRAWLER][COLLIDER_DIE]			= true;
-	matrix[COLLIDER_CRAWLER][COLLIDER_CRAWL_NAV]	= true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_GROUND] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_DIE] = true;
+	matrix[COLLIDER_CRAWLER][COLLIDER_CRAWL_NAV] = true;
 
-	matrix[COLLIDER_FLYER][COLLIDER_PLAYER]			= true;
-	matrix[COLLIDER_FLYER][COLLIDER_FLYER]			= true;
+	matrix[COLLIDER_FLYER][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_FLYER][COLLIDER_FLYER] = true;
 
-	matrix[COLLIDER_GROUND][COLLIDER_PLAYER]		= true;
-	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER]		= true;
-	matrix[COLLIDER_GROUND][COLLIDER_FLYER]			= true;
+	matrix[COLLIDER_GROUND][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_GROUND][COLLIDER_CRAWLER] = true;
+	matrix[COLLIDER_GROUND][COLLIDER_FLYER] = true;
 
-	matrix[COLLIDER_DIE][COLLIDER_PLAYER]			= true;
-	matrix[COLLIDER_DIE][COLLIDER_CRAWLER]			= true;
+	matrix[COLLIDER_DIE][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_DIE][COLLIDER_CRAWLER] = true;
 
-	matrix[COLLIDER_END][COLLIDER_PLAYER]			= true;
+	matrix[COLLIDER_END][COLLIDER_PLAYER] = true;
 
-	matrix[COLLIDER_CRAWL_NAV][COLLIDER_CRAWLER]	= true;
+	matrix[COLLIDER_CRAWL_NAV][COLLIDER_CRAWLER] = true;
+
+	matrix[COLLIDER_COIN][COLLIDER_PLAYER] = true;
 }
 
 j1Collision::~j1Collision()
@@ -170,7 +173,7 @@ void j1Collision::DebugDraw()
 	if (App->map->debug_draw == false)
 		return;
 
-	Uint8 alpha = 80;
+	Uint8 alpha = 100;
 	for (uint i = 0; i < colliders.count(); ++i)
 	{
 		if (colliders[i] == nullptr)
@@ -179,21 +182,21 @@ void j1Collision::DebugDraw()
 		switch (colliders[i]->type)
 		{
 		case COLLIDER_NONE: // white
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
+			App->render->DrawQuad(colliders.At(i)->data->rect, 255, 255, 255, alpha);
 			break;
 		case COLLIDER_PLAYER: // green
-			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
+			App->render->DrawQuad(colliders.At(i)->data->rect, 0, 255, 0, alpha);
 			break;
 		case COLLIDER_GROUND: // Purple
-			App->render->DrawQuad(colliders[i]->rect, 204, 0, 204, alpha);
+			App->render->DrawQuad(colliders.At(i)->data->rect, 204, 0, 204, alpha);
 			break;
 		case COLLIDER_DIE:
-			App->render->DrawQuad(colliders[i]->rect, 204, 0, 204, alpha);
+			App->render->DrawQuad(colliders.At(i)->data->rect, 204, 0, 204, alpha);
 			break;
 		case COLLIDER_END:
 			break;
-		case COLLIDER_CRAWLER:
-			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
+		default:
+			App->render->DrawQuad(colliders.At(i)->data->rect, 0, 0, 255, alpha);
 				break;
 		
 

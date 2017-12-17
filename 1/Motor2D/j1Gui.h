@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "UI_Elements.h"
 
+
 class Label;
 class Image;
 class TextBox;
@@ -19,6 +20,7 @@ class Settings;
 class Start_b;
 
 class Timer;
+class Counter;
 
 #define CURSOR_WIDTH 2
 
@@ -41,6 +43,7 @@ enum element_type {
 	volume_down,
 
 	timer,
+	counter,
 
 	element_max = INT_MAX
 
@@ -97,8 +100,15 @@ public:
 		return active_set;
 	}
 
+	uint32 GetTime();
+	void SetTimer(uint32 start_at);
+
+	void LinkCounter(int* count);
+
 public:
 	bool not_end = true;
+	Timer* game_timer = nullptr;
+
 
 private:
 

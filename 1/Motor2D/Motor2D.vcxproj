@@ -102,12 +102,15 @@
     <ClCompile Include="j1Textures.cpp" />
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
+    <ClCompile Include="Coin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BackToMenu.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Continue.h" />
+    <ClInclude Include="Counter.h" />
     <ClInclude Include="Crawler.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="Entity.h" />
