@@ -199,17 +199,18 @@ void j1Gui::SetTimer(uint32 start_at) {
 void j1Gui::LinkCounter(int* count)
 {
 	p2List_item<UI_Element*>* item = objects.start;
-	Counter* temp = (Counter*)item->data;
+	Counter* temp;
 
 	while (item != NULL)
 	{
+		temp = (Counter*)item->data;
 		if (item->data->type == (int)counter && temp->counter == nullptr) {
 			temp->counter = count;
 			break;
 		}
 
 		item = item->next;
-		temp = (Counter*)item->data;
+		
 	}
 
 }

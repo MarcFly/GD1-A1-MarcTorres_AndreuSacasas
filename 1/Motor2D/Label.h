@@ -67,7 +67,7 @@ bool Label::Draw(const iPoint& pos)
 
 	blit = App->font->Print(content.GetString());
 	
-	App->render->Blit(blit, pos.x, pos.y);
+	App->render->BlitF(blit, pos.x, pos.y,scale);
 
 	return true;
 }

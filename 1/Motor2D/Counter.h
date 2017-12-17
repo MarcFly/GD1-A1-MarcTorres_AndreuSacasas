@@ -24,12 +24,16 @@ bool Counter::Start()
 {
 	bool ret = true;
 
+	content.scale = scale;
+
 	return ret;
 }
 
 bool Counter::SpecificPostUpdate()
 {
 	bool ret = true;
+
+	position = { -App->render->camera.x + image_rect.x, -App->render->camera.y + image_rect.y };
 
 	content.content.Clear();
 	content.content.create("%i", *counter);
