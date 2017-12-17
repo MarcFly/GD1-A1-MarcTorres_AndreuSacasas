@@ -6889,5 +6889,8 @@
   <object id="102" type="1" x="5478.79" y="378.788"/>
   <object id="103" type="1" x="4075.76" y="763.636"/>
   <object id="104" type="4" x="878" y="565"/>
+  <object id="135" type="4" x="4818" y="751.667"/>
+  <object id="136" type="4" x="2383" y="788"/>
+  <object id="137" type="4" x="1426" y="661.333"/>
  </objectgroup>
 </map>
