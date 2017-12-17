@@ -14,7 +14,8 @@
 #include "Exit.h"
 #include "Settings.h"
 #include "Start_b.h"
-
+#include "VolumeUp.h"
+#include "VolumeDown.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -174,6 +175,10 @@ UI_Element* j1Gui::CreateElement(SDL_Rect& rect, float size, int type)
 		return (new Settings(rect, size));
 	case (int)start_b:
 		return (new Start_b(rect, size));
+	case (int)volume_up:
+		return (new VolumeUp(rect, size));
+	case (int)volume_down:
+		return (new VolumeDown(rect, size));
 	default:
 		return nullptr;
 	}

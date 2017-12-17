@@ -35,6 +35,8 @@ enum element_type {
 	exit_b,
 	settings_b,
 	start_b,
+	volume_up,
+	volume_down,
 
 	element_max = INT_MAX
 

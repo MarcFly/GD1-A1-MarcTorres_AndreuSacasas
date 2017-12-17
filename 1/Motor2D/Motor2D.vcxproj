@@ -150,6 +150,8 @@
     <ClInclude Include="p2Vec3.h" />
     <ClInclude Include="TextBox.h" />
     <ClInclude Include="UI_Elements.h" />
+    <ClInclude Include="VolumeDown.h" />
+    <ClInclude Include="VolumeUp.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Game\config.xml">

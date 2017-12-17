@@ -213,6 +213,12 @@
     <ClInclude Include="Start_b.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
     </ClInclude>
+    <ClInclude Include="VolumeUp.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeDown.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI Elements\Interactables\Buttons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
