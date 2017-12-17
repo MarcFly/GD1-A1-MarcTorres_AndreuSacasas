@@ -35,10 +35,13 @@ bool Counter::SpecificPostUpdate()
 
 	position = { -App->render->camera.x + image_rect.x, -App->render->camera.y + image_rect.y };
 
-	content.content.Clear();
-	content.content.create("%i", *counter);
+	if (counter != nullptr)
+	{
+		content.content.Clear();
+		content.content.create("%i", *counter);
 
-	ret = Draw();
+		ret = Draw();
+	}
 
 	counter = nullptr;
 

@@ -11,6 +11,7 @@
 #include "EntityManager.h"
 #include "j1Scene.h"
 #include "j1Gui.h"
+#include "j1Player.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -153,6 +154,11 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadNextMap()
 {
+	j1Player* temp = (j1Player*)App->entities->GetPlayer();
+
+	int temp_score = temp->score;
+	int temp_coins = temp->coins;
+
 	App->map->EraseMap();
 	App->entities->CleanEntities();
 	App->pathfinding->ResetNav();
@@ -169,6 +175,10 @@ void j1Scene::LoadNextMap()
 		curr_map = 0;
 		App->map->first_loop = true;
 	}
+
+	temp = (j1Player*)App->entities->GetPlayer();
+	temp->score = temp_score;
+	temp->coins = temp_coins;
 
 	//App->entities->LoadEntities();
 }

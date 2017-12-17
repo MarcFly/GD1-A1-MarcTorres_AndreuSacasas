@@ -4,6 +4,7 @@
 #include "j1Collisions.h"
 #include "EntityManager.h"
 #include "j1Player.h"
+#include "j1Gui.h"
 
 bool Entity::Start() {
 	
@@ -208,6 +209,16 @@ bool Entity::Load(const pugi::xml_node& savegame)
 		temp_sprite = temp_sprite.next_sibling();
 
 	LoadSprites(temp_sprite);
+
+	if (type == 0)
+	{
+		j1Player* temp = (j1Player*)App->entities->GetPlayer();
+		stats.hp = savegame.child("life").attribute("value").as_int();
+		temp->score = savegame.child("score").attribute("value").as_int();
+		temp->coins = savegame.child("coins").attribute("value").as_int();
+		App->gui->LinkCounter(&temp->score);
+		App->gui->LinkCounter(&temp->coins);
+	}
 
 	this->Start();
 
