@@ -73,7 +73,7 @@ void Flyer::OnCollision(Collider* c1, Collider* c2, SDL_Rect& check)
 				collision_box->active = false;
 				App->entities->DestroyEntity(App->entities->FindEntities(type, entity_id));
 			}
-			else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5) {
+			else if (App->entities->FindByColl(c2)->HIT_TIMER.ReadSec() >= 5 && !App->scene->god_mode) {
 				if (App->entities->FindByColl(c2)->stats.hp > 0)
 					App->entities->FindByColl(c2)->stats.hp -= 1;
 				App->entities->FindByColl(c2)->stats.speed *= {-1.0f, -1.0f};
