@@ -4,7 +4,7 @@
 	<window />
 	<textures />
 	<audio>
-		<master_volume value="0" />
+		<master_volume value="1" />
 	</audio>
 	<fonts />
 	<gui />
