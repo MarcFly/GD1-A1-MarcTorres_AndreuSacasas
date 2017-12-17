@@ -4546,7 +4546,7 @@
   <object id="24" type="66" x="640" y="67" width="64" height="318"/>
   <object id="25" type="66" x="769" y="577" width="64" height="191"/>
   <object id="26" type="66" x="833" y="322" width="62" height="317"/>
-  <object id="27" x="640" y="703" width="129" height="63"/>
+  <object id="27" type="66" x="640" y="703" width="129" height="63"/>
   <object id="28" type="66" x="960" y="322" width="64" height="318"/>
   <object id="29" type="66" x="834" y="321" width="188" height="64"/>
   <object id="30" type="66" x="1024" y="576" width="320" height="64"/>

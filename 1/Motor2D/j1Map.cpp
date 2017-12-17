@@ -69,7 +69,7 @@ void j1Map::Draw()
 
 							App->render->Blit(
 								item_tileset->image.tex,
-								pos.x - item_tileset->tileoffset.x + item_layer->data->parallax * App->render->camera.x,
+								pos.x - item_tileset->tileoffset.x - item_layer->data->parallax * App->render->camera.x,
 								pos.y - item_tileset->tileoffset.y,
 								&item_tileset->GetRect(*p));
 						}
