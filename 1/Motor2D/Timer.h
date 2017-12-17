@@ -33,6 +33,8 @@ bool Timer::Awake(const pugi::xml_node& config)
 	content.content.create("%i", max_time);
 	position = { config.attribute("posx").as_int(), config.attribute("posy").as_int() };
 
+	content.scale = scale;
+
 	group = (ui_set)config.attribute("group").as_int();
 
 	return true;
@@ -40,8 +42,8 @@ bool Timer::Awake(const pugi::xml_node& config)
 
 bool Timer::Start()
 {
-	position.x -= App->render->camera.x;
-	position.y -= App->render->camera.y;
+	position.x = -App->render->camera.x + image_rect.x;
+	position.y = -App->render->camera.y + image_rect.y;
 
 	timer.Start();
 
@@ -52,6 +54,9 @@ bool Timer::SpecificPreUpdate()
 {
 	content.content.Clear();
 	content.content.create("%i", max_time - (int)timer.ReadSec() / 1);
+
+	position.x = -App->render->camera.x + image_rect.x;
+	position.y = -App->render->camera.y + image_rect.y;
 
 	return true;
 }
