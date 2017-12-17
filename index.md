@@ -32,8 +32,10 @@ As for the work of each member:
 > - A - Move left
 > - D - Move right
 > - Space - Jump
+>  
 >If you press the jump button when you are already jumping and next to a wall you will perform a walljump (it only works
 if you are going up from the previous jump, if you are falling you cannot use it. It will give you an extra boost to jump higher.
+>  
 > - F1 - Start from the very first level
 > - F2 - Start from the beginning of the current level
 > - F5 - Save the current state
@@ -41,22 +43,26 @@ if you are going up from the previous jump, if you are falling you cannot use it
 > - F7 - Change Level
 > - F9 - View Colliders
 > - F10 - God Mode:
->	-The player is able to move the camera with the arrows.
->	-The player won't be able to pass the level while in this mode, neither using the special keys nor finishing the level.
->	-Enemies cannot damage the player, but they will knockback him/her anyways.
+>  >  >  -The player is able to move the camera with the arrows.  
+>  >  > 	-The player won't be able to pass the level while in this mode, neither using the special keys nor finishing the level.  
+>  >  > 	-Enemies cannot damage the player, but they will knockback him/her anyways.  
 > - F11 - Enable/Disable Fps cap to 30
 > - "+" to increase volume
 > - "-" to decrease volume
+>  
+>
 
 
 >MIT License
 >Copyright (c) 2017 Andreu Sacasas - Marc Torres
+>  
 >Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
+>  
 >The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
