@@ -156,7 +156,7 @@ void j1Scene::LoadNextMap()
 		App->map->first_loop = true;
 	}
 
-	App->entities->LoadEntities();
+	//App->entities->LoadEntities();
 }
 
 void j1Scene::LoadMap(const int& at)
@@ -171,7 +171,7 @@ void j1Scene::LoadMap(const int& at)
 		App->map->first_loop = true;
 	}
 
-	App->entities->LoadEntities();
+	//App->entities->LoadEntities();
 }
 
 void j1Scene::GodMode(float dt)

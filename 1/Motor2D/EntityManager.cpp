@@ -192,7 +192,7 @@ bool EntityManager::Load(const pugi::xml_node& savegame)
 	BROFILER_CATEGORY(brof.GetString(), Profiler::Color::Bisque);
 
 	CleanEntities();
-	
+
 	p2List_item<Entity*>* item;
 
 	pugi::xml_node temp = savegame.first_child();
@@ -312,7 +312,6 @@ bool EntityManager::CleanEntities() {
 	{
 		if (item->data != nullptr) {
 			ret = item->data->CleanUp();
-			//ret = item->data->SpecificCleanUp();
 		}
 		item = item->next;
 	}
