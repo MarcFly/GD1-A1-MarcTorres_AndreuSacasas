@@ -45,14 +45,13 @@ if you are going up from the previous jump, if you are falling you cannot use it
 > - F10 - God Mode:
 >  >  >  -The player is able to move the camera with the arrows.  
 >  >  > 	-The player won't be able to pass the level while in this mode, neither using the special keys nor finishing the level.  
->  >  > 	-Enemies cannot damage the player, but they will knockback him/her anyways.  
+>  >  > 	-Enemies cannot damage the player, but they will knockback him/her anyways.
+>  >  >  -Using WASD in god mode allows it to fly around the map.
 > - F11 - Enable/Disable Fps cap to 30
 > - "+" to increase volume
 > - "-" to decrease volume
->  
->
-
-
+  
+  
 >MIT License
 >Copyright (c) 2017 Andreu Sacasas - Marc Torres
 >  
